@@ -301,6 +301,72 @@ Receives the SKUs of the products that will be in the order.
 
 + Response 204
 
+# Group IS15 – Selected products
+
+Resources related to user's selected products. 
+An user can list its selected products, create a selection for his session and then edit it.
+
+**Note**: Only one product per category (e.g. serramenti, pavimenti) can be selected
+at a given time. If another product of the same category is selected, it will replace
+the currently selected product.
+
+## Selected products collections [/selections/my]
+
+The following methods allow the user to interact with selected products.
+
+A selected product is made of:
+
++ sku (string) - the product SKU for which the quote is being prepared
++ attributes (object[string, string]) - a list of attributes selected on the product. 
+  An attribute is represented as a key/value pair.
++ alternate_products (array[string]) - a list of alternative products (recommended
+  by commerce). Each string is an SKU.
++ alternate_selections (array) - a list of alternativce products selected by the user
+  to be seen in the augmented reality. **TBD: still neded?**
++ type (enum[string]) - type of the selection (e.g. serramenti) 
+
+### List Selections [GET]
+
+This action retrieves the list of selected products.
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "selections": [
+                    {
+                        "sku": "1",
+                        "attributes": {
+                            "color": "black",
+                            "isolation": "high",
+                            "material": "wood",
+                            "attribute4": "value4",
+                            "attribute5": "value5"
+                        },
+                        "alternate_products": ["2", "3"],
+                        "alternate_selections": ["3", "4"],
+                        "type": "serramenti"
+                    },
+                    {
+                        "sku": "2",
+                        "attributes": {
+                            "color": "black",
+                            "isolation": "high",
+                            "material": "wood",
+                            "attribute4": "value4",
+                            "attribute5": "value5"
+                        },
+                        "alternate_products": ["2", "3"],
+                        "alternate_selections": ["3", "4"],
+                        "type": "pavimenti"
+                    }
+                ]
+            }
+
+
+
 # Group Quotes
 
 Resources related to user's quotes in the API. 

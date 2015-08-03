@@ -1,0 +1,553 @@
+FORMAT: 1A
+HOST: https://webapps.vlp.com/
+
+# VLP v1
+
+Service Oriented Architecture specified for the VLP project.
+
+# VLP [/]
+
+This resource does not have any attributes. Instead it offers the initial
+API affordances in the form of the links in the JSON body.
+
+It is recommend to follow the “url” link values,
+[Link](https://tools.ietf.org/html/rfc5988) or Location headers where
+applicable to retrieve resources. Instead of constructing your own URLs,
+to keep your client decoupled from implementation details.
+
+## Retrieve the Entry Point [GET]
+
++ Response 200 (application/json)
+
+        {
+            "session_url": "/sessions",
+            "profile_url": "/profiles",
+            "likes_url": "/likes",
+            "orders_url": "/orders",
+            "quotes_url": "/quotes",
+            "images_url": "/images",
+            "documents_url": "/documents",
+            "ar_url": "/ar"
+        }
+
+# Group IS00 - Session
+
+Resource used to initiate a session on VLP.
+
+**TBD: is this required?**
+
+## Sessions collections [/sessions]
+
+### Create a session token [POST]
+
+
++ Response 201
+
+    + Headers
+
+            Set-Cookie: GUID=1
+
+# Group IS01 - Profile
+
+Resources related to user's profile in the API.
+
+A Profile object contains basic profiles attributes. It has the following attributes:
+
++ userName
++ mail
++ firstName
++ lastName
++ imageURL
++ cap - position shared by the user
++ postalAddress
++ billingAddress
++ GUID - WAS session ID
++ type - client or lead
+
+## Profiles collections [/profiles{?page}]
+
++ Parameters
+    + page: 1 (optional, number) - The page of profiles to return
+
+### List Profiles [GET]
+
+Retrive profiles.
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: </profiles?page=2>; rel="next"
+
+    + Body
+
+            {
+                "count": 3,
+                "profiles": [
+                    "vponte",
+                    "cbrundo",
+                    "dlecce"
+                ]
+            }
+            
+### Create a user Profile [POST]
+
++ Request (application/json)
+
+        {
+            "userName": "vponte",
+            "mail": "v.ponte@wintech.it",
+            "firstName": "Valerio",
+            "lastName": "Ponte",
+            "imageURL": "https://www.vlp.com/logo.png",
+            "cap": 20100
+        }
+
++ Response 201
+
+    + Headers
+
+            Location: /profiles/vponte
+
+
+## Profile details [/profiles/{userName}]
+
++ Parameters
+    + userName: vponte (required, string) - ID of the user
+    
+
+### Read Profile Details [GET]
+
++ Response 200 (application/json)
+
+        {
+            "userName": "vponte",
+            "mail": "v.ponte@wintech.it",
+            "firstName": "Valerio",
+            "lastName": "Ponte",
+            "imageURL": "https://www.vlp.com/logo.png",
+            "cap": 20100,
+            "postalAddress": {
+                "street": "piazza Dergano 9",
+                "cap": 20158,
+                "city": "Milan",
+                "country": "Italy"
+            }, 
+            "billingAddress": {
+                "street": "piazza Dergano 9",
+                "cap": 20158,
+                "city": "Milan",
+                "country": "Italy"
+            }
+        }
+
+### Edit Profile details [PUT]
+
++ Request (application/json)
+
+        {
+            "userName": "vponte",
+            "mail": "v.ponte@wintech.it",
+            "firstName": "Valerio",
+            "lastName": "Ponte",
+            "imageURL": "https://www.vlp.com/logo.png",
+            "cap": 20100,
+            "postalAddress": {
+                "street": "piazza Dergano 9",
+                "cap": 20158,
+                "city": "Milan",
+                "country": "Italy"
+            }, 
+            "billingAddress": {
+                "street": "piazza Dergano 9",
+                "cap": 20158,
+                "city": "Milan",
+                "country": "Italy"
+            }
+        }
+        
++ Response 200
+
+### Delete Profile [DELETE]
+
++ Response 204
+
+## User personal profile [/profiles/my]
+
+Used to retrieve user personal details. Depending on whether the user is logged in or not,
+data will be retrieved from DB or local cache.
+
+### Read Profile Details [GET]
+
++ Response 200 (application/json)
+
+        {
+            "userName": "vponte",
+            "mail": "v.ponte@wintech.it",
+            "firstName": "Valerio",
+            "lastName": "Ponte",
+            "imageURL": "https://www.vlp.com/logo.png",
+            "cap": 20100,
+            "postalAddress": {
+                "street": "piazza Dergano 9",
+                "cap": 20158,
+                "city": "Milan",
+                "country": "Italy"
+            }, 
+            "billingAddress": {
+                "street": "piazza Dergano 9",
+                "cap": 20158,
+                "city": "Milan",
+                "country": "Italy"
+            }
+        }
+
+
+# Group Orders
+
+## Orders collections [/orders{?userName}{?page}]
+
++ Parameters
+    + userName: vponte (optional, string) - Filter orders created by the specified userName
+    + page: 1 (optional, number) - The page of orders to return
+
+### List Orders [GET]
+
+This action retrieves the list of past orders, 
+possibly sliced and filtered only for the specified `userName`.
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: </orders?page=2>; rel="next"
+
+    + Body
+
+            {
+                "count": 3,
+                "orders": [
+                    {
+                        "id": "1",
+                        "status": "completed",
+                        "createdBy": "vponte",
+                        "createdOn": "2015/06/01 01:12PM",
+                    },
+                    {
+                        "id": "2",
+                        "status": "pending",
+                        "createdBy": "vponte",
+                        "createdOn": "2015/06/01 01:12PM",
+                    },
+                    {
+                        "id": "3",
+                        "status": "shipped",
+                        "createdBy": "vponte",
+                        "createdOn": "2015/06/01 01:12PM",
+                    }
+                ]
+            }
+            
+                        
+### Create an order [POST]
+
+Receives the SKUs of the products that will be in the order.
+
++ Request (application/json)
+
+        {
+            "products": ["1", "5"],
+        }
+
++ Response 201
+
+    + Headers
+
+            Location: /orders/1
+            
+## Order details [/orders/{orderId}]
+
++ Parameters
+    + orderId: 1 (required, string) - ID of the order
+
+
+### Read Order details [GET]
+
++ Response 200 (application/json)
+
+        {
+            "id": "1",
+            "status": "completed",
+            "createdBy": "vponte",
+            "createdOn": "2015/06/01 01:12PM",
+            "products": ["1", "5", "7"]
+        }
+
+### Edit Order details [PUT]
+
++ Request (application/json)
+
+        {
+            "id": "1",
+            "status": "completed",
+            "createdBy": "vponte",
+            "createdOn": "2015/06/01 01:12PM",
+            "products": ["1", "5", "7"]
+        }
+        
++ Response 200
+
+### Delete Order [DELETE]
+
++ Response 204
+
+# Group Quotes
+
+Resources related to user's quotes in the API. 
+An user can list its previous quotes, create a quote for his session and then edit it.
+
+## Quotes collections [/quotes{?userName}{?saved}{?page}]
+
+The following methods allow the user to interact with quotes.
+
+A quote is made of:
+
++ sku (string) - the product SKU for which the quote is being prepared
++ createdBy (string) - the `userName` that created the quote
++ saved (boolean) - whether the quote has been persisted into the DB or not
++ fpDealerId (string) - represent the ID used to identify the quote in FP Dealer. 
+  **IF** this parameter is present, the quote has been persisted.
++ attributes (object[string, string]) - a list of attributes selected on the product. 
+  An attribute is represented as a key/value pair.
+
+
++ Parameters
+    + userName: vponte (optional, string) - Filter quotes created by the specified `userName`
+    + saved: true (optional, boolean) - Filter quotes that were persisted, 
+      i.e. that have `fpDealerId` set
+    + page: 1 (optional, number) - The page of quotes to return
+
+### List Quotes [GET]
+
+This action retrieves the list of past quotes, 
+possibly sliced and filtered only for the specified `userName` and/or `saved` status.
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: </quotes?page=2>; rel="next"
+
+    + Body
+
+            {
+                "count": 5,
+                "quotes": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ]
+            }
+
+### Create a new quote [POST]
+
+This method allows the user to create a new quote, in order to store his current 
+quote data in the HTTP session.
+
++ Request (application/json)
+
+        {
+            "sku": "1",
+            "saved": false,
+            "attributes": {
+                "color": "black",
+                "isolation": "high",
+                "material": "wood",
+                "attribute4": "value4",
+                "attribute5": "value5"
+            }
+        }
+
++ Response 201
+
+    + Headers
+
+            Location: /quotes/1
+
+## Quotes details [/quotes/{quoteId}]
+
+
++ Parameters
+    + quoteId: 1 (required, string) - ID of the quote
+
+### Read Quote details [GET]
+
++ Response 200 (application/json)
+
+        {
+            "sku": "1",
+            "createdBy": "vponte",
+            "saved": true,
+            "fpDealerId": "2",
+            "attributes": {
+                "color": "black",
+                "isolation": "high",
+                "material": "wood",
+                "attribute4": "value4",
+                "attribute5": "value5"
+            }
+        }
+
+### Edit Quote details [PUT]
+
+This action allows the user to change an existing quote, adding, changing or removing attributes.
+This action can also be used to save a quote.
+
++ Request (application/json)
+
+        {
+            "sku": "1",
+            "createdBy": "vponte",
+            "saved": true,
+            "fpDealerId": "2",
+            "attributes": {
+                "color": "black",
+                "isolation": "high",
+                "material": "wood",
+                "attribute4": "value4",
+                "attribute5": "value5"
+            }
+        }
+
++ Response 200
+
+### Delete Quote [DELETE]
+
++ Response 204
+
+## Group Likes
+
+**TBD: likes, view and wishes might become a single resource (i.e. Event)**
+
+## Group IS12 - Views
+
+## Views collections [/views{?userName}{?page}]
+
++ Parameters
+    + userName: vponte (optional, string) - Filter orders created by the specified userName
+    + page: 1 (optional, number) - The page of profiles to return
+
+### List Views [GET]
+
+Retrive content (e.g. stories, products) views, possibly filtered by `userName` and sliced.
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: </views?page=2>; rel="next"
+
+    + Body
+
+            {
+                "count": 3,
+                "views": [
+                    "1",
+                    "2",
+                    "3"
+                ]
+            }
+            
+### Create a content view [POST]
+
++ Request (application/json)
+
+        {
+            "id": "1",
+            "contentID": "1",
+            "URL": "https://www.vlp.com/wps/portal/stories/storia/1",
+            "image_URL": "https://www.vlp.com/logo.png",
+            "title": "Storia 1"
+        }
+
++ Response 201
+
+    + Headers
+
+            Location: /views/1
+
+
+## Views details [/views/{contentId}]
+
++ Parameters
+    + contentId: 1 (required, string) - ID of the content
+    
+
+### Read View Details [GET]
+
++ Response 200 (application/json)
+
+        {
+            "userName": "vponte",
+            "mail": "v.ponte@wintech.it",
+            "firstName": "Valerio",
+            "lastName": "Ponte",
+            "imageURL": "https://www.vlp.com/logo.png",
+            "cap": 20100,
+            "postalAddress": {
+                "street": "piazza Dergano 9",
+                "cap": 20158,
+                "city": "Milan",
+                "country": "Italy"
+            }, 
+            "billingAddress": {
+                "street": "piazza Dergano 9",
+                "cap": 20158,
+                "city": "Milan",
+                "country": "Italy"
+            }
+        }
+
+### Edit Profile details [PUT]
+
++ Request (application/json)
+
+        {
+            "userName": "vponte",
+            "mail": "v.ponte@wintech.it",
+            "firstName": "Valerio",
+            "lastName": "Ponte",
+            "imageURL": "https://www.vlp.com/logo.png",
+            "cap": 20100,
+            "postalAddress": {
+                "street": "piazza Dergano 9",
+                "cap": 20158,
+                "city": "Milan",
+                "country": "Italy"
+            }, 
+            "billingAddress": {
+                "street": "piazza Dergano 9",
+                "cap": 20158,
+                "city": "Milan",
+                "country": "Italy"
+            }
+        }
+        
++ Response 200
+
+### Delete Profile [DELETE]
+
++ Response 204
+
+## Group Images
+
+## Group Documents
+
+## Group 3D
+
+
+## Scenes collections [/scenes{?userName}{?page}]
+
+## Object collections [/scenes/{sceneId}/{?userName}{?page}]

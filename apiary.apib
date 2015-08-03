@@ -467,9 +467,9 @@ Retrive content (e.g. stories, products) views, possibly filtered by `userName` 
         {
             "id": "1",
             "contentID": "1",
+            "title": "Storia 1",
             "URL": "https://www.vlp.com/wps/portal/stories/storia/1",
-            "image_URL": "https://www.vlp.com/logo.png",
-            "title": "Storia 1"
+            "image_URL": "https://www.vlp.com/logo.png"
         }
 
 + Response 201
@@ -479,10 +479,10 @@ Retrive content (e.g. stories, products) views, possibly filtered by `userName` 
             Location: /views/1
 
 
-## Views details [/views/{contentId}]
+## Views details [/views/{id}]
 
 + Parameters
-    + contentId: 1 (required, string) - ID of the content
+    + id: 1 (required, string) - ID view event
     
 
 ### Read View Details [GET]
@@ -490,54 +490,28 @@ Retrive content (e.g. stories, products) views, possibly filtered by `userName` 
 + Response 200 (application/json)
 
         {
-            "userName": "vponte",
-            "mail": "v.ponte@wintech.it",
-            "firstName": "Valerio",
-            "lastName": "Ponte",
-            "imageURL": "https://www.vlp.com/logo.png",
-            "cap": 20100,
-            "postalAddress": {
-                "street": "piazza Dergano 9",
-                "cap": 20158,
-                "city": "Milan",
-                "country": "Italy"
-            }, 
-            "billingAddress": {
-                "street": "piazza Dergano 9",
-                "cap": 20158,
-                "city": "Milan",
-                "country": "Italy"
-            }
+            "id": "1",
+            "contentID": "1",
+            "title": "Storia 1",
+            "URL": "https://www.vlp.com/wps/portal/stories/storia/1",
+            "image_URL": "https://www.vlp.com/logo.png"
         }
 
-### Edit Profile details [PUT]
+### Edit View details [PUT]
 
 + Request (application/json)
 
         {
-            "userName": "vponte",
-            "mail": "v.ponte@wintech.it",
-            "firstName": "Valerio",
-            "lastName": "Ponte",
-            "imageURL": "https://www.vlp.com/logo.png",
-            "cap": 20100,
-            "postalAddress": {
-                "street": "piazza Dergano 9",
-                "cap": 20158,
-                "city": "Milan",
-                "country": "Italy"
-            }, 
-            "billingAddress": {
-                "street": "piazza Dergano 9",
-                "cap": 20158,
-                "city": "Milan",
-                "country": "Italy"
-            }
+            "id": "1",
+            "contentID": "1",
+            "title": "Storia 1",
+            "URL": "https://www.vlp.com/wps/portal/stories/storia/1",
+            "image_URL": "https://www.vlp.com/logo.png"
         }
         
 + Response 200
 
-### Delete Profile [DELETE]
+### Delete View [DELETE]
 
 + Response 204
 

@@ -329,7 +329,6 @@ A selected product is made of:
 
 This action retrieves the list of selected products.
 
-
 + Response 200 (application/json)
 
     + Body
@@ -366,6 +365,56 @@ This action retrieves the list of selected products.
             }
 
 
+### Create Selection [POST]
+
+This action is used to create a new selection in the user's selection object. 
+It will replace his current selection if he already has one in the same category.
+Notice that this generates no `Location` header since this resource has no
+detail action ( **TBD: add it?** ).
+
+**TBD: emit a warning when replacing a selection?**
+
++ Request (application/json)
+
+        {
+            "sku": "1",
+            "attributes": {
+                "color": "black",
+                "isolation": "high",
+                "material": "wood",
+                "attribute4": "value4",
+                "attribute5": "value5"
+            },
+            "alternate_products": ["2", "3"],
+            "alternate_selections": ["3", "4"],
+            "type": "serramenti"
+        }
+
++ Response 201
+
+### Edit Selection [PUT]
+
++ Request (application/json)
+
+        {
+            "sku": "1",
+            "attributes": {
+                "color": "black",
+                "isolation": "high",
+                "material": "wood",
+                "attribute4": "value4",
+                "attribute5": "value5"
+            },
+            "alternate_products": ["2", "3"],
+            "alternate_selections": ["3", "4"],
+            "type": "serramenti"
+        }
+
++ Response 200
+
+### Delete Selection [DELETE]
+
++ Response 204
 
 # Group Quotes
 

@@ -20,7 +20,6 @@ to keep your client decoupled from implementation details.
 + Response 200 (application/json)
 
         {
-            "session_url": "/sessions",
             "profile_url": "/profiles",
             "likes_url": "/likes",
             "orders_url": "/orders",
@@ -29,23 +28,6 @@ to keep your client decoupled from implementation details.
             "documents_url": "/documents",
             "ar_url": "/ar"
         }
-
-# Group IS00 - Session
-
-Resource used to initiate a session on VLP.
-
-**TBD: is this required?**
-
-## Sessions collections [/sessions]
-
-### Create a session token [POST]
-
-
-+ Response 201
-
-    + Headers
-
-            Set-Cookie: GUID=1
 
 # Group IS01 - Profile
 

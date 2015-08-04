@@ -438,13 +438,16 @@ An user can list its previous documents, create a quote and then edit it.
 ## Documents collections [/documents{?userName}{?page}{?type}]
 
 The following methods allow the user to interact with documents.
+Document acts as a "super-class" for quotes and orders.
 
-A quote is made of:
-
-+ id (string)
-+ type (string) - type of document (e.g. quote)
-+ document_URL (string) - URL of the document ( **TBD: required?**)
-+ document (string) - base64 encoded document ( **TBD: required?**)
++ Attributes
+    + id: 1 (required, string)
+    + userId: vponte (required, string) - user owning the document
+    + type: order (required, enum[string]) - type of the document
+        + Members
+            + `order`
+            + `quote`
+    + document (required, string) - base64 encoded document
 
 + Parameters
     + userName: vponte (optional, string) - Filter documents created by the specified `userName`
@@ -460,7 +463,8 @@ A quote is made of:
 This action retrieves the list of past documents, 
 possibly sliced and filtered only for the specified `userName` and/or `type`.
 
-**TBD: this might be more useful if it returns the JSON object representing the various documents.**
+**TBD: this might be more useful if it returns the JSON object representing
+the various documents.**
 
 + Response 200 (application/json)
 
@@ -483,16 +487,23 @@ possibly sliced and filtered only for the specified `userName` and/or `type`.
 
 ## Quotes collections [/documents/quotes]
 
-### Create a new Quote [POST]
++ Attributes
+    + fpDealerID: 5 (required, string) - ID on FP Dealer Web
+    + Include Documents collections
+
+### Create a Quote [POST]
 
 This method allows the user to create a new quote, i.e. a `Document` of type `quote`.
 
-**Note**: the returned `Location` header points to the created quote ID, not the given FP Dealer ID.
+**Note**: the returned `Location` header points to the created quote ID, 
+not the given FP Dealer ID.
 
 + Request (application/json)
 
         {
-            "fpDealerID": "1"
+            "fpDealerID": "1",
+            "userId": "vponte",
+            "document": "a2F3YWlpIGRvY3VtZW50Cg=="
         }
 
 + Response 201
@@ -504,17 +515,29 @@ This method allows the user to create a new quote, i.e. a `Document` of type `qu
             
 ## Orders collections [/documents/orders]
 
-### Create a new Order [POST]
++ Attributes
+    + status: proposal (required, enum[string]) - status of the order
+        + Members
+            + `proposal`
+            + `confirmed`
+    + Include Documents collections
+
+### Create an Order [POST]
 
 This method allows the user to create a new order, i.e. a `Document` of type `order`.
 
-**Note**: the returned `Location` header points to the created order ID, not the given FP Dealer ID.
+If no `userId` is given, it is assumed that the quote is created for the current user.
 
 + Request (application/json)
+    
+    + Attributes (Orders collections)
 
-        {
-            "status": "proposal"
-        }
+    + Body
+    
+            {
+                "status": "proposal",
+                "document": "a2F3YWlpIGRvY3VtZW50Cg=="
+            }
 
 + Response 201
 
@@ -534,7 +557,8 @@ This method allows the user to create a new order, i.e. a `Document` of type `or
 
         {
             "fpDealerId": "1",
-            "type": "quote"
+            "type": "quote",,
+            "document": "a2F3YWlpIGRvY3VtZW50Cg=="
         }
 
 ### Edit Document details [PUT]
@@ -545,7 +569,8 @@ This action allows the user to change an existing document.
 
         {
             "fpDealerId": "1",
-            "type": "quote"
+            "type": "quote",
+            "document": "a2F3YWlpIGRvY3VtZW50Cg=="
         }
 
 + Response 200

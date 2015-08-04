@@ -58,7 +58,7 @@ A Profile object contains basic profiles attributes. It has the following attrib
 + firstName
 + lastName
 + imageURL
-+ cap - position shared by the user
++ area - position shared by the user
 + postalAddress
 + billingAddress
 + GUID - WAS session ID
@@ -100,7 +100,7 @@ Retrive profiles.
             "firstName": "Valerio",
             "lastName": "Ponte",
             "imageURL": "https://www.vlp.com/logo.png",
-            "cap": 20100
+            "area": "Milano"
         }
 
 + Response 201
@@ -126,7 +126,7 @@ Retrive profiles.
             "firstName": "Valerio",
             "lastName": "Ponte",
             "imageURL": "https://www.vlp.com/logo.png",
-            "cap": 20100,
+            "area": Milano,
             "postalAddress": {
                 "street": "piazza Dergano 9",
                 "cap": 20158,
@@ -151,7 +151,7 @@ Retrive profiles.
             "firstName": "Valerio",
             "lastName": "Ponte",
             "imageURL": "https://www.vlp.com/logo.png",
-            "cap": 20100,
+            "area": "Milano",
             "postalAddress": {
                 "street": "piazza Dergano 9",
                 "cap": 20158,
@@ -187,7 +187,7 @@ data will be retrieved from DB or local cache.
             "firstName": "Valerio",
             "lastName": "Ponte",
             "imageURL": "https://www.vlp.com/logo.png",
-            "cap": 20100,
+            "area": "Milano",
             "postalAddress": {
                 "street": "piazza Dergano 9",
                 "cap": 20158,
@@ -572,11 +572,11 @@ This action can also be used to save a quote.
 
 + Response 204
 
-## Group Likes
+# Group Likes
 
 **TBD: likes, view and wishes might become a single resource (i.e. Event)**
 
-## Group IS12 - Views
+# Group IS12 - Views
 
 ## Views collections [/views{?userName}{?page}]
 
@@ -660,11 +660,11 @@ Retrive content (e.g. stories, products) views, possibly filtered by `userName` 
 
 + Response 204
 
-## Group Images
+# Group IS02 - Images
 
-## Group Documents
+# Group Documents
 
-## Group 3D
+# Group 3D
 
 
 ## Scenes collections [/scenes{?userName}{?page}]

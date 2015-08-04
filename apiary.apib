@@ -369,8 +369,6 @@ This action retrieves the list of selected products.
 
 This action is used to create a new selection in the user's selection object. 
 It will replace his current selection if he already has one in the same category.
-Notice that this generates no `Location` header since this resource has no
-detail action ( **TBD: add it?** ).
 
 **TBD: emit a warning when replacing a selection?**
 
@@ -392,6 +390,39 @@ detail action ( **TBD: add it?** ).
 
 + Response 201
 
+    + Headers
+
+            Location: /selections/my/serramenti
+
+## Selection details [/selections/my/{type}]
+
+These actions operate on the selection of the required `type`.
+
++ Parameters
+    + type: serramenti (required, enum[string]) - type of selection to operate on
+        
+        + Members
+            + `serramenti`
+            + `pavimenti`
+            + `**TBD**`
+
+### Read Selection details [GET]
+
++ Response 200 (application/json)
+
+        {
+            "sku": "1",
+            "attributes": {
+                "color": "black",
+                "isolation": "high",
+                "material": "wood",
+                "attribute4": "value4",
+                "attribute5": "value5"
+            },
+            "alternate_products": ["2", "3"],
+            "alternate_selections": ["3", "4"]
+        }
+
 ### Edit Selection [PUT]
 
 + Request (application/json)
@@ -406,8 +437,7 @@ detail action ( **TBD: add it?** ).
                 "attribute5": "value5"
             },
             "alternate_products": ["2", "3"],
-            "alternate_selections": ["3", "4"],
-            "type": "serramenti"
+            "alternate_selections": ["3", "4"]
         }
 
 + Response 200

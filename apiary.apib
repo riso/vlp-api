@@ -15,6 +15,12 @@ It is recommend to follow the “url” link values,
 applicable to retrieve resources. Instead of constructing your own URLs,
 to keep your client decoupled from implementation details.
 
++ Attributes
+    + backend (required, enum[string])
+        + Members
+            + `session`
+            + `persistent`
+
 ## Retrieve the Entry Point [GET]
 
 + Response 200 (application/json)
@@ -441,6 +447,7 @@ The following methods allow the user to interact with documents.
 Document acts as a "super-class" for quotes and orders.
 
 + Attributes
+    + Include VLP
     + id: 1 (required, string)
     + userId: vponte (required, string) - user owning the document
     + type: order (required, enum[string]) - type of the document
@@ -488,8 +495,8 @@ the various documents.**
 ## Quotes collections [/documents/quotes]
 
 + Attributes
-    + fpDealerID: 5 (required, string) - ID on FP Dealer Web
     + Include Documents collections
+    + fpDealerID: 5 (required, string) - ID on FP Dealer Web
 
 ### Create a Quote [POST]
 
@@ -516,11 +523,11 @@ not the given FP Dealer ID.
 ## Orders collections [/documents/orders]
 
 + Attributes
+    + Include Documents collections
     + status: proposal (required, enum[string]) - status of the order
         + Members
             + `proposal`
             + `confirmed`
-    + Include Documents collections
 
 ### Create an Order [POST]
 

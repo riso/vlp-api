@@ -235,7 +235,7 @@ possibly sliced and filtered only for the specified `userName`.
                         
 ### Create an order [POST]
 
-Receives the SKUs of the products that will be in the order.
+Receives the commerce SKUs of the products that will be in the order.
 
 + Request (application/json)
 
@@ -300,11 +300,11 @@ The following methods allow the user to interact with selected products.
 
 A selected product is made of:
 
-+ sku (string) - the product SKU for which the quote is being prepared
++ sku (string) - the product commerce SKU for which the quote is being prepared
 + attributes (object[string, string]) - a list of attributes selected on the product. 
   An attribute is represented as a key/value pair.
 + alternate_products (array[string]) - a list of alternative products (recommended
-  by commerce). Each string is an SKU.
+  by commerce). Each string is a commerce SKU.
 + alternate_selections (array) - a list of alternativce products selected by the user
   to be seen in the augmented reality. **TBD: still neded?**
 + type (enum[string]) - type of the selection (e.g. serramenti) 
@@ -441,7 +441,7 @@ The following methods allow the user to interact with quotes.
 
 A quote is made of:
 
-+ sku (string) - the product SKU for which the quote is being prepared
++ sku (string) - the product commerce SKU for which the quote is being prepared
 + createdBy (string) - the `userName` that created the quote
 + saved (boolean) - whether the quote has been persisted into the DB or not
 + fpDealerId (string) - represent the ID used to identify the quote in FP Dealer. 
@@ -644,7 +644,94 @@ Retrive content (e.g. stories, products) views, possibly filtered by `userName` 
 
 + Response 204
 
-# Group IS02 - Images
+# Group IS02 - Product Images
+
+**Note**: Probably this group would be better managed as a sub-resource of a product resource. 
+Since we have no API for products right now, 
+we simply refer to this defining images as a sub-path of products.
+
+## Product Images collections by product repository SKU [/products/{prSKU}/images]
+
++ Parameters
+    + prSKU: 1 (required, string) - SKU on the product repository
+    
+
+### Create Product Image [POST]
+
+**TBD: define actual JSON structure to create image. Shall we store path or content in DB?**
+
++ Request (application/json)
+
+        {
+            "type": "main",
+            "URL": "https://www.vlp.com/logo.png"
+        }
+
++ Response 201
+
+    + Headers
+
+            Location: /products/{prSKU}/images/1
+
+
+## Product Image details by product repository SKU [/products/{prSKU}/images/{type}/{?index}]
+
++ Parameters
+    + prSKU: 1 (required, string) - SKU on the product repository
+    + index: 1 (optional, number) - for image lists (e.g. carousels) the
+      index of the required image
+    + type: main (required, enum[string]) - type of the image being required
+        + Members
+            + `main`
+            + `banner`
+            + `carousel`
+            + `details`
+
+
+### Read Product Image [GET]
+
++ Response 200 (image/png)
+
+### Update Product Image [PUT]
+
+**TBD: define actual JSON structure to create image. Shall we store path or content in DB?**
+
++ Request (application/json)
+
+        {
+            "type": "main",
+            "URL": "https://www.vlp.com/logo.png"
+        }
+
++ Response 200
+
+
+### Delete Product Image [DELETE]
+
++ Response 204
+
+## Find Product Images [/products/find/images/{type}/{?index}{?commerceSKU}{?attributes}]
+
++ Parameters
+    + commerceSKU: 1 (required, string) - SKU on the commerce
+    + attributes: {"color": "black", "isolation": "high", "material": "wood"} (required, object) - 
+      attribute selection on the commerce SKU product
+    + index: 1 (optional, number) - for image lists (e.g. carousels) the
+      index of the required image
+    + type: main (required, enum[string]) - type of the image being required
+        + Members
+            + `main`
+            + `banner`
+            + `carousel`
+            + `details`
+
+
+### Read Product Image [GET]
+
+**TBD: this is a search / query. We should expect queries to return a collection of results. Change to that?**
+
++ Response 200 (image/png)
+
 
 # Group Documents
 

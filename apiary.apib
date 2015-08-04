@@ -430,48 +430,49 @@ These actions operate on the selection of the required `type`.
 
 + Response 204
 
-# Group Quotes
+# Group IS03 - Documents
 
-Resources related to user's quotes in the API. 
-An user can list its previous quotes, create a quote for his session and then edit it.
+Resources related to user's documents in the API. 
+An user can list its previous documents, create a quote and then edit it.
 
-## Quotes collections [/quotes{?userName}{?saved}{?page}]
+## Documents collections [/documents{?userName}{?page}{?type}]
 
-The following methods allow the user to interact with quotes.
+The following methods allow the user to interact with documents.
 
 A quote is made of:
 
-+ sku (string) - the product commerce SKU for which the quote is being prepared
-+ createdBy (string) - the `userName` that created the quote
-+ saved (boolean) - whether the quote has been persisted into the DB or not
-+ fpDealerId (string) - represent the ID used to identify the quote in FP Dealer. 
-  **IF** this parameter is present, the quote has been persisted.
-+ attributes (object[string, string]) - a list of attributes selected on the product. 
-  An attribute is represented as a key/value pair.
-
++ id (string)
++ type (string) - type of document (e.g. quote)
++ document_URL (string) - URL of the document ( **TBD: required?**)
++ document (string) - base64 encoded document ( **TBD: required?**)
 
 + Parameters
-    + userName: vponte (optional, string) - Filter quotes created by the specified `userName`
-    + saved: true (optional, boolean) - Filter quotes that were persisted, 
+    + userName: vponte (optional, string) - Filter documents created by the specified `userName`
       i.e. that have `fpDealerId` set
-    + page: 1 (optional, number) - The page of quotes to return
+    + page: 1 (optional, number) - The page of documents to return
+    + type: quote (optional, enum[string]) - Type of document that is required
+        + Members
+            + `quote`
+            + `order`
 
-### List Quotes [GET]
+### List Documents [GET]
 
-This action retrieves the list of past quotes, 
-possibly sliced and filtered only for the specified `userName` and/or `saved` status.
+This action retrieves the list of past documents, 
+possibly sliced and filtered only for the specified `userName` and/or `type`.
+
+**TBD: this might be more useful if it returns the JSON object representing the various documents.**
 
 + Response 200 (application/json)
 
     + Headers
 
-            Link: </quotes?page=2>; rel="next"
+            Link: </documents?page=2>; rel="next"
 
     + Body
 
             {
                 "count": 5,
-                "quotes": [
+                "documents": [
                     "1",
                     "2",
                     "3",
@@ -480,79 +481,76 @@ possibly sliced and filtered only for the specified `userName` and/or `saved` st
                 ]
             }
 
-### Create a new quote [POST]
+## Quotes collections [/documents/quotes]
 
-This method allows the user to create a new quote, in order to store his current 
-quote data in the HTTP session.
+### Create a new Quote [POST]
+
+This method allows the user to create a new quote, i.e. a `Document` of type `quote`.
+
+**Note**: the returned `Location` header points to the created quote ID, not the given FP Dealer ID.
 
 + Request (application/json)
 
         {
-            "sku": "1",
-            "saved": false,
-            "attributes": {
-                "color": "black",
-                "isolation": "high",
-                "material": "wood",
-                "attribute4": "value4",
-                "attribute5": "value5"
-            }
+            "fpDealerID": "1"
         }
 
 + Response 201
 
     + Headers
 
-            Location: /quotes/1
+            Location: /documents/2
+            
+            
+## Orders collections [/documents/orders]
 
-## Quotes details [/quotes/{quoteId}]
+### Create a new Order [POST]
 
+This method allows the user to create a new order, i.e. a `Document` of type `order`.
 
-+ Parameters
-    + quoteId: 1 (required, string) - ID of the quote
-
-### Read Quote details [GET]
-
-+ Response 200 (application/json)
-
-        {
-            "sku": "1",
-            "createdBy": "vponte",
-            "saved": true,
-            "fpDealerId": "2",
-            "attributes": {
-                "color": "black",
-                "isolation": "high",
-                "material": "wood",
-                "attribute4": "value4",
-                "attribute5": "value5"
-            }
-        }
-
-### Edit Quote details [PUT]
-
-This action allows the user to change an existing quote, adding, changing or removing attributes.
-This action can also be used to save a quote.
+**Note**: the returned `Location` header points to the created order ID, not the given FP Dealer ID.
 
 + Request (application/json)
 
         {
-            "sku": "1",
-            "createdBy": "vponte",
-            "saved": true,
-            "fpDealerId": "2",
-            "attributes": {
-                "color": "black",
-                "isolation": "high",
-                "material": "wood",
-                "attribute4": "value4",
-                "attribute5": "value5"
-            }
+            "status": "proposal"
+        }
+
++ Response 201
+
+    + Headers
+
+            Location: /documents/2
+
+## Documents details [/documents/{id}]
+
+
++ Parameters
+    + id: 1 (required, string) - ID of the document
+
+### Read Document details [GET]
+
++ Response 200 (application/json)
+
+        {
+            "fpDealerId": "1",
+            "type": "quote"
+        }
+
+### Edit Document details [PUT]
+
+This action allows the user to change an existing document.
+
++ Request (application/json)
+
+        {
+            "fpDealerId": "1",
+            "type": "quote"
         }
 
 + Response 200
 
-### Delete Quote [DELETE]
+### Delete Document [DELETE]
 
 + Response 204
 

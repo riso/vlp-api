@@ -5,7 +5,7 @@ HOST: https://webapps.vlp.com/
 
 Service Oriented Architecture specified for the VLP project.
 
-# VLP [/]
+# VLP [/{?backends}]
 
 This resource does not have any attributes. Instead it offers the initial
 API affordances in the form of the links in the JSON body.
@@ -15,8 +15,11 @@ It is recommend to follow the “url” link values,
 applicable to retrieve resources. Instead of constructing your own URLs,
 to keep your client decoupled from implementation details.
 
++ Parameters
+    + backends: ['cache', 'db'] (required, array) from which backends the resource is coming from. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
+
 + Attributes
-    + backends (required, array[string]) - from which backends the resource is coming from or is being saved to. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
+    + backends (required, array[string]) - to which backends the resource is being saved to. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
 
 
 ## Retrieve the Entry Point [GET]
@@ -452,7 +455,11 @@ Document acts as a "super-class" for quotes and orders.
         + Members
             + `order`
             + `quote`
-    + document (required, string) - base64 encoded document
+    + file: {"xml": "<xml>", "pdf": "a2F3YWlpIGRvY3VtZW50Cg=="} (required, object) - object representing n the base64 encoded document
+    + status (required, enum[string]) - status of the document
+    + valid (required, string)
+    + documentReference (required, string)
+    + documentCode (required, string) - fpDealerID in case of document of type `quote`
 
 + Parameters
     + userName: vponte (optional, string) - Filter documents created by the specified `userName`

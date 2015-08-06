@@ -33,7 +33,6 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
 
         {
             "profile_url": "/profiles",
-            "orders_url": "/orders",
             "selections_url": "/selections/my",
             "quotes_url": "/quotes",
             "likes_url": "/likes",
@@ -349,10 +348,11 @@ These actions operate on the selection of the required `type`.
 Resources related to user's documents in the API. 
 An user can list its previous documents, create a document and then edit it.
 
+Document acts as a "super-class" for quotes and orders.
+
 ## Documents collections [/documents{?userName}{?page}{?type}]
 
 The following methods allow the user to interact with documents.
-Document acts as a "super-class" for quotes and orders.
 
 + Attributes
     + Include VLP

@@ -21,10 +21,10 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
 **TBD: time zone?**
 
 + Parameters
-    + backends: ['cache', 'db'] (required, array) from which backends the resource is coming from. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
+    + backends: ["cache", "db"] (required, array) from which backends the resource is coming from. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
 
 + Attributes
-    + backends (required, array[string]) - to which backends the resource is being saved to. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
+    + backends: `["cache", "db"]` (required, array[string]) - to which backends the resource is being saved to. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
 
 ## Retrieve the Entry Point [GET]
 
@@ -701,7 +701,7 @@ we simply refer to this defining images as a sub-path of products.
 
 + Response 200 (image/png)
 
-# Group 3D
+# Group IS09 - 3D
 
 API group used to handle objects managed by the augmented reality 3D viewer.
 
@@ -710,11 +710,200 @@ The main resources managed are:
 + `Object`, an object rendered in a 3D environment
 + `Scene`, a 3D environment consisting of multiple objects
 
-
 ## Scenes collections [/scenes{?userName}{?page}]
 
-## Object collections [/scenes/{sceneId}/{?userName}{?page}]
+**TBD: the current model for the Scene is based off the DB schema.
+The meaning of some fields is unclear.**
 
++ Attributes
+    + id: 1 (string)
+    + description: `Scene description` (string)
+    + userId: vponte (string)
+    + height: 10.57 (number)
+    + width: 60.24 (number)
+    + length: 14.2 (number)
+    + scene_type (enum) - type of the scene. **TBD: enum values**
+        + Members
+            + `kitchen`
+            + `livingroom`
+    + set (string)
+    + time (string)
+    + weather (string)
+    + season (string)
+    + sound (string) - **TBD: URL to a sound file?**
+
+### List Scenes [GET]
+
++ Parameters
+    + userName: vponte (optional, string) - filter scenes for the specified user
+    + page: 1 (optional, number) - slice scenes
+    
++ Response 200 (application/json)
+
+        {
+            "count": 2,
+            "requests": [
+                {
+                    "id": "1",
+                    "userId": "vponte",
+                    "height": 5.7,
+                    "width": 77
+                },
+                {
+                    "id": "2",
+                    "userId": "vponte",
+                    "height": 5.7,
+                    "width": 77
+                }
+            ]
+        }
+        
+### Create Scene [POST]
+
++ Request (application/json)
+
+        {
+            "userId": "vponte",
+            "height": 5.7,
+            "width": 77
+        }
+        
++ Response 201
+
+    + Headers
+    
+            Location: /scenes/1
+
+## Scene details [/scenes/{id}]
+
++ Parameters
+    + id: 1 (required, string) - ID of the scene
+
+### Read Scene details [GET]
+
++ Response 200 (application/json)
+
+    + Attributes (Scenes collections)
+
+### Update Scene [PUT]
+
++ Request (application/json)
+
+    + Attributes (Scenes collections)
+
++ Response 200
+
+### Delete Scene [DELETE]
+
++ Response 204
+
+## Object collections [/scenes/{id}/objects{?page}]
+
+**TBD: on the DB schema there is no mention of components 
+(static files or references to them). How do we manage those?**
+
+**TBD: the current model for the Object is based off the DB schema.
+The meaning of some fields is unclear.**
+
++ Attributes
+    + id: 1 (string)
+    + objectId: 6 (string) - **TBD: required?**
+    + productID: 5 (string)
+    + category (string)
+    + type (string)
+    + x: 10.6 (number) - position of the object on X axis
+    + y: 1.6 (number) - position of the object on Y axis
+    + z: 5.6 (number) - position of the object on Z axis
+    + rx: 100.6 (number) - rotation of the object on X axis
+    + ry: 10.6 (number) - rotation of the object on Y axis
+    + rz: 50.6 (number) - rotation of the object on Z axis
+    + s: 3 (number) - object scaling
+
++ Parameters
+    + id: 1 (required, string) - ID of the scene
+
+### List Scene Objects [GET]
+
++ Parameters
+    + page: 1 (optional, number) - slice scene objects
+    
++ Response 200 (application/json)
+
+        {
+            "count": 2,
+            "requests": [
+                {
+                    "id": "1",
+                    "sceneID": "4",
+                    "productID": "3",
+                    "x": 5.7,
+                    "y": 77,
+                    "z": 53, 
+                    "rx": 5.7,
+                    "ry": 77,
+                    "rz": 53,
+                    "s": 4
+                },
+                {
+                    "id": "2",
+                    "sceneID": "4",
+                    "productID": "4",
+                    "x": 5.7,
+                    "y": 77,
+                    "z": 53, 
+                    "rx": 5.7,
+                    "ry": 77,
+                    "rz": 53,
+                    "s": 4
+                },
+            ]
+        }
+
+### Add Object to Scene [POST]
+
++ Request (application/json)
+
+        {
+            "productID": "3",
+            "x": 5.7,
+            "y": 77,
+            "z": 53, 
+            "rx": 5.7,
+            "ry": 77,
+            "rz": 53,
+            "s": 4
+        }
+        
++ Response 201
+
+    + Headers
+    
+            Location: /scenes/1/objects/3
+            
+
+## Scene Objects details [/scenes/{sceneId}/objects/{id}]
+
++ Parameters
+    + sceneId: 1 (required, string) - ID of the scene
+    + id: 1 (required, string) - ID of the object
+
+### Read Scene Object details [GET]
+
++ Response 200 (application/json)
+
+    + Attributes (Object collections)
+
+### Update Scene Object [PUT]
+
++ Request (application/json)
+
+    + Attributes (Object collections)
+
++ Response 200
+
+### Delete Scene Object [DELETE]
+
++ Response 204
 
 # Group IS07 - Contact Requests
 
@@ -747,7 +936,7 @@ once they are handled?**
 + Response 200 (application/json)
 
         {
-            "count": 2,
+            "count": 1,
             "requests": [
                 {
                     "id": "1",

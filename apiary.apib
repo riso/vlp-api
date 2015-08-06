@@ -5,6 +5,7 @@ HOST: https://webapps.vlp.com/
 
 Service Oriented Architecture specified for the VLP project.
 
+
 # VLP [/{?backends}]
 
 This resource does not have any attributes. Instead it offers the initial
@@ -39,7 +40,8 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
             "views_url": "/views",
             "images_url": "/images",
             "documents_url": "/documents",
-            "ar_url": "/ar"
+            "ar_url": "/ar",
+            "contacts_url": "/contacts"
         }
 
 # Group IS01 - Profile
@@ -458,7 +460,7 @@ Document acts as a "super-class" for quotes and orders.
             + `order`
             + `quote`
     + userId: vponte (optional, string) - user owning the document
-    + formats: xml, pdf (optional, array) - list of available file formats
+    + formats: `["xml", "pdf"]` (optional, array) - list of available file formats
     + status (optional, enum[string]) - current status of the document
         + Members
             + `proposal`
@@ -804,9 +806,86 @@ we simply refer to this defining images as a sub-path of products.
 
 # Group 3D
 
-# Group Contact Requests
+# Group IS07 - Contact Requests
 
+API group used to handle users' contact requests.
 
+**TBD: the current model for the Contact Request is based off the DB schema.
+The meaning of some fields is unclear.**
+
+**TBD: shouldn't Contact request have a status? Will they just be deleted from the DB
+once they are handled?**
+
+## Contacts collections [/contacts{?userName}{?page}]
+
++ Attributes
+    + id: 1 (string)
+    + userId: vponte (string)
+    + description: `Hi, please contact me` (string)
+    + reason (enum)
+    + date: `2015-05-01` (string)
+    + timestamp: 123451325 (number)
+    + time_zone (string)
+    + note: `Hi, please contact me` (string)
+
+### List Contacts [GET]
+
++ Parameters
+    + userName: vponte (optional, string) - filter contact requests for the specified user
+    + page: 1 (optional, number) - slice contact requests
+    
++ Response 200 (application/json)
+
+        {
+            "count": 2,
+            "requests": [
+                {
+                    "id": "1",
+                    "userId": "vponte",
+                    "reason": "Unknown",
+                    "note": "Hi, please contact me"
+                }
+            ]
+        }
+
+### Create Contact [POST]
+
++ Request (application/json)
+
+        {
+            "userId": "vponte",
+            "reason": "Unknown",
+            "note": "Hi, please contact me"
+        }
+        
++ Response 201
+
+    + Headers
+    
+            Location: /contacts/1
+
+## Contacts details [/contacts/{id}]
+
++ Parameters
+    + id: 1 (required, string) - ID of the contact request with which interact
+
+### Read Contact [GET]
+
++ Response 200 (application/json)
+
+    + Attributes (Contacts collections)
+
+### Update Contact [PUT]
+
++ Request (application/json)
+
+    + Attributes (Contacts collections)
+
++ Response 200
+
+### Delete Contact [DELETE]
+
++ Response 204
 
 ## Scenes collections [/scenes{?userName}{?page}]
 

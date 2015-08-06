@@ -15,12 +15,16 @@ It is recommend to follow the “url” link values,
 applicable to retrieve resources. Instead of constructing your own URLs,
 to keep your client decoupled from implementation details.
 
+Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according to 
+[Java SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html).
+
+**TBD: time zone?**
+
 + Parameters
     + backends: ['cache', 'db'] (required, array) from which backends the resource is coming from. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
 
 + Attributes
     + backends (required, array[string]) - to which backends the resource is being saved to. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
-
 
 ## Retrieve the Entry Point [GET]
 
@@ -440,7 +444,7 @@ These actions operate on the selection of the required `type`.
 # Group IS03 - Documents
 
 Resources related to user's documents in the API. 
-An user can list its previous documents, create a quote and then edit it.
+An user can list its previous documents, create a document and then edit it.
 
 ## Documents collections [/documents{?userName}{?page}{?type}]
 
@@ -449,17 +453,24 @@ Document acts as a "super-class" for quotes and orders.
 
 + Attributes
     + Include VLP
-    + id: 1 (required, string)
-    + userId: vponte (required, string) - user owning the document
     + type: order (required, enum[string]) - type of the document
         + Members
             + `order`
             + `quote`
-    + file: '{"xml": "<xml>" "pdf": "a2F3YWlpIGRvY3VtZW50Cg=="}' (required, object) - object representing n the base64 encoded document
-    + status (required, enum[string]) - status of the document
-    + valid (required, string)
-    + documentReference (required, string)
-    + documentCode (required, string) - fpDealerID in case of document of type `quote`
+    + userId: vponte (optional, string) - user owning the document
+    + formats: xml, pdf (optional, array) - list of available file formats
+    + status (optional, enum[string]) - current status of the document
+        + Members
+            + `proposal`
+            + `confirmed`
+    + valid (optional, string)
+    + documentReference (optional, string) - reference to another Document (e.g. quote from which an order originated)
+    + documentCode (optional, string) - fpDealerID in case of document of type `quote`
+
+### List Documents [GET]
+
+This action retrieves the list of past documents, 
+possibly sliced and filtered only for the specified `userName` and/or `type`.
 
 + Parameters
     + userName: vponte (optional, string) - Filter documents created by the specified `userName`
@@ -470,13 +481,6 @@ Document acts as a "super-class" for quotes and orders.
             + `quote`
             + `order`
 
-### List Documents [GET]
-
-This action retrieves the list of past documents, 
-possibly sliced and filtered only for the specified `userName` and/or `type`.
-
-**TBD: this might be more useful if it returns the JSON object representing
-the various documents.**
 
 + Response 200 (application/json)
 
@@ -487,69 +491,48 @@ the various documents.**
     + Body
 
             {
-                "count": 5,
+                "count": 3,
                 "documents": [
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5"
+                    {
+                        "id": "1",
+                        "type": "quote",
+                        "documentCode": "1",
+                        "userId": "vponte"
+                    },
+                    {
+                        "id": "2",
+                        "type": "quote",
+                        "documentCode": "2",
+                        "userId": "vponte"
+                    },
+                    {
+                        "id": "3",
+                        "type": "quote",
+                        "documentCode": "3",
+                        "userId": "vponte"
+                    }
                 ]
             }
+            
+### Create a Document [POST]
 
-## Quotes collections [/documents/quotes]
+This method allows the user to create a new document.
 
-+ Attributes
-    + Include Documents collections
-    + fpDealerID: 5 (required, string) - ID on FP Dealer Web
+If no `userId` is given, it is assumed that the document is created for the current user.
 
-### Create a Quote [POST]
-
-This method allows the user to create a new quote, i.e. a `Document` of type `quote`.
-
-**Note**: the returned `Location` header points to the created quote ID, 
+**Note**: the returned `Location` header points to the created document ID, 
 not the given FP Dealer ID.
+
++ Attributes (Documents collections)
 
 + Request (application/json)
 
         {
-            "fpDealerID": "1",
+            "type": "quote",
+            "documentCode": "1",
             "userId": "vponte",
-            "document": "a2F3YWlpIGRvY3VtZW50Cg=="
+            "files": {"pdf": "a2F3YWlpIGRvY3VtZW50Cg=="}
         }
-
-+ Response 201
-
-    + Headers
-
-            Location: /documents/2
-            
-            
-## Orders collections [/documents/orders]
-
-+ Attributes
-    + Include Documents collections
-    + status: proposal (required, enum[string]) - status of the order
-        + Members
-            + `proposal`
-            + `confirmed`
-
-### Create an Order [POST]
-
-This method allows the user to create a new order, i.e. a `Document` of type `order`.
-
-If no `userId` is given, it is assumed that the quote is created for the current user.
-
-+ Request (application/json)
-    
-    + Attributes (Orders collections)
-
-    + Body
-    
-            {
-                "status": "proposal",
-                "document": "a2F3YWlpIGRvY3VtZW50Cg=="
-            }
 
 + Response 201
 
@@ -559,35 +542,84 @@ If no `userId` is given, it is assumed that the quote is created for the current
 
 ## Documents details [/documents/{id}]
 
-
 + Parameters
     + id: 1 (required, string) - ID of the document
 
 ### Read Document details [GET]
 
+See the details of a given document. This returns the single document istances with its
+historic statuses.
+
++ Attributes (Documents collections)
+    + status_hist (required, object) - past statuses of the document
+
 + Response 200 (application/json)
 
         {
-            "fpDealerId": "1",
-            "type": "quote",,
-            "document": "a2F3YWlpIGRvY3VtZW50Cg=="
+            "type": "quote",
+            "documentCode": "1",
+            "status_hist": {
+                "2015-05-01": "proposal",
+                "2015-05-07": "confirmed"
+            }
         }
-
 ### Edit Document details [PUT]
 
 This action allows the user to change an existing document.
 
+**Note**: When the current status of a document is changed, its historic status will have to be
+recorded.
+
 + Request (application/json)
 
         {
-            "fpDealerId": "1",
             "type": "quote",
-            "document": "a2F3YWlpIGRvY3VtZW50Cg=="
+            "documentCode": "1"
         }
 
 + Response 200
 
 ### Delete Document [DELETE]
+
++ Response 204
+
+
+## Document files [/documents/{id}/{format}]
+
+API route for interacting with documents' filtes.
+
+Create and update actions expect the file stream as input.
+
+**Note**: when the available files change (CD actions) also the available `formats` field on the document
+will get updated.
+
++ Parameters
+    + id: 1 (required, string) - id of the document
+    + format: pdf (required, string) - format of the file with which we're interacting
+
+### Add file to document [POST]
+
+This actions allow adding a new file to an existing document.
+
++ Request (application/pdf)
+
++ Response 201
+
+    + Headers
+    
+            Location: /documents/2/pdf
+
+### Download Document file [GET]
+
++ Response 200 (application/stream)
+
+### Update Document file [PUT]
+
++ Request (application/pdf)
+
++ Response 200
+
+### Delete Document file [DELETE]
 
 + Response 204
 
@@ -771,6 +803,9 @@ we simply refer to this defining images as a sub-path of products.
 # Group Documents
 
 # Group 3D
+
+# Group Contact Requests
+
 
 
 ## Scenes collections [/scenes{?userName}{?page}]

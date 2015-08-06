@@ -33,10 +33,8 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
         {
             "profile_url": "/profiles",
             "selections_url": "/selections/my",
-            "quotes_url": "/quotes",
-            "likes_url": "/likes",
-            "views_url": "/views",
-            "images_url": "/images",
+            "events_url": "/events",
+            "products_url": "/products",
             "documents_url": "/documents",
             "ar_url": "/ar",
             "contacts_url": "/contacts"
@@ -525,91 +523,78 @@ This actions allow adding a new file to an existing document.
 
 + Response 204
 
-# Group Likes
+# Group IS12 - Events
 
-**TBD: likes, view and wishes might become a single resource (i.e. Event)**
+## Events collections [/events{?userName}{?page}{?type}]
 
-# Group IS12 - Views
-
-## Views collections [/views{?userName}{?page}]
++ Attributes
+    + count: 1 (number) - total number of events
+    + events (array[Event]) - array of returned events
 
 + Parameters
-    + userName: vponte (optional, string) - Filter orders created by the specified userName
-    + page: 1 (optional, number) - The page of views to return
+    + userName: vponte (optional, string) - Filter events created by the specified userName
+    + type: vote (optional, enum[string]) - Filter only specified type of event
+        + Members
+            + `view` - content visualization
+            + `vote` - content up or down vote
+            + `desire` - content desired
+    + page: 1 (optional, number) - The page of events to return
 
-### List Views [GET]
+### List Events [GET]
 
-Retrive content (e.g. stories, products) views, possibly filtered by `userName` and sliced.
+Retrive content (e.g. stories, products) events, possibly filtered by `userName`
+and/or `type` and sliced.
 
 + Response 200 (application/json)
 
     + Headers
 
-            Link: </views?page=2>; rel="next"
+            Link: </events?page=2>; rel="next"
 
-    + Body
-
-            {
-                "count": 3,
-                "views": [
-                    "1",
-                    "2",
-                    "3"
-                ]
-            }
+    + Attributes (Events collections)
             
-### Create a content view [POST]
+### Create an Event [POST]
 
 + Request (application/json)
-
-        {
-            "id": "1",
-            "contentID": "1",
-            "title": "Storia 1",
-            "URL": "https://www.vlp.com/wps/portal/stories/storia/1",
-            "image_URL": "https://www.vlp.com/logo.png"
-        }
+    + Attribute (Event)
 
 + Response 201
 
     + Headers
 
-            Location: /views/1
+            Location: /events/1
 
+## Event [/events/{id}]
 
-## Views details [/views/{id}]
++ Attributes
+    + id: 1 (string) - ID of the event
+    + contentId: 1 (string) - ID of the content for which the event is being recorded
+    + type: `vote` (enum) - type of event
+        - view
+        - vote
+        - desire
+    + value: `-1` (number) - value of the event (only valid for event of type `vote`)
+    + title: `Storia 1` (string)
+    + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (string)
+    + image_URL: `https://www.vlp.com/logo.png` (string)
 
 + Parameters
-    + id: 1 (required, string) - ID view event
+    + id: 1 (required, string) - ID of the event
     
 
-### Read View Details [GET]
+### Read Event [GET]
 
 + Response 200 (application/json)
+    + Attributes (Event)
 
-        {
-            "id": "1",
-            "contentID": "1",
-            "title": "Storia 1",
-            "URL": "https://www.vlp.com/wps/portal/stories/storia/1",
-            "image_URL": "https://www.vlp.com/logo.png"
-        }
-
-### Edit View details [PUT]
+### Edit Event [PUT]
 
 + Request (application/json)
-
-        {
-            "id": "1",
-            "contentID": "1",
-            "title": "Storia 1",
-            "URL": "https://www.vlp.com/wps/portal/stories/storia/1",
-            "image_URL": "https://www.vlp.com/logo.png"
-        }
+    + Attributes (Event)
         
 + Response 200
 
-### Delete View [DELETE]
+### Delete Event [DELETE]
 
 + Response 204
 
@@ -841,14 +826,14 @@ The main resources managed are:
 + `Object`, an object rendered in a 3D environment
 + `Scene`, a 3D environment consisting of multiple objects
 
-## Scenes collections [/scenes{?userName}{?page}]
+## Scenes collections [/ar/scenes{?userName}{?page}]
 
 **TBD: the current model for the Scene is based off the DB schema.
 The meaning of some fields is unclear.**
 
 + Attributes
     + id: 1 (string)
-    + description: `Scene description` (string)
+    + description: `Scene description` (required, string)
     + userId: vponte (string)
     + height: 10.57 (number)
     + width: 60.24 (number)
@@ -905,7 +890,7 @@ The meaning of some fields is unclear.**
     
             Location: /scenes/1
 
-## Scene details [/scenes/{id}]
+## Scene details [/ar/scenes/{id}]
 
 + Parameters
     + id: 1 (required, string) - ID of the scene
@@ -928,7 +913,7 @@ The meaning of some fields is unclear.**
 
 + Response 204
 
-## Object collections [/scenes/{id}/objects{?page}]
+## Object collections [/ar/objects{?page}{?sceneID}]
 
 **TBD: on the DB schema there is no mention of components 
 (static files or references to them). How do we manage those?**
@@ -938,7 +923,8 @@ The meaning of some fields is unclear.**
 
 + Attributes
     + id: 1 (string)
-    + objectId: 6 (string) - **TBD: required?**
+    + sceneID (string) - ID of the associated scene, if present
+    + objectID: 6 (string) - **TBD: required?**
     + productID: 5 (string)
     + category (string)
     + type (string)
@@ -951,7 +937,7 @@ The meaning of some fields is unclear.**
     + s: 3 (number) - object scaling
 
 + Parameters
-    + id: 1 (required, string) - ID of the scene
+    + sceneID: 1 (optional, string) - Filter only object belonging to the specified scene
 
 ### List Scene Objects [GET]
 
@@ -1009,22 +995,21 @@ The meaning of some fields is unclear.**
 
     + Headers
     
-            Location: /scenes/1/objects/3
+            Location: /ar/objects/3
             
 
-## Scene Objects details [/scenes/{sceneId}/objects/{id}]
+## Objects details [/ar/objects/{id}{?sceneId}]
 
 + Parameters
-    + sceneId: 1 (required, string) - ID of the scene
     + id: 1 (required, string) - ID of the object
 
-### Read Scene Object details [GET]
+### Read Object details [GET]
 
 + Response 200 (application/json)
 
     + Attributes (Object collections)
 
-### Update Scene Object [PUT]
+### Update Object [PUT]
 
 + Request (application/json)
 
@@ -1032,7 +1017,7 @@ The meaning of some fields is unclear.**
 
 + Response 200
 
-### Delete Scene Object [DELETE]
+### Delete Object [DELETE]
 
 + Response 204
 

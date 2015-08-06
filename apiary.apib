@@ -613,6 +613,39 @@ Retrive content (e.g. stories, products) views, possibly filtered by `userName` 
 
 + Response 204
 
+# Group Products
+
+API group used to handle products.
+
+## Product [/products/{id}]
+
++ Attributes
+    + id: 5 (string) - ID of the product in the product repository
+    + default_scene (string) - default scene that can be used to render this product in the 3D viewer
+
+## Products collections [/products]
+
+**TBD: the model of a Product is currently unknown. Check on DB schema.**
+
++ Attributes
+    + products (array[Product])
+
+### Find products [GET /find{?commerceSKU}{?attributes}]
+
+Action that can be used to find a product in the repository starting
+from the commerce SKU and the selections (map of attributes).
+
+This action can be used to retrieve the Product repository ID that can later be used to
+retrieve images and renderings.
+
++ Parameters
+    + commerceSKU: 1 (required, string) - SKU on the commerce
+    + attributes: {"color": "black", "isolation": "high", "material": "wood"} (required, object) - 
+      attribute selection on the commerce SKU product
+
++ Response 200 (application/json)
+    + Attributes (Products collections)
+
 # Group IS02 - Product Images
 
 **Note**: Probably this group would be better managed as a sub-resource of a product resource. 
@@ -678,27 +711,6 @@ we simply refer to this defining images as a sub-path of products.
 ### Delete Product Image [DELETE]
 
 + Response 204
-
-## Find Product Images [/products/find/images/{type}/{?index}{?commerceSKU}{?attributes}]
-
-+ Parameters
-    + commerceSKU: 1 (required, string) - SKU on the commerce
-    + attributes: {"color": "black", "isolation": "high", "material": "wood"} (required, object) - 
-      attribute selection on the commerce SKU product
-    + index: 1 (optional, number) - for image lists (e.g. carousels) the
-      index of the required image
-    + type: main (required, enum[string]) - type of the image being required
-        + Members
-            + `main`
-            + `banner`
-            + `carousel`
-            + `details`
-
-### Read Product Image [GET]
-
-**TBD: this is a search / query. We should expect queries to return a collection of results. Change to that?**
-
-+ Response 200 (image/png)
 
 # Group IS08 - Product Renderings
 

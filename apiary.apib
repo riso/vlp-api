@@ -578,8 +578,8 @@ and/or `type` and sliced.
     + title: `Storia 1` (string)
     + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (string)
     + image_URL: `https://www.vlp.com/logo.png` (string)
-    + contentType: `vote` (string) - type of the content (`view`, `vote`, `desire`) for which the event is being recorded
-    + timestamp: `2015-08-07:123451325` (string) - date of the event
+    + contentType: `vote` (enum) - type of the content (`view`, `vote`, `desire`) for which the event is being recorded
+    + timestamp: `546757636535` (number) - date of the event
 
 + Parameters
     + id: 1 (required, string) - ID of the event
@@ -1022,6 +1022,66 @@ The meaning of some fields is unclear.**
 
 ### Delete Object [DELETE]
 
++ Response 204
+
+
+## Surfaces collections [/ar/scenes/{sceneID}/surfaces{?page}]
+
++ Attributes
+    + count: 1 (number) - total number of surface
+    + surfaces (array[Surface]) - array of returned surfaces
+
+### List Surfaces [GET]
+
++ Parameters
+    + sceneID: 5 (required, number) - ID scene
+    + page: 1 (number) - The page of events to return
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: </ar/scenes/1/surfaces?page=2>; rel="next"
+
+    + Attributes (Surfaces collections)
+            
+### Add a Surface to Scene [POST]
+
++ Request (application/json)
+    + Attribute (Surface)
+
++ Response 201
+
+    + Headers
+
+            Location: /ar/scenes/1/surfaces/1
+
+## Surface [/ar/scenes/{sceneID}/surfaces/{id}]
+
++ Attributes
+    + id: 1 (number) - ID of the surface
+    + sceneID: 1 (number) - ID of the scene owning the surface
+    + surfaceID (string)
+    + materialID (string)
+
++ Parameters
+    + sceneID: 5 (required, number) - ID scene
+    + id: 1 (required, string) - ID of the surface
+
+### Read a Surface [GET]
+
++ Response 200 (application/json)
+    + Attribute (Surface)
+
+### Update a Surface [PUT]
+
++ Request (application/json)
+    + Attribute (Surface)
+    
++ Response 200
+
+### Delete a Surface [DELETE]
+    
 + Response 204
 
 # Group IS07 - Contact Requests

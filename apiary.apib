@@ -363,6 +363,7 @@ The following methods allow the user to interact with documents.
         + Members
             + `proposal`
             + `confirmed`
+            + `editable` - if the document can be still modified or has been frozen
     + valid (optional, string)
     + documentReference (optional, string) - reference to another Document (e.g. quote from which an order originated)
     + documentCode (optional, string) - fpDealerID in case of document of type `quote`
@@ -1102,12 +1103,29 @@ once they are handled?**
 
 + Response 204
 
-# Group Persistence
+# Group IS16 - Persistence
 
-## Persist anonymous user data [PUT /persist]
+## Persist anonymous user data [/persist]
 
 This action persist user data saved on DB and associated with anonymoud GUID by re-associating them
 with the logged in user ID.
+
+This works only on user ID fields by doing the following:
+
++ finds the authenticated profile user ID from mail given when authenticating
++ modifies data associated with the anonymous profile re-associating them with the found profile
++ deletes the anonymous user profile
+
+**Note**: this service must be available only to authenticated users. If it is accessed by
+an anonymous user, it will fail since it won't find an email in the user profile.
+
++ Attributes
+    + mail: `v.ponte@wintech.it` (required, string)
+
+### Persist [PUT]
+
++ Request (application/json)
+    + Attributes (Persist anonymous user data)
 
 + Response 200
 

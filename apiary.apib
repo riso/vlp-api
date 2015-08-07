@@ -1029,9 +1029,6 @@ API group used to handle users' contact requests.
 **TBD: the current model for the Contact Request is based off the DB schema.
 The meaning of some fields is unclear.**
 
-**TBD: shouldn't Contact request have a status? Will they just be deleted from the DB
-once they are handled?**
-
 ## Contacts collections [/contacts{?userName}{?page}]
 
 + Attributes
@@ -1041,7 +1038,7 @@ once they are handled?**
     + reason (enum)
     + date: `2015-05-01` (string)
     + timestamp: 123451325 (number)
-    + time_zone (string)
+    + time_zone (string) - user range availabilty
     + note: `Hi, please contact me` (string)
 
 ### List Contacts [GET]

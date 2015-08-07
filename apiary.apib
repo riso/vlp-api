@@ -532,6 +532,11 @@ This actions allow adding a new file to an existing document.
     + count: 1 (number) - total number of events
     + events (array[Event]) - array of returned events
 
+### List Events [GET]
+
+Retrive content (e.g. stories, products) events, possibly filtered by `userName`
+and/or `type` and sliced.
+
 + Parameters
     + userName: vponte (optional, string) - Filter events created by the specified userName
     + type: vote (optional, enum[string]) - Filter only specified type of event
@@ -540,11 +545,6 @@ This actions allow adding a new file to an existing document.
             + `vote` - content up or down vote
             + `desire` - content desired
     + page: 1 (optional, number) - The page of events to return
-
-### List Events [GET]
-
-Retrive content (e.g. stories, products) events, possibly filtered by `userName`
-and/or `type` and sliced.
 
 + Response 200 (application/json)
 
@@ -1125,4 +1125,3 @@ an anonymous user, it will fail since it won't find an email in the user profile
     + Attributes (Persist anonymous user data)
 
 + Response 200
-

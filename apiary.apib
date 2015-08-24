@@ -15,7 +15,7 @@ It is recommend to follow the “url” link values,
 applicable to retrieve resources. Instead of constructing your own URLs,
 to keep your client decoupled from implementation details.
 
-Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according to 
+Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according to
 [Java SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html).
 
 **TBD: time zone?**
@@ -44,19 +44,6 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
 
 Resources related to user's profile in the API.
 
-A Profile object contains basic profiles attributes. It has the following attributes:
-
-+ userName
-+ mail
-+ firstName
-+ lastName
-+ imageURL
-+ area - position shared by the user
-+ postalAddress
-+ billingAddress
-+ GUID - WAS session ID
-+ type - client or lead
-
 ## Profiles collections [/profiles{?page}]
 
 + Parameters
@@ -82,7 +69,7 @@ Retrive profiles.
                     "dlecce"
                 ]
             }
-            
+
 ### Create a user Profile [POST]
 
 + Request (application/json)
@@ -103,65 +90,87 @@ Retrive profiles.
             Location: /profiles/vponte
 
 
-## Profile details [/profiles/{userName}]
+## Profile [/profiles/{id}]
 
 + Parameters
-    + userName: vponte (required, string) - ID of the user
-    
+    + id: 1 (required, number) - ID of the user
+
++ Attributes
+    + id: 1 (required, number) - ID of the user profile
+    + email: `v.ponte@wintech.it` (string)
+    + firstName: Valerio (string)
+    + lastName: Ponte (string)
+    + phoneNumber: `+39 - 3401004285` (string) - A string with the following format: `<country code> - <phone number>`
+    + imageUrl: `https://www.vlp.com/logo.png` (string) - user profile image
+    + description (string)
+    + area: Milano (string) - position shared by the user
+    + address (string) - **TBD: what is this?**
+    + city (string) - **TBD: what is this?**
+    + addresses (array[Profile Address])
+    + type (enum[string]) - profile type **TBD: needed?**
+        + client (string) - registered user with email
+        + lead (string) - unregistered user with email
+        + anonymous (string) - unregistered user without email
 
 ### Read Profile Details [GET]
 
 + Response 200 (application/json)
 
-        {
-            "userName": "vponte",
-            "mail": "v.ponte@wintech.it",
-            "firstName": "Valerio",
-            "lastName": "Ponte",
-            "imageURL": "https://www.vlp.com/logo.png",
-            "area": Milano,
-            "postalAddress": {
-                "street": "piazza Dergano 9",
-                "cap": 20158,
-                "city": "Milan",
-                "country": "Italy"
-            }, 
-            "billingAddress": {
-                "street": "piazza Dergano 9",
-                "cap": 20158,
-                "city": "Milan",
-                "country": "Italy"
-            }
-        }
+    + Attributes (Profile)
 
 ### Edit Profile details [PUT]
 
 + Request (application/json)
 
-        {
-            "userName": "vponte",
-            "mail": "v.ponte@wintech.it",
-            "firstName": "Valerio",
-            "lastName": "Ponte",
-            "imageURL": "https://www.vlp.com/logo.png",
-            "area": "Milano",
-            "postalAddress": {
-                "street": "piazza Dergano 9",
-                "cap": 20158,
-                "city": "Milan",
-                "country": "Italy"
-            }, 
-            "billingAddress": {
-                "street": "piazza Dergano 9",
-                "cap": 20158,
-                "city": "Milan",
-                "country": "Italy"
-            }
-        }
-        
+    + Attributes (Profile)
+
 + Response 200
 
 ### Delete Profile [DELETE]
+
++ Response 204
+
+## Profile Address [/profiles/{userId}/addresses/{id}]
+
++ Parameters
+    + userId: 1 (required, number) - ID of the user
+    + id: 1 (required, number) - ID of the address
+
++ Attributes
+    + id: 1 (required, number) - ID of the address
+    + userId: 1 (required, number) - ID of the user owning this address
+    + type: postal (required, enum[string])
+        + postal
+        + billing
+        + postalBilling - probably not the best idea
+    + description: `My home address` (string)
+    + address: `Piazza Dergano 9` (string)
+    + zipCode: 20158 (number)
+    + city: Milano (string)
+    + country: Italia (string)
+    + phoneNumber: `+39 - 3401004285` (string) - A string with the following format: `<country code> - <phone number>`
+    + vatCode (string)
+    + fiscalCode (string)
+    + companyName (string)
+    + firstName (string) - **TBD: why?**
+    + lastName (string) - **TBD: why?**
+    + email (string) - **TBD: why?**
+
+### Read Profile Address details [GET]
+
++ Response 200 (application/json)
+
+    + Attributes (Profile Address)
+
+### Update Profile Address details [PUT]
+
++ Request (application/json)
+
+    + Attributes (Profile Address)
+
++ Response 200
+
+### Delete Profile Address [DELETE]
 
 + Response 204
 
@@ -186,7 +195,7 @@ data will be retrieved from DB or local cache.
                 "cap": 20158,
                 "city": "Milan",
                 "country": "Italy"
-            }, 
+            },
             "billingAddress": {
                 "street": "piazza Dergano 9",
                 "cap": 20158,
@@ -197,7 +206,7 @@ data will be retrieved from DB or local cache.
 
 # Group IS15 – Selected products
 
-Resources related to user's selected products. 
+Resources related to user's selected products.
 An user can list its selected products, create a selection for his session and then edit it.
 
 **Note**: Only one product per category (e.g. serramenti, pavimenti) can be selected
@@ -211,13 +220,13 @@ The following methods allow the user to interact with selected products.
 A selected product is made of:
 
 + sku (string) - the product commerce SKU for which the quote is being prepared
-+ attributes (object[string, string]) - a list of attributes selected on the product. 
++ attributes (object[string, string]) - a list of attributes selected on the product.
   An attribute is represented as a key/value pair.
 + alternate_products (array[string]) - a list of alternative products (recommended
   by commerce). Each string is a commerce SKU.
 + alternate_selections (array) - a list of alternativce products selected by the user
   to be seen in the augmented reality. **TBD: still neded?**
-+ type (enum[string]) - type of the selection (e.g. serramenti) 
++ type (enum[string]) - type of the selection (e.g. serramenti)
 
 ### List Selections [GET]
 
@@ -261,7 +270,7 @@ This action retrieves the list of selected products.
 
 ### Create Selection [POST]
 
-This action is used to create a new selection in the user's selection object. 
+This action is used to create a new selection in the user's selection object.
 It will replace his current selection if he already has one in the same category.
 
 **TBD: emit a warning when replacing a selection?**
@@ -294,7 +303,7 @@ These actions operate on the selection of the required `type`.
 
 + Parameters
     + type: serramenti (required, enum[string]) - type of selection to operate on
-        
+
         + Members
             + `serramenti`
             + `pavimenti`
@@ -342,7 +351,7 @@ These actions operate on the selection of the required `type`.
 
 # Group IS03 - Documents
 
-Resources related to user's documents in the API. 
+Resources related to user's documents in the API.
 An user can list its previous documents, create a document and then edit it.
 
 Document acts as a "super-class" for quotes and orders.
@@ -370,7 +379,7 @@ The following methods allow the user to interact with documents.
 
 ### List Documents [GET]
 
-This action retrieves the list of past documents, 
+This action retrieves the list of past documents,
 possibly sliced and filtered only for the specified `userName` and/or `type`.
 
 + Parameters
@@ -414,14 +423,14 @@ possibly sliced and filtered only for the specified `userName` and/or `type`.
                     }
                 ]
             }
-            
+
 ### Create a Document [POST]
 
 This method allows the user to create a new document.
 
 If no `userId` is given, it is assumed that the document is created for the current user.
 
-**Note**: the returned `Location` header points to the created document ID, 
+**Note**: the returned `Location` header points to the created document ID,
 not the given FP Dealer ID.
 
 + Attributes (Documents collections)
@@ -507,7 +516,7 @@ This actions allow adding a new file to an existing document.
 + Response 201
 
     + Headers
-    
+
             Location: /documents/2/pdf
 
 ### Download Document file [GET]
@@ -553,8 +562,8 @@ and/or `type` and sliced.
             Link: </events?page=2>; rel="next"
 
     + Attributes (Events collections)
-            
-### Create an Event [POST]
+
+### Create Event [POST]
 
 + Request (application/json)
     + Attribute (Event)
@@ -583,18 +592,17 @@ and/or `type` and sliced.
 
 + Parameters
     + id: 1 (required, string) - ID of the event
-    
 
 ### Read Event [GET]
 
 + Response 200 (application/json)
     + Attributes (Event)
 
-### Edit Event [PUT]
+### Update Event [PUT]
 
 + Request (application/json)
     + Attributes (Event)
-        
+
 + Response 200
 
 ### Delete Event [DELETE]
@@ -628,7 +636,7 @@ retrieve images and renderings.
 
 + Parameters
     + commerceSKU: 1 (required, string) - SKU on the commerce
-    + attributes: {"color": "black", "isolation": "high", "material": "wood"} (required, object) - 
+    + attributes: {"color": "black", "isolation": "high", "material": "wood"} (required, object) -
       attribute selection on the commerce SKU product
 
 + Response 200 (application/json)
@@ -636,15 +644,15 @@ retrieve images and renderings.
 
 # Group IS02 - Product Images
 
-**Note**: Probably this group would be better managed as a sub-resource of a product resource. 
-Since we have no API for products right now, 
+**Note**: Probably this group would be better managed as a sub-resource of a product resource.
+Since we have no API for products right now,
 we simply refer to this defining images as a sub-path of products.
 
 ## Product Images collections [/products/{prSKU}/images]
 
 + Parameters
     + prSKU: 1 (required, string) - SKU on the product repository
-    
+
 
 ### Create Product Image [POST]
 
@@ -702,8 +710,8 @@ we simply refer to this defining images as a sub-path of products.
 
 # Group IS08 - Product Renderings
 
-**Note**: Probably this group would be better managed as a sub-resource of a product resource. 
-Since we have no API for products right now, 
+**Note**: Probably this group would be better managed as a sub-resource of a product resource.
+Since we have no API for products right now,
 we simply refer to this defining renderingsas a sub-path of products.
 
 ## Product Rendering [/products/{prSKU}/rendering]
@@ -754,7 +762,7 @@ we simply refer to this defining renderingsas a sub-path of products.
 
 ## Product Rendering Materials details [/products/{prSKU}/rendering/materials/{index}]
 
-**TBD: the entire model for a rendering material is currently unknown. 
+**TBD: the entire model for a rendering material is currently unknown.
 We assume a material to be an image.
 Check on Product repository schema**
 
@@ -788,7 +796,7 @@ Check on Product repository schema**
 
 ## Product Rendering Parts details [/products/{prSKU}/rendering/parts/{index}]
 
-**TBD: the entire model for a rendering part is currently unknown. 
+**TBD: the entire model for a rendering part is currently unknown.
 We assume a part to be an image.
 Check on Product repository schema**
 
@@ -856,7 +864,7 @@ The meaning of some fields is unclear.**
 + Parameters
     + userName: vponte (optional, string) - filter scenes for the specified user
     + page: 1 (optional, number) - slice scenes
-    
+
 + Response 200 (application/json)
 
         {
@@ -876,7 +884,7 @@ The meaning of some fields is unclear.**
                 }
             ]
         }
-        
+
 ### Create Scene [POST]
 
 + Request (application/json)
@@ -886,11 +894,11 @@ The meaning of some fields is unclear.**
             "height": 5.7,
             "width": 77
         }
-        
+
 + Response 201
 
     + Headers
-    
+
             Location: /scenes/1
 
 ## Scene details [/ar/scenes/{id}]
@@ -918,7 +926,7 @@ The meaning of some fields is unclear.**
 
 ## Object collections [/ar/objects{?page}{?sceneID}]
 
-**TBD: on the DB schema there is no mention of components 
+**TBD: on the DB schema there is no mention of components
 (static files or references to them). How do we manage those?**
 
 **TBD: the current model for the Object is based off the DB schema.
@@ -946,7 +954,7 @@ The meaning of some fields is unclear.**
 
 + Parameters
     + page: 1 (optional, number) - slice scene objects
-    
+
 + Response 200 (application/json)
 
         {
@@ -958,7 +966,7 @@ The meaning of some fields is unclear.**
                     "productID": "3",
                     "x": 5.7,
                     "y": 77,
-                    "z": 53, 
+                    "z": 53,
                     "rx": 5.7,
                     "ry": 77,
                     "rz": 53,
@@ -970,7 +978,7 @@ The meaning of some fields is unclear.**
                     "productID": "4",
                     "x": 5.7,
                     "y": 77,
-                    "z": 53, 
+                    "z": 53,
                     "rx": 5.7,
                     "ry": 77,
                     "rz": 53,
@@ -987,19 +995,19 @@ The meaning of some fields is unclear.**
             "productID": "3",
             "x": 5.7,
             "y": 77,
-            "z": 53, 
+            "z": 53,
             "rx": 5.7,
             "ry": 77,
             "rz": 53,
             "s": 4
         }
-        
+
 + Response 201
 
     + Headers
-    
+
             Location: /ar/objects/3
-            
+
 
 ## Objects details [/ar/objects/{id}{?sceneId}]
 
@@ -1044,7 +1052,7 @@ The meaning of some fields is unclear.**
             Link: </ar/scenes/1/surfaces?page=2>; rel="next"
 
     + Attributes (Surfaces collections)
-            
+
 ### Add a Surface to Scene [POST]
 
 + Request (application/json)
@@ -1077,11 +1085,11 @@ The meaning of some fields is unclear.**
 
 + Request (application/json)
     + Attribute (Surface)
-    
+
 + Response 200
 
 ### Delete a Surface [DELETE]
-    
+
 + Response 204
 
 # Group IS07 - Contact Requests
@@ -1108,7 +1116,7 @@ The meaning of some fields is unclear.**
 + Parameters
     + userName: vponte (optional, string) - filter contact requests for the specified user
     + page: 1 (optional, number) - slice contact requests
-    
+
 + Response 200 (application/json)
 
         {
@@ -1132,11 +1140,11 @@ The meaning of some fields is unclear.**
             "reason": "Unknown",
             "note": "Hi, please contact me"
         }
-        
+
 + Response 201
 
     + Headers
-    
+
             Location: /contacts/1
 
 ## Contacts details [/contacts/{id}]

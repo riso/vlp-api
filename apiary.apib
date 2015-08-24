@@ -40,18 +40,27 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
             "contacts_url": "/contacts"
         }
 
-# Group IS01 - Profile
+## Collection [/collection]
+"Abstract" resource used to represent a generic collection. Other resources
+include this one in their collection endpoints.
+
++ Attributes
+  + count: 1 (number) - total number of resources that can be accessed by the user
+
+# Group IS01 - Profiles
 
 Resources related to user's profile in the API.
 
 ## Profiles collections [/profiles{?page}]
 
-+ Parameters
-    + page: 1 (optional, number) - The page of profiles to return
++ Attributes
+  + Include Collection
+  + profiles (array[Profile]) - array of returned profiles
 
 ### List Profiles [GET]
 
-Retrive profiles.
++ Parameters
+    + page: 1 (optional, number) - The page of profiles to return
 
 + Response 200 (application/json)
 
@@ -59,36 +68,19 @@ Retrive profiles.
 
             Link: </profiles?page=2>; rel="next"
 
-    + Body
+    + Attributes (Profiles collections)
 
-            {
-                "count": 3,
-                "profiles": [
-                    "vponte",
-                    "cbrundo",
-                    "dlecce"
-                ]
-            }
-
-### Create a user Profile [POST]
+### Create Profile [POST]
+Create a user profile. `id`, if provided, is ignored.
 
 + Request (application/json)
-
-        {
-            "userName": "vponte",
-            "mail": "v.ponte@wintech.it",
-            "firstName": "Valerio",
-            "lastName": "Ponte",
-            "imageURL": "https://www.vlp.com/logo.png",
-            "area": "Milano"
-        }
+    + Attribute (Profile)
 
 + Response 201
 
     + Headers
 
-            Location: /profiles/vponte
-
+            Location: /profiles/1
 
 ## Profile [/profiles/{id}]
 
@@ -100,13 +92,13 @@ Retrive profiles.
     + email: `v.ponte@wintech.it` (string)
     + firstName: Valerio (string)
     + lastName: Ponte (string)
-    + phoneNumber: `+39 - 3401004285` (string) - A string with the following format: `<country code> - <phone number>`
+    + phoneNumber: `0039-3401004285` (string) - A string with the following format: `<4 digits country code>-<phone number>`
     + imageUrl: `https://www.vlp.com/logo.png` (string) - user profile image
     + description (string)
     + area: Milano (string) - position shared by the user
     + address (string) - **TBD: what is this?**
     + city (string) - **TBD: what is this?**
-    + addresses (array[Profile Address]) - list of user addresses
+    + addresses (array[Profile Address]) - array of user addresses
     + type (enum[string]) - profile type **TBD: needed?**
         + client (string) - registered user with email
         + lead (string) - unregistered user with email
@@ -130,6 +122,41 @@ Retrive profiles.
 
 + Response 204
 
+# IS01 - Profile Addresses
+
+Sub-resource of Profile, used to interact with its addresses.
+
+## Profile Addresses collections [/profiles/{userId}/addresses{?page}]
+
++ Attributes
+  + count: 1 (number) - total number of addresses
+  + addresses (array[Profile Address]) - array of user addresses
+
+### List Profile Addresses [GET]
+
++ Parameters
+  + userId: 1 (required, number) - ID of the user
+  + page: 1 (optional, number) - The page of addresses to return
+
++ Response 200 (application/json)
+
+      + Headers
+
+              Link: </profiles/1/addresses?page=2>; rel="next"
+
+      + Attributes (Profile Addresses collections)
+
+### Create Profile Address [POST]
+
+  + Request (application/json)
+      + Attribute (Profile Address)
+
+  + Response 201
+
+      + Headers
+
+              Location: /profiles/1/addresses/1
+
 ## Profile Address [/profiles/{userId}/addresses/{id}]
 
 + Parameters
@@ -142,13 +169,13 @@ Retrive profiles.
     + type: postal (required, enum[string])
         + postal
         + billing
-        + postalBilling - probably not the best idea
+        + postalBilling - **TBD: probably not the best idea**
     + description: `My home address` (string)
     + address: `Piazza Dergano 9` (string)
     + zipCode: 20158 (number)
     + city: Milano (string)
     + country: Italia (string)
-    + phoneNumber: `+39 - 3401004285` (string) - A string with the following format: `<country code> - <phone number>`
+    + phoneNumber: `0039-3401004285` (string) - A string with the following format: `<4 digits country code>-<phone number>`
     + vatCode (string)
     + fiscalCode (string)
     + companyName (string)

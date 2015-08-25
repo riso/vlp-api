@@ -445,8 +445,22 @@ statuses will have to be recorded.
 
 + Response 204
 
+## Document Files collections [/documtents/{id}/files]
 
-## Document File [/documents/{id}/{format}]
+### Create Document File [POST]
+
+This actions allow adding a new file to an existing document.
+
++ Request (application/json)
+    + Attributes (Document File)
+
++ Response 201
+
+    + Headers
+
+            Location: /documents/2/files/pdf
+
+## Document File [/documents/{id}/files/{format}]
 
 API route for interacting with documents' files.
 
@@ -459,25 +473,20 @@ Create and update actions expect the file stream as input.
     + id: 1 (required, string) - id of the document
     + format: pdf (required, string) - format of the file with which we're interacting
 
-### Create Document File [POST]
-
-This actions allow adding a new file to an existing document.
-
-+ Request (application/pdf)
-
-+ Response 201
-
-    + Headers
-
-            Location: /documents/2/pdf
++ Attributes
+    + format: pdf (required, string) - format of the file with which we're interacting
+    + documentId: 1 (required, number) - ID of the document
+    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (string) - serialized stream representing the file.
 
 ### Read Document File [GET]
+Retrieve the document (file stream).
 
 + Response 200 (application/stream)
 
 ### Update Document File [PUT]
 
-+ Request (application/pdf)
++ Request (application/json)
+    + Attributes (Document File)
 
 + Response 200
 
@@ -580,15 +589,14 @@ API group used to handle products.
 ## Product [/products/{id}]
 
 + Attributes
-    + id: 5 (string) - ID of the product in the product repository
-    + default_scene (string) - default scene that can be used to render this product in the 3D viewer
+    + id: 5 (string) - SKU of the product in the product repository
+    + default_scene: kitchen (string) - default scene that can be used to render this product in the 3D viewer
 
 ## Products collections [/products]
 
-**TBD: the model of a Product is currently unknown. Check on DB schema.**
-
 + Attributes
-    + products (array[Product])
+    + Include Collection
+    + products (array[Product]) - array of products accessible by the user
 
 ### Find products [GET /find{?commerceSKU}{?attributes}]
 
@@ -597,6 +605,9 @@ from the commerce SKU and the selections (map of attributes).
 
 This action can be used to retrieve the Product repository ID that can later be used to
 retrieve images and renderings.
+
+Only one Product is exptected to be returned, but for consistency with other
+collection actions we return an array.
 
 + Parameters
     + commerceSKU: 1 (required, string) - SKU on the commerce
@@ -612,40 +623,33 @@ retrieve images and renderings.
 # Group IS02 - Product Images
 #############################
 
-**Note**: Probably this group would be better managed as a sub-resource of a product resource.
-Since we have no API for products right now,
-we simply refer to this defining images as a sub-path of products.
+Sub-resource of a product resource. First find the product SKU, then interact
+with its images.
 
-## Product Images collections [/products/{prSKU}/images]
+## Product Images collections [/products/{productId}/images]
 
 + Parameters
-    + prSKU: 1 (required, string) - SKU on the product repository
+    + productId: 1 (required, number) - SKU on the product repository
 
 
 ### Create Product Image [POST]
 
-**TBD: define actual JSON structure to create image. Shall we store path or content in DB?**
-
 + Request (application/json)
 
-        {
-            "type": "main",
-            "URL": "https://www.vlp.com/logo.png"
-        }
+    + Attributes (Product Image)
 
 + Response 201
 
     + Headers
 
-            Location: /products/{prSKU}/images/1
+            Location: /products/{productId}/images/main
 
 
-## Product Image details [/products/{prSKU}/images/{type}/{?index}]
+## Product Image [/products/{productId}/images/{type}/{?index}]
 
 + Parameters
-    + prSKU: 1 (required, string) - SKU on the product repository
-    + index: 1 (optional, number) - for image lists (e.g. carousels) the
-      index of the required image
+    + productId: 1 (required, string) - SKU on the product repository
+    + index: 1 (number) - for image lists (e.g. carousels) the index of the image
     + type: main (required, enum[string]) - type of the image being required
         + Members
             + `main`
@@ -653,24 +657,24 @@ we simply refer to this defining images as a sub-path of products.
             + `carousel`
             + `details`
 
++ Attributes
+    + type: main (required, string) - type of the image
+    + index: 1 (number) - for image lists (e.g. carousels) the index of the image
+    + productId: 1 (number) - SKU on the product repository
+    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (string) - serialized stream representing the image. Either this or `filePath` are required in order to create an image.
+    + filePath: `/srv/images/image1.png` (string) - path (must be accessible by the API server) that stores the image. Either this or `filePath` are required in order to create an image.
 
 ### Read Product Image [GET]
+Retrieve the image (file stream).
 
 + Response 200 (image/png)
 
 ### Update Product Image [PUT]
 
-**TBD: define actual JSON structure to create image. Shall we store path or content in DB?**
-
 + Request (application/json)
-
-        {
-            "type": "main",
-            "URL": "https://www.vlp.com/logo.png"
-        }
+    + Attributes(Product Image)
 
 + Response 200
-
 
 ### Delete Product Image [DELETE]
 

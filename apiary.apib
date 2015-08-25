@@ -832,20 +832,45 @@ The main resources managed are:
 
 + `Object`, an object rendered in a 3D environment
 + `Scene`, a 3D environment consisting of multiple objects
++ `Surface`
 
-## Scenes collections [/ar/scenes{?userName}{?page}]
-
-**TBD: the current model for the Scene is based off the DB schema.
-The meaning of some fields is unclear.**
+## Scenes collections [/ar/scenes{?userId}{?page}]
 
 + Attributes
-    + id: 1 (string)
+    + Include Collection
+    + scenes (array[Scene]) - array of scenes accessible by the user
+
+### List Scenes [GET]
+
++ Parameters
+    + userId: 1 (number) - filter scenes for the specified user
+    + page: 1 (number) - slice scenes
+
++ Response 200 (application/json)
+
+    + Attributes (Scenes collections)
+
+### Create Scene [POST]
+
++ Request (application/json)
+    + Attributes (Scene)
+
++ Response 201
+
+    + Headers
+
+            Location: /ar/scenes/1
+
+## Scene [/ar/scenes/{id}]
+
++ Attributes
+    + id: 1 (string) - ID of the scene.
     + description: `Scene description` (required, string)
-    + userId: vponte (string)
+    + userId: 1 (number)
     + height: 10.57 (number)
     + width: 60.24 (number)
     + length: 14.2 (number)
-    + scene_type (enum) - type of the scene. **TBD: enum values**
+    + sceneType (enum) - Type of the scene. **TBD: enum values**
         + Members
             + `kitchen`
             + `livingroom`
@@ -855,64 +880,20 @@ The meaning of some fields is unclear.**
     + season (string)
     + sound (string) - **TBD: URL to a sound file?**
 
-### List Scenes [GET]
-
 + Parameters
-    + userName: vponte (optional, string) - filter scenes for the specified user
-    + page: 1 (optional, number) - slice scenes
+    + id: 1 (required, string) - ID of the scene.
+
+### Read Scene [GET]
 
 + Response 200 (application/json)
 
-        {
-            "count": 2,
-            "requests": [
-                {
-                    "id": "1",
-                    "userId": "vponte",
-                    "height": 5.7,
-                    "width": 77
-                },
-                {
-                    "id": "2",
-                    "userId": "vponte",
-                    "height": 5.7,
-                    "width": 77
-                }
-            ]
-        }
-
-### Create Scene [POST]
-
-+ Request (application/json)
-
-        {
-            "userId": "vponte",
-            "height": 5.7,
-            "width": 77
-        }
-
-+ Response 201
-
-    + Headers
-
-            Location: /scenes/1
-
-## Scene details [/ar/scenes/{id}]
-
-+ Parameters
-    + id: 1 (required, string) - ID of the scene
-
-### Read Scene details [GET]
-
-+ Response 200 (application/json)
-
-    + Attributes (Scenes collections)
+    + Attributes (Scene)
 
 ### Update Scene [PUT]
 
 + Request (application/json)
 
-    + Attributes (Scenes collections)
+    + Attributes (Scene)
 
 + Response 200
 
@@ -920,19 +901,45 @@ The meaning of some fields is unclear.**
 
 + Response 204
 
-## Object collections [/ar/objects{?page}{?sceneID}]
+## Objects collections [/ar/objects{?page}{?sceneID}]
 
 **TBD: on the DB schema there is no mention of components
 (static files or references to them). How do we manage those?**
 
-**TBD: the current model for the Object is based off the DB schema.
-The meaning of some fields is unclear.**
++ Attributes
+    + Include Collection
+    + objects (array[Object]) - array of objects accessible by the user
+
+### List Objects [GET]
+
++ Parameters
+    + page: 1 (optional, number) - slice scene objects
+    + sceneID: 1 (optional, string) - Filter only object "belonging" to the specified scene
+
++ Response 200 (application/json)
+    + Attributes (Objects collections)
+
+### Create Object [POST]
+Create a new Object. If `sceneId` is specified, it is implied that the object
+will also be "added" to the scene.
+
++ Request (application/json)
+    + Attributes (Object)
+
++ Response 201
+
+    + Headers
+
+            Location: /ar/objects/3
+
+
+## Object [/ar/objects/{id}]
 
 + Attributes
     + id: 1 (string)
-    + sceneID (string) - ID of the associated scene, if present
-    + objectID: 6 (string) - **TBD: required?**
-    + productID: 5 (string)
+    + sceneId (string) - ID of the associated scene, if present
+    + objectId: 6 (string) - **TBD: required?**
+    + productId: 5 (string)
     + category (string)
     + type (string)
     + x: 10.6 (number) - position of the object on X axis
@@ -944,83 +951,19 @@ The meaning of some fields is unclear.**
     + s: 3 (number) - object scaling
 
 + Parameters
-    + sceneID: 1 (optional, string) - Filter only object belonging to the specified scene
-
-### List Scene Objects [GET]
-
-+ Parameters
-    + page: 1 (optional, number) - slice scene objects
-
-+ Response 200 (application/json)
-
-        {
-            "count": 2,
-            "requests": [
-                {
-                    "id": "1",
-                    "sceneID": "4",
-                    "productID": "3",
-                    "x": 5.7,
-                    "y": 77,
-                    "z": 53,
-                    "rx": 5.7,
-                    "ry": 77,
-                    "rz": 53,
-                    "s": 4
-                },
-                {
-                    "id": "2",
-                    "sceneID": "4",
-                    "productID": "4",
-                    "x": 5.7,
-                    "y": 77,
-                    "z": 53,
-                    "rx": 5.7,
-                    "ry": 77,
-                    "rz": 53,
-                    "s": 4
-                },
-            ]
-        }
-
-### Add Object to Scene [POST]
-
-+ Request (application/json)
-
-        {
-            "productID": "3",
-            "x": 5.7,
-            "y": 77,
-            "z": 53,
-            "rx": 5.7,
-            "ry": 77,
-            "rz": 53,
-            "s": 4
-        }
-
-+ Response 201
-
-    + Headers
-
-            Location: /ar/objects/3
-
-
-## Objects details [/ar/objects/{id}{?sceneId}]
-
-+ Parameters
     + id: 1 (required, string) - ID of the object
 
-### Read Object details [GET]
+### Read Object [GET]
 
 + Response 200 (application/json)
 
-    + Attributes (Object collections)
+    + Attributes (Object)
 
 ### Update Object [PUT]
 
 + Request (application/json)
 
-    + Attributes (Object collections)
+    + Attributes (Object)
 
 + Response 200
 

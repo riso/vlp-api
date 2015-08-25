@@ -686,18 +686,20 @@ Retrieve the image (file stream).
 # Group IS08 - Product Renderings
 #################################
 
-**Note**: Probably this group would be better managed as a sub-resource of a product resource.
-Since we have no API for products right now,
-we simply refer to this defining renderingsas a sub-path of products.
+Sub-resource of a product resource. First find the product SKU, then interact
+with its rendering. For each product a single rendering is assumed. A rendering
+consists of default positioning, rotation and scale of a product and two series
+of images for the rendering materials and parts.
 
-## Product Rendering [/products/{prSKU}/rendering]
+## Product Rendering [/products/{productId}/rendering]
 
-**TBD: the entire model for a rendering is currently unknown. Check on Product repository schema**
+**TBD: the entire model for a rendering is currently unknown. We assume
+something similar to Object table in Scenes repository.**
 
 + Attributes
     + model (string) - 3D model
-    + materials (number) - number of materials composing the rendering
-    + parts (number) - number of parts composing the rendering
+    + materials: 2 (number) - number of materials composing the rendering
+    + parts: 2 (number) - number of parts composing the rendering
     + x (number) - default X axis position for the rendering
     + y (number) - default Y axis position for the rendering
     + z (number) - default Z axis position for the rendering
@@ -707,7 +709,7 @@ we simply refer to this defining renderingsas a sub-path of products.
     + s (number) - default scale of the rendering
 
 + Parameters
-    + prSKU: 1 (required, string) - SKU on the product repository
+    + productId: 1 (required, string) - SKU on the product repository
 
 ### Create Product Rendering [POST]
 
@@ -736,19 +738,24 @@ we simply refer to this defining renderingsas a sub-path of products.
 
 + Response 204
 
-## Product Rendering Materials details [/products/{prSKU}/rendering/materials/{index}]
+## Product Rendering Material [/products/{productId}/rendering/materials/{index}]
 
 **TBD: the entire model for a rendering material is currently unknown.
-We assume a material to be an image.
-Check on Product repository schema**
+We assume a material to be an image.**
 
 + Parameters
-    + prSKU: 1 (required, string) - SKU on the product repository
-    + index: 2 (required, number) - interact with the nth material
+    + productId: 1 (required, string) - SKU on the product repository
+    + index: 2 (required, number) - nth material
+
++ Attributes
+    + productId: 1 (required, string) - SKU on the product repository
+    + index: 2 (required, number) - nth material
+    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (string) - serialized stream representing the image.
 
 ### Create Product Rendering Material [POST]
 
-+ Request (application/png)
++ Request (application/json)
+    + Attributes (Product Rendering Material)
 
 + Response 201
 
@@ -757,12 +764,14 @@ Check on Product repository schema**
             Location: /products/1/rendering/materials/1
 
 ### Read Product Rendering Material [GET]
+Retrieve the image (file stream).
 
 + Response 200 (application/png)
 
 ### Update Product Rendering Material [PUT]
 
-+ Request (application/png)
++ Request (application/json)
+    + Attributes (Product Rendering Material)
 
 + Response 200
 
@@ -770,19 +779,24 @@ Check on Product repository schema**
 
 + Response 204
 
-## Product Rendering Parts details [/products/{prSKU}/rendering/parts/{index}]
+## Product Rendering Part [/products/{productId}/rendering/parts/{index}]
 
 **TBD: the entire model for a rendering part is currently unknown.
-We assume a part to be an image.
-Check on Product repository schema**
+We assume a part to be an image.**
 
 + Parameters
-    + prSKU: 1 (required, string) - SKU on the product repository
+    + productId: 1 (required, string) - SKU on the product repository
     + index: 2 (required, number) - interact with the nth part
+
++ Attributes
+    + productId: 1 (required, string) - SKU on the product repository
+    + index: 2 (required, number) - nth material
+    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (string) - serialized stream representing the image
 
 ### Create Product Rendering Part [POST]
 
-+ Request (application/png)
++ Request (application/json)
+    + Attributes (Product Rendering Part)
 
 + Response 201
 
@@ -791,12 +805,14 @@ Check on Product repository schema**
             Location: /products/1/rendering/parts/1
 
 ### Read Product Rendering Part [GET]
+Retrieve the image (file stream).
 
 + Response 200 (application/png)
 
 ### Update Product Rendering Part [PUT]
 
-+ Request (application/png)
++ Request (application/json)
+    + Attributes (Product Rendering Part)
 
 + Response 200
 

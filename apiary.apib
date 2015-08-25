@@ -972,16 +972,16 @@ will also be "added" to the scene.
 + Response 204
 
 
-## Surfaces collections [/ar/scenes/{sceneID}/surfaces{?page}]
+## Surfaces collections [/ar/scenes/{sceneId}/surfaces{?page}]
 
 + Attributes
-    + count: 1 (number) - total number of surface
-    + surfaces (array[Surface]) - array of returned surfaces
+    + Include Collection
+    + surfaces (array[Surface]) - array of surfaces accessible by the user
 
 ### List Surfaces [GET]
 
 + Parameters
-    + sceneID: 5 (required, number) - ID scene
+    + sceneId: 5 (required, number) - ID scene
     + page: 1 (number) - The page of events to return
 
 + Response 200 (application/json)
@@ -992,7 +992,7 @@ will also be "added" to the scene.
 
     + Attributes (Surfaces collections)
 
-### Add a Surface to Scene [POST]
+### Create Surface [POST]
 
 + Request (application/json)
     + Attribute (Surface)
@@ -1003,31 +1003,31 @@ will also be "added" to the scene.
 
             Location: /ar/scenes/1/surfaces/1
 
-## Surface [/ar/scenes/{sceneID}/surfaces/{id}]
+## Surface [/ar/scenes/{sceneId}/surfaces/{id}]
 
 + Attributes
     + id: 1 (number) - ID of the surface
-    + sceneID: 1 (number) - ID of the scene owning the surface
-    + surfaceID (string)
-    + materialID (string)
+    + sceneId: 1 (number) - ID of the scene owning the surface
+    + surfaceId: 5 (string) - ID of the surface in the 3D viewer
+    + materialId: 3 (string)
 
 + Parameters
-    + sceneID: 5 (required, number) - ID scene
+    + sceneId: 5 (required, number) - ID scene
     + id: 1 (required, string) - ID of the surface
 
-### Read a Surface [GET]
+### Read Surface [GET]
 
 + Response 200 (application/json)
     + Attribute (Surface)
 
-### Update a Surface [PUT]
+### Update Surface [PUT]
 
 + Request (application/json)
     + Attribute (Surface)
 
 + Response 200
 
-### Delete a Surface [DELETE]
+### Delete Surface [DELETE]
 
 + Response 204
 
@@ -1038,9 +1038,6 @@ will also be "added" to the scene.
 ###############################
 
 API group used to handle users' contact requests.
-
-**TBD: the current model for the Contact Request is based off the DB schema.
-The meaning of some fields is unclear.**
 
 ## Contacts collections [/contacts{?userName}{?page}]
 

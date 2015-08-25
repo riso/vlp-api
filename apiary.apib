@@ -103,18 +103,18 @@ Create a user profile. `id`, if provided, is ignored.
     + address (string) - **TBD: what is this?**
     + city (string) - **TBD: what is this?**
     + addresses (array[Profile Address]) - array of user addresses
-    + type (enum[string]) - profile type **TBD: needed?**
+    + type: client (enum[string]) - profile type **TBD: needed?**
         + client (string) - registered user with email
         + lead (string) - unregistered user with email
         + anonymous (string) - unregistered user without email
 
-### Read Profile Details [GET]
+### Read Profile [GET]
 
 + Response 200 (application/json)
 
     + Attributes (Profile)
 
-### Edit Profile details [PUT]
+### Edit Profile [PUT]
 
 + Request (application/json)
 
@@ -125,6 +125,22 @@ Create a user profile. `id`, if provided, is ignored.
 ### Delete Profile [DELETE]
 
 + Response 204
+
+## User personal profile [/profiles/my]
+
+Used to retrieve user personal details. Depending on whether the user is logged in or not,
+data will be retrieved from DB or local cache.
+
+**TBD: needed? theoretically we could list profiles, which for normal users
+would return only the user's personal profile. Is this true? maybe we want
+other normal users to list other users. Moreover 'admin' users will be able to
+list all users, what about them? Maybe this is needed after all.**
+
+### Read Profile [GET]
+
++ Response 200 (application/json)
+  + Attributes (Profile)
+
 
 ## Profile Addresses collections [/profiles/{userId}/addresses{?page}]
 
@@ -183,13 +199,13 @@ Create a user profile. `id`, if provided, is ignored.
     + lastName (string) - **TBD: why?**
     + email (string) - **TBD: why?**
 
-### Read Profile Address details [GET]
+### Read Profile Address [GET]
 
 + Response 200 (application/json)
 
     + Attributes (Profile Address)
 
-### Update Profile Address details [PUT]
+### Update Profile Address [PUT]
 
 + Request (application/json)
 
@@ -201,41 +217,11 @@ Create a user profile. `id`, if provided, is ignored.
 
 + Response 204
 
-## User personal profile [/profiles/my]
-
-Used to retrieve user personal details. Depending on whether the user is logged in or not,
-data will be retrieved from DB or local cache.
-
-### Read Profile Details [GET]
-
-+ Response 200 (application/json)
-
-        {
-            "userName": "vponte",
-            "mail": "v.ponte@wintech.it",
-            "firstName": "Valerio",
-            "lastName": "Ponte",
-            "imageURL": "https://www.vlp.com/logo.png",
-            "area": "Milano",
-            "postalAddress": {
-                "street": "piazza Dergano 9",
-                "cap": 20158,
-                "city": "Milan",
-                "country": "Italy"
-            },
-            "billingAddress": {
-                "street": "piazza Dergano 9",
-                "cap": 20158,
-                "city": "Milan",
-                "country": "Italy"
-            }
-        }
 
 
-
-################################
-# Group IS15 – Selected products
-################################
+#########################
+# Group IS15 – Selections
+#########################
 
 Resources related to user's selected products.
 An user can list its selected products, create a selection for his session and then edit it.
@@ -244,20 +230,12 @@ An user can list its selected products, create a selection for his session and t
 at a given time. If another product of the same category is selected, it will replace
 the currently selected product.
 
-## Selected products collections [/selections/my]
+## Selections collections [/selections/my]
 
 The following methods allow the user to interact with selected products.
 
-A selected product is made of:
-
-+ sku (string) - the product commerce SKU for which the quote is being prepared
-+ attributes (object[string, string]) - a list of attributes selected on the product.
-  An attribute is represented as a key/value pair.
-+ alternate_products (array[string]) - a list of alternative products (recommended
-  by commerce). Each string is a commerce SKU.
-+ alternate_selections (array) - a list of alternativce products selected by the user
-  to be seen in the augmented reality. **TBD: still neded?**
-+ type (enum[string]) - type of the selection (e.g. serramenti)
++ Attributes
+    + selections (array[Selection]) - selections perfomed by the user
 
 ### List Selections [GET]
 
@@ -265,39 +243,7 @@ This action retrieves the list of selected products.
 
 + Response 200 (application/json)
 
-    + Body
-
-            {
-                "selections": [
-                    {
-                        "sku": "1",
-                        "attributes": {
-                            "color": "black",
-                            "isolation": "high",
-                            "material": "wood",
-                            "attribute4": "value4",
-                            "attribute5": "value5"
-                        },
-                        "alternate_products": ["2", "3"],
-                        "alternate_selections": ["3", "4"],
-                        "type": "serramenti"
-                    },
-                    {
-                        "sku": "2",
-                        "attributes": {
-                            "color": "black",
-                            "isolation": "high",
-                            "material": "wood",
-                            "attribute4": "value4",
-                            "attribute5": "value5"
-                        },
-                        "alternate_products": ["2", "3"],
-                        "alternate_selections": ["3", "4"],
-                        "type": "pavimenti"
-                    }
-                ]
-            }
-
+    + Attributes (Selections collections)
 
 ### Create Selection [POST]
 
@@ -308,19 +254,7 @@ It will replace his current selection if he already has one in the same category
 
 + Request (application/json)
 
-        {
-            "sku": "1",
-            "attributes": {
-                "color": "black",
-                "isolation": "high",
-                "material": "wood",
-                "attribute4": "value4",
-                "attribute5": "value5"
-            },
-            "alternate_products": ["2", "3"],
-            "alternate_selections": ["3", "4"],
-            "type": "serramenti"
-        }
+  + Attributes (Selection)
 
 + Response 201
 
@@ -328,7 +262,7 @@ It will replace his current selection if he already has one in the same category
 
             Location: /selections/my/serramenti
 
-## Selected product details [/selections/my/{type}]
+## Selection [/selections/my/{type}]
 
 These actions operate on the selection of the required `type`.
 
@@ -340,39 +274,44 @@ These actions operate on the selection of the required `type`.
             + `pavimenti`
             + `**TBD**`
 
-### Read Selection details [GET]
++ Attributes
+    + sku: 1 (string) - the product commerce SKU for which the quote is being prepared
+    + attributes: `{"color": "black", "isolation": "high"}` (object) - an object of attributes selected on the product. An attribute is represented as a key/value pair.
+
+        + Properties
+            + color: black
+            + isolation: high
+            + material: wood
+            + attribute4: value4
+
+    + alternate_products: `["2", "3"]` (array) - an array of alternative products (recommended by commerce). Each string is a commerce SKU.
+
+        + Items
+            + 2
+            + 3
+
+    + alternate_selections: `["3", "4"]` (array) - an array of alternative products selected by the user to be seen in the augmented reality. **TBD: still neded?**
+
+        + Items
+            + 3
+            + 4
+
+    + type: serramenti (enum) - type of the selection
+        + serramenti
+        + pavimenti
+        + TBD
+
+### Read Selection [GET]
 
 + Response 200 (application/json)
 
-        {
-            "sku": "1",
-            "attributes": {
-                "color": "black",
-                "isolation": "high",
-                "material": "wood",
-                "attribute4": "value4",
-                "attribute5": "value5"
-            },
-            "alternate_products": ["2", "3"],
-            "alternate_selections": ["3", "4"]
-        }
+    + Attributes (Selection)
 
-### Edit Selection [PUT]
+### Update Selection [PUT]
 
 + Request (application/json)
 
-        {
-            "sku": "1",
-            "attributes": {
-                "color": "black",
-                "isolation": "high",
-                "material": "wood",
-                "attribute4": "value4",
-                "attribute5": "value5"
-            },
-            "alternate_products": ["2", "3"],
-            "alternate_selections": ["3", "4"]
-        }
+    + Attributes (Selection)
 
 + Response 200
 

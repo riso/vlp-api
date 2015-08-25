@@ -47,7 +47,11 @@ include this one in their collection endpoints.
 + Attributes
   + count: 1 (number) - total number of resources that can be accessed by the user
 
+
+
+#######################
 # Group IS01 - Profiles
+#######################
 
 Resources related to user's profile in the API.
 
@@ -121,10 +125,6 @@ Create a user profile. `id`, if provided, is ignored.
 ### Delete Profile [DELETE]
 
 + Response 204
-
-# IS01 - Profile Addresses
-
-Sub-resource of Profile, used to interact with its addresses.
 
 ## Profile Addresses collections [/profiles/{userId}/addresses{?page}]
 
@@ -231,7 +231,11 @@ data will be retrieved from DB or local cache.
             }
         }
 
+
+
+################################
 # Group IS15 – Selected products
+################################
 
 Resources related to user's selected products.
 An user can list its selected products, create a selection for his session and then edit it.
@@ -376,7 +380,11 @@ These actions operate on the selection of the required `type`.
 
 + Response 204
 
+
+
+########################
 # Group IS03 - Documents
+########################
 
 Resources related to user's documents in the API.
 An user can list its previous documents, create a document and then edit it.
@@ -560,7 +568,11 @@ This actions allow adding a new file to an existing document.
 
 + Response 204
 
+
+
+#####################
 # Group IS12 - Events
+#####################
 
 ## Events collections [/events{?userName}{?page}{?type}]
 
@@ -636,7 +648,11 @@ and/or `type` and sliced.
 
 + Response 204
 
+
+
+#######################
 # Group IS17 - Products
+#######################
 
 API group used to handle products.
 
@@ -669,7 +685,11 @@ retrieve images and renderings.
 + Response 200 (application/json)
     + Attributes (Products collections)
 
+
+
+#############################
 # Group IS02 - Product Images
+#############################
 
 **Note**: Probably this group would be better managed as a sub-resource of a product resource.
 Since we have no API for products right now,
@@ -735,7 +755,11 @@ we simply refer to this defining images as a sub-path of products.
 
 + Response 204
 
+
+
+#################################
 # Group IS08 - Product Renderings
+#################################
 
 **Note**: Probably this group would be better managed as a sub-resource of a product resource.
 Since we have no API for products right now,
@@ -855,7 +879,11 @@ Check on Product repository schema**
 
 + Response 204
 
+
+
+#################
 # Group IS09 - 3D
+#################
 
 API group used to handle objects managed by the augmented reality 3D viewer.
 
@@ -1119,7 +1147,11 @@ The meaning of some fields is unclear.**
 
 + Response 204
 
+
+
+###############################
 # Group IS07 - Contact Requests
+###############################
 
 API group used to handle users' contact requests.
 
@@ -1197,7 +1229,11 @@ The meaning of some fields is unclear.**
 
 + Response 204
 
+
+
+##########################
 # Group IS16 - Persistence
+##########################
 
 ## Persist anonymous user data [/persist]
 

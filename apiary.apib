@@ -330,37 +330,53 @@ An user can list its previous documents, create a document and then edit it.
 
 Document acts as a "super-class" for quotes and orders.
 
+## Basic Document [/documents/dummy]
+
+**Note: This is not displayed anywhere in the published docs**
+
+This represent the basic structure of a document, shared both by collections and
+details actions.
+
++ Attributes
+    + id: 1 (number)
+    + type: order (required, enum) - type of the document
+        + Members
+            + order
+            + quote
+
+    + userId: 1 (number) - user owning the document
+    + formats: `["xml", "pdf"]` (array) - list of available file formats
+        + Items
+            + xml
+            + pdf
+    + status (enum[string]) - current status of the document
+        + Members
+            + proposal
+            + confirmed
+            + editable - if the document can be still modified or has been frozen
+
+    + valid (string) - **TBD: what is this?**
+    + documentReference: 3 (string) - reference to another Document (e.g. quote from which an order originated)
+    + documentCode: 1 (string) - fpDealerID in case of document of type `quote`
+
+
 ## Documents collections [/documents{?userName}{?page}{?type}]
 
 The following methods allow the user to interact with documents.
 
 + Attributes
-    + Include VLP
-    + type: order (required, enum[string]) - type of the document
-        + Members
-            + `order`
-            + `quote`
-    + userId: vponte (optional, string) - user owning the document
-    + formats: `["xml", "pdf"]` (optional, array) - list of available file formats
-    + status (optional, enum[string]) - current status of the document
-        + Members
-            + `proposal`
-            + `confirmed`
-            + `editable` - if the document can be still modified or has been frozen
-    + valid (optional, string)
-    + documentReference (optional, string) - reference to another Document (e.g. quote from which an order originated)
-    + documentCode (optional, string) - fpDealerID in case of document of type `quote`
+    + Include Collection
+    + documents: (array[Basic Document]) - array of documents accessible by the user
 
 ### List Documents [GET]
 
-This action retrieves the list of past documents,
-possibly sliced and filtered only for the specified `userName` and/or `type`.
+This action retrieves the list of documents accessible by the user,
+possibly sliced and filtered only for the specified `userId` and/or `type`.
 
 + Parameters
-    + userName: vponte (optional, string) - Filter documents created by the specified `userName`
-      i.e. that have `fpDealerId` set
-    + page: 1 (optional, number) - The page of documents to return
-    + type: quote (optional, enum[string]) - Type of document that is required
+    + userId: 1 (number) - Filter documents created by the specified `userId`
+    + page: 1 (number) - The page of documents to return
+    + type: quote (enum[string]) - Filter only specified type of document
         + Members
             + `quote`
             + `order`
@@ -372,33 +388,9 @@ possibly sliced and filtered only for the specified `userName` and/or `type`.
 
             Link: </documents?page=2>; rel="next"
 
-    + Body
+    + Attributes (Documents collections)
 
-            {
-                "count": 3,
-                "documents": [
-                    {
-                        "id": "1",
-                        "type": "quote",
-                        "documentCode": "1",
-                        "userId": "vponte"
-                    },
-                    {
-                        "id": "2",
-                        "type": "quote",
-                        "documentCode": "2",
-                        "userId": "vponte"
-                    },
-                    {
-                        "id": "3",
-                        "type": "quote",
-                        "documentCode": "3",
-                        "userId": "vponte"
-                    }
-                ]
-            }
-
-### Create a Document [POST]
+### Create Document [POST]
 
 This method allows the user to create a new document.
 
@@ -407,16 +399,8 @@ If no `userId` is given, it is assumed that the document is created for the curr
 **Note**: the returned `Location` header points to the created document ID,
 not the given FP Dealer ID.
 
-+ Attributes (Documents collections)
-
 + Request (application/json)
-
-        {
-            "type": "quote",
-            "documentCode": "1",
-            "userId": "vponte",
-            "files": {"pdf": "a2F3YWlpIGRvY3VtZW50Cg=="}
-        }
+    + Attributes (Document)
 
 + Response 201
 
@@ -424,42 +408,36 @@ not the given FP Dealer ID.
 
             Location: /documents/2
 
-## Documents details [/documents/{id}]
+## Document [/documents/{id}]
 
 + Parameters
     + id: 1 (required, string) - ID of the document
 
-### Read Document details [GET]
++ Attributes
+  + Include Basic Document
+  + status_hist (object) - past statuses of the document
+      + Properties
+         + *20150501*: proposal
+         + *20150508*: confirmed
 
-See the details of a given document. This returns the single document istances with its
-historic statuses.
+### Read Document [GET]
 
-+ Attributes (Documents collections)
-    + status_hist (required, object) - past statuses of the document
+See the details of a given document. This returns the single document
+istances with its historic statuses.
 
 + Response 200 (application/json)
 
-        {
-            "type": "quote",
-            "documentCode": "1",
-            "status_hist": {
-                "2015-05-01": "proposal",
-                "2015-05-07": "confirmed"
-            }
-        }
-### Edit Document details [PUT]
+    + Attributes (Document)
+
+### Update Document [PUT]
 
 This action allows the user to change an existing document.
 
-**Note**: When the current status of a document is changed, its historic status will have to be
-recorded.
+**Note**: When the current status of a document is changed, its historic
+statuses will have to be recorded.
 
 + Request (application/json)
-
-        {
-            "type": "quote",
-            "documentCode": "1"
-        }
+    + Attributes (Document)
 
 + Response 200
 
@@ -468,20 +446,20 @@ recorded.
 + Response 204
 
 
-## Document files [/documents/{id}/{format}]
+## Document File [/documents/{id}/{format}]
 
-API route for interacting with documents' filtes.
+API route for interacting with documents' files.
 
 Create and update actions expect the file stream as input.
 
-**Note**: when the available files change (CD actions) also the available `formats` field on the document
-will get updated.
+**Note**: when the available files change (CD actions) also the available
+`formats` field on the document will get updated.
 
 + Parameters
     + id: 1 (required, string) - id of the document
     + format: pdf (required, string) - format of the file with which we're interacting
 
-### Add file to document [POST]
+### Create Document File [POST]
 
 This actions allow adding a new file to an existing document.
 
@@ -493,17 +471,17 @@ This actions allow adding a new file to an existing document.
 
             Location: /documents/2/pdf
 
-### Download Document file [GET]
+### Read Document File [GET]
 
 + Response 200 (application/stream)
 
-### Update Document file [PUT]
+### Update Document File [PUT]
 
 + Request (application/pdf)
 
 + Response 200
 
-### Delete Document file [DELETE]
+### Delete Document File [DELETE]
 
 + Response 204
 

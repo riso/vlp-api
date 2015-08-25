@@ -1039,47 +1039,25 @@ will also be "added" to the scene.
 
 API group used to handle users' contact requests.
 
-## Contacts collections [/contacts{?userName}{?page}]
+## Contacts collections [/contacts{?userId}{?page}]
 
 + Attributes
-    + id: 1 (string)
-    + userId: vponte (string)
-    + description: `Hi, please contact me` (string)
-    + reason (enum)
-    + date: `2015-05-01` (string)
-    + timestamp: 123451325 (number)
-    + time_zone (string) - user range availabilty
-    + note: `Hi, please contact me` (string)
+  + Include Collection
+  + contacts (array[Contact]) - array of contact requests accessible by the user
 
 ### List Contacts [GET]
 
 + Parameters
-    + userName: vponte (optional, string) - filter contact requests for the specified user
+    + userId: 1 (optional, string) - filter contact requests for the specified user
     + page: 1 (optional, number) - slice contact requests
 
 + Response 200 (application/json)
-
-        {
-            "count": 1,
-            "requests": [
-                {
-                    "id": "1",
-                    "userId": "vponte",
-                    "reason": "Unknown",
-                    "note": "Hi, please contact me"
-                }
-            ]
-        }
+    + Attributes (Contacts collections)
 
 ### Create Contact [POST]
 
 + Request (application/json)
-
-        {
-            "userId": "vponte",
-            "reason": "Unknown",
-            "note": "Hi, please contact me"
-        }
+    + Attributes (Contact)
 
 + Response 201
 
@@ -1087,22 +1065,30 @@ API group used to handle users' contact requests.
 
             Location: /contacts/1
 
-## Contacts details [/contacts/{id}]
+## Contact [/contacts/{id}]
 
 + Parameters
     + id: 1 (required, string) - ID of the contact request with which interact
 
++ Attributes
+    + id: 1 (number)
+    + userId: 1 (number) - ID of the user associated with the contact request
+    + description: `Hi, please contact me` (string)
+    + reason (enum)
+    + date: `2015-05-01` (string)
+    + timestamp: 123451325 (number)
+    + timeZone (string) - user range availabilty
+    + note: `Hi, please contact me` (string)
+
 ### Read Contact [GET]
 
 + Response 200 (application/json)
-
-    + Attributes (Contacts collections)
+    + Attributes (Contact)
 
 ### Update Contact [PUT]
 
 + Request (application/json)
-
-    + Attributes (Contacts collections)
+    + Attributes (Contact)
 
 + Response 200
 

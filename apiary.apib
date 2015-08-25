@@ -494,22 +494,22 @@ This actions allow adding a new file to an existing document.
 ## Events collections [/events{?userName}{?page}{?type}]
 
 + Attributes
-    + count: 1 (number) - total number of events
+    + Include Collection
     + events (array[Event]) - array of returned events
 
 ### List Events [GET]
 
-Retrive content (e.g. stories, products) events, possibly filtered by `userName`
+Retrive content (e.g. stories, products) events, possibly filtered by `userId`
 and/or `type` and sliced.
 
 + Parameters
-    + userName: vponte (optional, string) - Filter events created by the specified userName
-    + type: vote (optional, enum[string]) - Filter only specified type of event
+    + userId: 1 (number) - Filter events created by the specified user
+    + type: vote (enum[string]) - Filter only specified type of event
         + Members
-            + `view` - content visualization
-            + `vote` - content up or down vote
-            + `desire` - content desired
-    + page: 1 (optional, number) - The page of events to return
+            + view - content visualization
+            + vote - content up or down vote
+            + desire - content desired
+    + page: 1 (number) - The page of events to return
 
 + Response 200 (application/json)
 
@@ -535,16 +535,15 @@ and/or `type` and sliced.
 + Attributes
     + id: 1 (string) - ID of the event
     + contentId: 1 (string) - ID of the content for which the event is being recorded
-    + type: `vote` (enum) - type of event
-        - view
-        - vote
-        - desire
-    + value: `-1` (number) - value of the event (only valid for event of type `vote`)
+    + type: vote (enum) - type of event
+        + view
+        + vote
+        + desire
+    + value: -1 (number) - value of the event (only valid for event of type `vote`)
     + title: `Storia 1` (string)
     + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (string)
     + image_URL: `https://www.vlp.com/logo.png` (string)
-    + contentType: `vote` (enum) - type of the content (`view`, `vote`, `desire`) for which the event is being recorded
-    + timestamp: `546757636535` (number) - date of the event
+    + timestamp: 546757636535 (number) - date of the event (**TBD: format?**)
 
 + Parameters
     + id: 1 (required, string) - ID of the event
@@ -555,6 +554,11 @@ and/or `type` and sliced.
     + Attributes (Event)
 
 ### Update Event [PUT]
+
+Updating an "event" is a weird idea. Yet it makes sense when an event is
+intended as a user action (e.g. like/dislike). For instance, a user can first
+like a content (creating an event on the specified content) and then dislike it,
+updating his previous event.
 
 + Request (application/json)
     + Attributes (Event)

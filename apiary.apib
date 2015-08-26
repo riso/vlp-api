@@ -5,26 +5,15 @@ HOST: https://webapps.vlp.com/
 
 Service Oriented Architecture specified for the VLP project.
 
-# VLP [/{?backends}]
+# VLP [/]
 
 This resource does not have any attributes. Instead it offers the initial
 API affordances in the form of the links in the JSON body.
-
-It is recommend to follow the “url” link values,
-[Link](https://tools.ietf.org/html/rfc5988) or Location headers where
-applicable to retrieve resources. Instead of constructing your own URLs,
-to keep your client decoupled from implementation details.
 
 Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according to
 [Java SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html).
 
 **TBD: time zone?**
-
-+ Parameters
-    + backends: ["cache", "db"] (required, array) from which backends the resource is coming from. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
-
-+ Attributes
-    + backends: `["cache", "db"]` (required, array[string]) - to which backends the resource is being saved to. Possible values are (`cache`, `db`, `ldap`, `connections`, `commerce`)
 
 ## Retrieve the Entry Point [GET]
 
@@ -75,7 +64,7 @@ Create a user profile.
 
 
 + Request (application/json)
-    + Attributes (Profile Base)
+    + Attributes (Profile Create)
 
 + Response 201
 
@@ -97,11 +86,11 @@ Create a user profile.
 
     + Attributes (Profile)
 
-### Edit Profile [PUT]
+### Update Profile [PUT]
 
 + Request (application/json)
 
-    + Attributes (Profile)
+    + Attributes (Profile Update)
 
 + Response 200
 
@@ -142,7 +131,7 @@ Used to retrieve user personal details.
 ### Create Profile Address [POST]
 
   + Request (application/json)
-      + Attribute (Profile Address Base)
+      + Attribute (Profile Address Create)
 
   + Response 201
 
@@ -169,7 +158,7 @@ Used to retrieve user personal details.
 
 + Request (application/json)
 
-    + Attributes (Profile Address)
+    + Attributes (Profile Address Update)
 
 + Response 200
 
@@ -218,13 +207,13 @@ It will replace his current selection if he already has one in the same category
 
 + Request (application/json)
 
-  + Attributes (Selection)
+  + Attributes (Selection Write)
 
 + Response 201
 
     + Headers
 
-            Location: /selections/my/serramenti
+            Location: /selections/{userId}/serramenti
 
 ## Selection [/selections/{userId}/{type}]
 
@@ -276,7 +265,7 @@ These actions operate on the selection of the required `type`.
 
 + Request (application/json)
 
-    + Attributes (Selection)
+    + Attributes (Selection Write)
 
 + Response 200
 
@@ -312,8 +301,8 @@ possibly sliced and filtered only for the specified `userId` and/or `type`.
     + page: 1 (optional, number) - The page of documents to return.
     + type: quote (optional, enum[string]) - Filter only specified type of document.
         + Members
-            + `quote`
-            + `order`
+            + quote
+            + order
 
 
 + Response 200 (application/json)
@@ -334,7 +323,7 @@ If no `userId` is given, it is assumed that the document is created for the curr
 not the given FP Dealer ID.
 
 + Request (application/json)
-    + Attributes (Document Base)
+    + Attributes (Document Create)
 
 + Response 201
 
@@ -347,6 +336,9 @@ not the given FP Dealer ID.
 + Parameters
     + id: 1 (required, string) - ID of the document
 
++ Attributes (Document Base)
+    + id: 1 (required, number) - ID of the document
+
 ### Read Document [GET]
 
 See the details of a given document. This returns the single document
@@ -354,7 +346,7 @@ istances with its historic statuses.
 
 + Response 200 (application/json)
 
-    + Attributes (Document Detail)
+    + Attributes (Document Read)
 
 ### Update Document [PUT]
 
@@ -365,7 +357,7 @@ statuses will have to be recorded. Manual changes on historic statuses are not
 supported.
 
 + Request (application/json)
-    + Attributes (Document)
+    + Attributes (Document Update)
 
 + Response 200
 
@@ -380,7 +372,7 @@ supported.
 This actions allow adding a new file to an existing document.
 
 + Request (application/json)
-    + Attributes (Document File Base)
+    + Attributes (Document File Create)
 
 + Response 201
 
@@ -412,7 +404,7 @@ Retrieve the document (file stream).
 ### Update Document File [PUT]
 
 + Request (application/json)
-    + Attributes (Document File)
+    + Attributes (Document File Update)
 
 + Response 200
 
@@ -456,7 +448,7 @@ and/or `type` and sliced.
 ### Create Event [POST]
 
 + Request (application/json)
-    + Attribute (Event Base)
+    + Attribute (Event Create)
 
 + Response 201
 
@@ -485,7 +477,7 @@ like a content (creating an event on the specified content) and then dislike it,
 updating his previous event.
 
 + Request (application/json)
-    + Attributes (Event)
+    + Attributes (Event Update)
 
 + Response 200
 
@@ -550,7 +542,7 @@ with its images.
 
 + Request (application/json)
 
-    + Attributes (Product Image)
+    + Attributes (Product Image Write)
 
 + Response 201
 
@@ -590,7 +582,7 @@ Retrieve the image (file stream).
 ### Update Product Image [PUT]
 
 + Request (application/json)
-    + Attributes(Product Image)
+    + Attributes(Product Image Write)
 
 + Response 200
 
@@ -632,7 +624,7 @@ something similar to Object table in Scenes repository.**
 ### Create Product Rendering [POST]
 
 + Request (application/json)
-    + Attributes (Product Rendering)
+    + Attributes (Product Rendering Write)
 
 + Response 201
 
@@ -648,7 +640,7 @@ something similar to Object table in Scenes repository.**
 ### Update Product Rendering [PUT]
 
 + Request (application/json)
-    + Attributes (Product Rendering)
+    + Attributes (Product Rendering Write)
 
 + Response 200
 
@@ -665,15 +657,12 @@ We assume a material to be an image.**
     + productId: 1 (string) - SKU on the product repository
     + index: 2 (number) - nth material
 
-+ Attributes
-    + productId: 1 (required, string) - SKU on the product repository
-    + index: 2 (required, number) - nth material
-    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
++ Attributes (Product Rendering Detail)
 
 ### Create Product Rendering Material [POST]
 
 + Request (application/json)
-    + Attributes (Product Rendering Material)
+    + Attributes (Product Rendering Detail Write)
 
 + Response 201
 
@@ -689,7 +678,7 @@ Retrieve the image (file stream).
 ### Update Product Rendering Material [PUT]
 
 + Request (application/json)
-    + Attributes (Product Rendering Material)
+    + Attributes (Product Rendering Detail Write)
 
 + Response 200
 
@@ -706,15 +695,12 @@ We assume a part to be an image.**
     + productId: 1 (string) - SKU on the product repository
     + index: 2 (number) - interact with the nth part
 
-+ Attributes
-    + productId: 1 (required, string) - SKU on the product repository
-    + index: 2 (required, number) - nth material
-    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image
++ Attributes (Product Rendering Detail)
 
 ### Create Product Rendering Part [POST]
 
 + Request (application/json)
-    + Attributes (Product Rendering Part)
+    + Attributes (Product Rendering Detail Write)
 
 + Response 201
 
@@ -730,7 +716,7 @@ Retrieve the image (file stream).
 ### Update Product Rendering Part [PUT]
 
 + Request (application/json)
-    + Attributes (Product Rendering Part)
+    + Attributes (Product Rendering Detail Write)
 
 + Response 200
 
@@ -770,7 +756,7 @@ The main resources managed are:
 ### Create Scene [POST]
 
 + Request (application/json)
-    + Attributes (Scene Base)
+    + Attributes (Scene Create)
 
 + Response 201
 
@@ -796,7 +782,7 @@ The main resources managed are:
 
 + Request (application/json)
 
-    + Attributes (Scene)
+    + Attributes (Scene Update)
 
 + Response 200
 
@@ -826,7 +812,7 @@ Create a new Object. If `sceneId` is specified, it is implied that the object
 will also be "added" to the scene.
 
 + Request (application/json)
-    + Attributes (Object Base)
+    + Attributes (Object Create)
 
 + Response 201
 
@@ -853,7 +839,7 @@ will also be "added" to the scene.
 
 + Request (application/json)
 
-    + Attributes (Object)
+    + Attributes (Object Update)
 
 + Response 200
 
@@ -884,7 +870,7 @@ will also be "added" to the scene.
 ### Create Surface [POST]
 
 + Request (application/json)
-    + Attribute (Surface Base)
+    + Attribute (Surface Create)
 
 + Response 201
 
@@ -909,7 +895,7 @@ will also be "added" to the scene.
 ### Update Surface [PUT]
 
 + Request (application/json)
-    + Attribute (Surface)
+    + Attribute (Surface Update)
 
 + Response 200
 
@@ -942,7 +928,7 @@ API group used to handle users' contact requests.
 ### Create Contact [POST]
 
 + Request (application/json)
-    + Attributes (Contact Base)
+    + Attributes (Contact Create)
 
 + Response 201
 
@@ -966,7 +952,7 @@ API group used to handle users' contact requests.
 ### Update Contact [PUT]
 
 + Request (application/json)
-    + Attributes (Contact)
+    + Attributes (Contact Update)
 
 + Response 200
 
@@ -982,9 +968,17 @@ API group used to handle users' contact requests.
 # Data Structures
 
 
+## Write Base (object)
++ backends: `{"cache": true, "db": true}` (required, object) - to which backends the resource is being saved to.
+    + Properties
+        + cache: true (boolean)
+        + db: true (boolean)
+        + ldap (boolean)
+        + connections (boolean)
+        + commerce (boolean)
+
 ## Collection (object)
 + count: 1 (number) - total number of resources that can be accessed by the user
-
 
 ## Profile Base (object)
 + consultantId: 1 (number) - ID of the consultant associated with this user
@@ -997,11 +991,17 @@ API group used to handle users' contact requests.
 + area: Milano (string) - position shared by the user
 + address (string) - **TBD: what is this?**
 + city (string) - **TBD: what is this?**
-+ addresses (array[Profile Address]) - array of user addresses
 + type: client (enum[string]) - profile type **TBD: needed?**
     + client (string) - registered user with email
     + lead (string) - unregistered user with email
     + anonymous (string) - unregistered user without email
+
+## Profile Create (Profile Base)
++ Include Write Base
+
+## Profile Update (Profile)
++ Include Write Base
+
 
 ## Profile Address Base (object)
 + userId: 1 (required, number) - ID of the user owning this address
@@ -1021,6 +1021,16 @@ API group used to handle users' contact requests.
 + firstName (string) - **TBD: why?**
 + lastName (string) - **TBD: why?**
 + email (string) - **TBD: why?**
+
+## Profile Address Create (Profile Address Base)
++ Include Write Base
+
+## Profile Address Update (Profile Address)
++ Include Write Base
+
+
+## Selection Write (Selection)
++ Include Write Base
 
 
 ## Document Base (object)
@@ -1043,20 +1053,27 @@ API group used to handle users' contact requests.
 + documentReference: 3 (string) - reference to another Document (e.g. quote from which an order originated)
 + documentCode: 1 (string) - fpDealerID in case of document of type `quote`
 
-## Document (object)
-+ id: 1 (required, number)
-+ Include Document Base
+## Document Create (Document Base)
++ Include Write Base
 
-## Document Detail (object)
-+ Include Document
+## Document Read (Document)
 + status_hist (required, object) - past statuses of the document
     + Properties
        + *20150501*: proposal
        + *20150508*: confirmed
 
+## Document Update (Document)
++ Include Write Base
+
 ## Document File Base (object)
 + format: pdf (required, string) - format of the file with which we're interacting
 + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the file.
+
+## Document File Create (Document File Base)
++ Include Write Base
+
+## Document File Update (Document File)
++ Include Write Base
 
 
 ## Event Base (object)
@@ -1071,6 +1088,28 @@ API group used to handle users' contact requests.
 + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
 + image_URL: `https://www.vlp.com/logo.png` (required, string)
 + timestamp: 546757636535 (number) - date of the event (**TBD: format?**)
+
+## Event Create (Event Base)
++ Include Write Base
+
+## Event Update (Event)
++ Include Write Base
+
+
+## Product Image Write (Product Image)
++ Include Write Base
+
+
+## Product Rendering Write (Product Rendering)
++ Include Write Base
+
+## Product Rendering Detail (object)
++ productId: 1 (required, string) - SKU on the product repository.
++ index: 2 (required, number) - nth detail (material or part).
++ file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
+
+## Product Rendering Detail Write (Product Rendering Detail)
++ Include Write Base
 
 
 ## Scene Base (object)
@@ -1089,6 +1128,12 @@ API group used to handle users' contact requests.
 + season (string)
 + sound (string) - **TBD: URL to a sound file?**
 
+## Scene Create (Scene Base)
++ Include Write Base
+
+## Scene Update (Scene)
++ Include Write Base
+
 ## Object Base (object)
 + sceneId (string) - ID of the associated scene, if present
 + objectId: 6 (string) - **TBD: required?**
@@ -1103,10 +1148,22 @@ API group used to handle users' contact requests.
 + rz: 50.6 (number) - rotation of the object on Z axis
 + s: 3 (number) - object scaling
 
+## Object Create (Object Base)
++ Include Write Base
+
+## Object Update (Object)
++ Include Write Base
+
 ## Surface Base (object)
 + sceneId: 1 (required, number) - ID of the scene owning the surface
 + surfaceId: 5 (string) - ID of the surface in the 3D viewer. **TBD: required?**
 + materialId: 3 (string)
+
+## Surface Create (Surface Base)
++ Include Write Base
+
+## Surface Update (Surface)
++ Include Write Base
 
 
 ## Contact Base (object)
@@ -1117,3 +1174,9 @@ API group used to handle users' contact requests.
 + timestamp: 123451325 (number)
 + timeZone (string) - user range availabilty
 + note: `Hi, please contact me` (string)
+
+## Contact Create (Contact Base)
++ Include Write Base
+
+## Contact Update (Contact)
++ Include Write Base

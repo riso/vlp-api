@@ -132,13 +132,7 @@ Create a user profile. `id`, if provided, is ignored.
 
 ## User personal profile [/profiles/my]
 
-Used to retrieve user personal details. Depending on whether the user is logged in or not,
-data will be retrieved from DB or local cache.
-
-**TBD: needed? theoretically we could list profiles, which for normal users
-would return only the user's personal profile. Is this true? maybe we want
-other normal users to list other users. Moreover 'admin' users will be able to
-list all users, what about them? Maybe this is needed after all.**
+Used to retrieve user personal details.
 
 ### Read Profile [GET]
 
@@ -234,11 +228,15 @@ An user can list its selected products, create a selection for his session and t
 at a given time. If another product of the same category is selected, it will replace
 the currently selected product.
 
-## Selections collections [/selections/my]
+## Selections collections [/selections/{userId}]
 
 The following methods allow the user to interact with selected products.
 
++ Parameters
+    + userId: 1 (number) - ID of the user owning the selections
+
 + Attributes
+    + userId: 1 (number) - ID of the user owning the selections
     + selections (array[Selection]) - selections perfomed by the user
 
 ### List Selections [GET]
@@ -266,11 +264,12 @@ It will replace his current selection if he already has one in the same category
 
             Location: /selections/my/serramenti
 
-## Selection [/selections/my/{type}]
+## Selection [/selections/{userId}/{type}]
 
 These actions operate on the selection of the required `type`.
 
 + Parameters
+    + userId: 1 (number) - ID of the user owning the selections
     + type: serramenti (required, enum[string]) - type of selection to operate on
 
         + Members
@@ -279,6 +278,10 @@ These actions operate on the selection of the required `type`.
             + `**TBD**`
 
 + Attributes
+    + type: serramenti (enum) - type of the selection
+        + serramenti
+        + pavimenti
+        + TBD
     + sku: 1 (string) - the product commerce SKU for which the quote is being prepared
     + attributes: `{"color": "black", "isolation": "high"}` (object) - an object of attributes selected on the product. An attribute is represented as a key/value pair.
 
@@ -300,10 +303,6 @@ These actions operate on the selection of the required `type`.
             + 3
             + 4
 
-    + type: serramenti (enum) - type of the selection
-        + serramenti
-        + pavimenti
-        + TBD
 
 ### Read Selection [GET]
 
@@ -343,6 +342,7 @@ details actions.
 
 + Attributes
     + id: 1 (number)
+    + userId: 1 (number) - ID of the user owning the document
     + type: order (required, enum) - type of the document
         + Members
             + order
@@ -546,7 +546,8 @@ and/or `type` and sliced.
 ## Event [/events/{id}]
 
 + Attributes
-    + id: 1 (string) - ID of the event
+    + id: 1 (number) - ID of the event
+    + userId: 1 (number) - ID of the user associated with the event
     + contentId: 1 (required, string) - ID of the content for which the event is being recorded
     + type: vote (required, enum) - type of event
         + view
@@ -870,7 +871,7 @@ The main resources managed are:
 + Attributes
     + id: 1 (string) - ID of the scene.
     + description: `Scene description` (required, string)
-    + userId: 1 (number)
+    + userId: 1 (number) - ID of the user owning the scene. May be null for default scenes.
     + height: 10.57 (number)
     + width: 60.24 (number)
     + length: 14.2 (number)

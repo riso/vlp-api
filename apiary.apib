@@ -156,7 +156,7 @@ Used to retrieve user personal details.
 
 ### Update Profile Address [PUT]
 
-+ Request (application/json)
++ Request (application/json) 
 
     + Attributes (Profile Address Update)
 
@@ -228,33 +228,6 @@ These actions operate on the selection of the required `type`.
             + `pavimenti`
             + `**TBD**`
 
-+ Attributes
-    + type: serramenti (required, enum) - type of the selection
-        + serramenti
-        + pavimenti
-        + TBD
-    + sku: 1 (required, string) - the product commerce SKU for which the quote is being prepared
-    + attributes: `{"color": "black", "isolation": "high"}` (object) - an object of attributes selected on the product. An attribute is represented as a key/value pair.
-
-        + Properties
-            + color: black
-            + isolation: high
-            + material: wood
-            + attribute4: value4
-
-    + alternate_products: `["2", "3"]` (array) - an array of alternative products (recommended by commerce). Each string is a commerce SKU.
-
-        + Items
-            + 2
-            + 3
-
-    + alternate_selections: `["3", "4"]` (array) - an array of alternative products selected by the user to be seen in the augmented reality. **TBD: still neded?**
-
-        + Items
-            + 3
-            + 4
-
-
 ### Read Selection [GET]
 
 + Response 200 (application/json)
@@ -289,7 +262,7 @@ Document acts as a "super-class" for quotes and orders.
 The following methods allow the user to interact with documents.
 
 + Attributes (Collection)
-    + documents: (array[Document]) - array of documents accessible by the user
+    + documents (array[Document]) - array of documents accessible by the user
 
 ### List Documents [GET]
 
@@ -563,17 +536,6 @@ with its images.
     + productId: 1 (required, string) - SKU on the product repository.
     + index: 1 (number) - for image lists (e.g. carousels) the index of the image.
 
-+ Attributes
-    + type: main (required, enum) - type of the image.
-        + Members
-            + main
-            + banner
-            + carousel
-            + details
-    + productId: 1 (required, number) - SKU on the product repository.
-    + index: 1 (number) - for image lists (e.g. carousels) the index of the image.
-    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
-
 ### Read Product Image [GET]
 Retrieve the image (file stream).
 
@@ -605,18 +567,6 @@ of images for the rendering materials and parts.
 
 **TBD: the entire model for a rendering is currently unknown. We assume
 something similar to Object table in Scenes repository.**
-
-+ Attributes
-    + model (string) - 3D model
-    + materials: 2 (number) - number of materials composing the rendering
-    + parts: 2 (number) - number of parts composing the rendering
-    + x (number) - default X axis position for the rendering
-    + y (number) - default Y axis position for the rendering
-    + z (number) - default Z axis position for the rendering
-    + rx (number) - default rotation on X axis for the rendering
-    + ry (number) - default rotation on Y axis for the rendering
-    + rz (number) - default rotation on Z axis for the rendering
-    + s (number) - default scale of the rendering
 
 + Parameters
     + productId: 1 (string) - SKU on the product repository
@@ -1029,6 +979,32 @@ API group used to handle users' contact requests.
 + Include Write Base
 
 
+## Selection (object)
++ type: serramenti (required, enum) - type of the selection
+    + serramenti
+    + pavimenti
+    + TBD
++ sku: 1 (required, string) - the product commerce SKU for which the quote is being prepared
++ attributes: `{"color": "black", "isolation": "high"}` (object) - an object of attributes selected on the product. An attribute is represented as a key/value pair.
+
+    + Properties
+        + color: black
+        + isolation: high
+        + material: wood
+        + attribute4: value4
+
++ alternate_products: `["2", "3"]` (array) - an array of alternative products (recommended by commerce). Each string is a commerce SKU.
+
+    + Items
+        + 2
+        + 3
+
++ alternate_selections: `["3", "4"]` (array) - an array of alternative products selected by the user to be seen in the augmented reality. **TBD: still neded?**
+
+    + Items
+        + 3
+        + 4
+
 ## Selection Write (Selection)
 + Include Write Base
 
@@ -1083,7 +1059,7 @@ API group used to handle users' contact requests.
     + view
     + vote
     + desire
-+ value: -1 (number) - value of the event (only valid for event of type `vote`)
++ value: `-1` (number) - value of the event (only valid for event of type `vote`)
 + title: `Storia 1` (required, string)
 + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
 + image_URL: `https://www.vlp.com/logo.png` (required, string)
@@ -1096,9 +1072,32 @@ API group used to handle users' contact requests.
 + Include Write Base
 
 
+## Product Image (object)
++ type: main (required, enum) - type of the image.
+    + Members
+        + main
+        + banner
+        + carousel
+        + details
++ productId: 1 (required, number) - SKU on the product repository.
++ index: 1 (number) - for image lists (e.g. carousels) the index of the image.
++ file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
+
 ## Product Image Write (Product Image)
 + Include Write Base
 
+
+## Product Rendering (object)
++ model (string) - 3D model
++ materials: 2 (number) - number of materials composing the rendering
++ parts: 2 (number) - number of parts composing the rendering
++ x (number) - default X axis position for the rendering
++ y (number) - default Y axis position for the rendering
++ z (number) - default Z axis position for the rendering
++ rx (number) - default rotation on X axis for the rendering
++ ry (number) - default rotation on Y axis for the rendering
++ rz (number) - default rotation on Z axis for the rendering
++ s (number) - default scale of the rendering
 
 ## Product Rendering Write (Product Rendering)
 + Include Write Base

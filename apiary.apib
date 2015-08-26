@@ -142,7 +142,7 @@ Used to retrieve user personal details.
 ### Create Profile Address [POST]
 
   + Request (application/json)
-      + Attribute (Profile Address)
+      + Attribute (Profile Address Base)
 
   + Response 201
 
@@ -153,28 +153,11 @@ Used to retrieve user personal details.
 ## Profile Address [/profiles/{userId}/addresses/{id}]
 
 + Parameters
-    + userId: 1 (required, number) - ID of the user
-    + id: 1 (required, number) - ID of the address
+    + userId: 1 (number) - ID of the user
+    + id: 1 (number) - ID of the address
 
-+ Attributes
++ Attributes (Profile Address Base)
     + id: 1 (required, number) - ID of the address
-    + userId: 1 (required, number) - ID of the user owning this address
-    + type: postal (required, enum[string])
-        + postal
-        + billing
-        + postalBilling - **TBD: probably not the best idea**
-    + description: `My home address` (string)
-    + address: `Piazza Dergano 9` (string)
-    + zipCode: 20158 (number)
-    + city: Milano (string)
-    + country: Italia (string)
-    + phoneNumber: `0039-3401004285` (string) - A string with the following format: `<4 digits country code>-<phone number>`
-    + vatCode (string)
-    + fiscalCode (string)
-    + companyName (string)
-    + firstName (string) - **TBD: why?**
-    + lastName (string) - **TBD: why?**
-    + email (string) - **TBD: why?**
 
 ### Read Profile Address [GET]
 
@@ -249,7 +232,7 @@ These actions operate on the selection of the required `type`.
 
 + Parameters
     + userId: 1 (number) - ID of the user owning the selections
-    + type: serramenti (required, enum[string]) - type of selection to operate on
+    + type: serramenti (enum[string]) - type of selection to operate on
 
         + Members
             + `serramenti`
@@ -257,11 +240,11 @@ These actions operate on the selection of the required `type`.
             + `**TBD**`
 
 + Attributes
-    + type: serramenti (enum) - type of the selection
+    + type: serramenti (required, enum) - type of the selection
         + serramenti
         + pavimenti
         + TBD
-    + sku: 1 (string) - the product commerce SKU for which the quote is being prepared
+    + sku: 1 (required, string) - the product commerce SKU for which the quote is being prepared
     + attributes: `{"color": "black", "isolation": "high"}` (object) - an object of attributes selected on the product. An attribute is represented as a key/value pair.
 
         + Properties
@@ -312,43 +295,12 @@ An user can list its previous documents, create a document and then edit it.
 
 Document acts as a "super-class" for quotes and orders.
 
-## Basic Document [/documents/dummy]
-
-**Note: This is not displayed anywhere in the published docs**
-
-This represent the basic structure of a document, shared both by collections and
-details actions.
-
-+ Attributes
-    + id: 1 (number)
-    + userId: 1 (number) - ID of the user owning the document
-    + type: order (required, enum) - type of the document
-        + Members
-            + order
-            + quote
-
-    + userId: 1 (number) - user owning the document
-    + formats: `["xml", "pdf"]` (array) - list of available file formats
-        + Items
-            + xml
-            + pdf
-    + status (enum[string]) - current status of the document
-        + Members
-            + proposal
-            + confirmed
-            + editable - if the document can be still modified or has been frozen
-
-    + valid (string) - **TBD: what is this?**
-    + documentReference: 3 (string) - reference to another Document (e.g. quote from which an order originated)
-    + documentCode: 1 (string) - fpDealerID in case of document of type `quote`
-
-
 ## Documents collections [/documents{?userId}{?page}{?type}]
 
 The following methods allow the user to interact with documents.
 
 + Attributes (Collection)
-    + documents: (array[Basic Document]) - array of documents accessible by the user
+    + documents: (array[Document]) - array of documents accessible by the user
 
 ### List Documents [GET]
 
@@ -382,7 +334,7 @@ If no `userId` is given, it is assumed that the document is created for the curr
 not the given FP Dealer ID.
 
 + Request (application/json)
-    + Attributes (Document)
+    + Attributes (Document Base)
 
 + Response 201
 
@@ -395,13 +347,6 @@ not the given FP Dealer ID.
 + Parameters
     + id: 1 (required, string) - ID of the document
 
-+ Attributes
-  + Include Basic Document
-  + status_hist (object) - past statuses of the document
-      + Properties
-         + *20150501*: proposal
-         + *20150508*: confirmed
-
 ### Read Document [GET]
 
 See the details of a given document. This returns the single document
@@ -409,14 +354,15 @@ istances with its historic statuses.
 
 + Response 200 (application/json)
 
-    + Attributes (Document)
+    + Attributes (Document Detail)
 
 ### Update Document [PUT]
 
 This action allows the user to change an existing document.
 
 **Note**: When the current status of a document is changed, its historic
-statuses will have to be recorded.
+statuses will have to be recorded. Manual changes on historic statuses are not
+supported.
 
 + Request (application/json)
     + Attributes (Document)
@@ -434,7 +380,7 @@ statuses will have to be recorded.
 This actions allow adding a new file to an existing document.
 
 + Request (application/json)
-    + Attributes (Document File)
+    + Attributes (Document File Base)
 
 + Response 201
 
@@ -452,13 +398,11 @@ Create and update actions expect the file stream as input.
 `formats` field on the document will get updated.
 
 + Parameters
-    + id: 1 (required, string) - id of the document
+    + id: 1 (required, string) - ID of the document
     + format: pdf (required, string) - format of the file with which we're interacting
 
-+ Attributes
-    + format: pdf (required, string) - format of the file with which we're interacting
-    + documentId: 1 (required, number) - ID of the document
-    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (string) - serialized stream representing the file.
++ Attributes (Document File Base)
+    + id: 1 (required, number) - ID of the document
 
 ### Read Document File [GET]
 Retrieve the document (file stream).
@@ -512,7 +456,7 @@ and/or `type` and sliced.
 ### Create Event [POST]
 
 + Request (application/json)
-    + Attribute (Event)
+    + Attribute (Event Base)
 
 + Response 201
 
@@ -522,19 +466,8 @@ and/or `type` and sliced.
 
 ## Event [/events/{id}]
 
-+ Attributes
-    + id: 1 (number) - ID of the event
-    + userId: 1 (number) - ID of the user associated with the event
-    + contentId: 1 (required, string) - ID of the content for which the event is being recorded
-    + type: vote (required, enum) - type of event
-        + view
-        + vote
-        + desire
-    + value: -1 (number) - value of the event (only valid for event of type `vote`)
-    + title: `Storia 1` (required, string)
-    + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
-    + image_URL: `https://www.vlp.com/logo.png` (required, string)
-    + timestamp: 546757636535 (number) - date of the event (**TBD: format?**)
++ Attribute (Event Base)
+    + id: 1 (required, number) - ID of the event
 
 + Parameters
     + id: 1 (required, string) - ID of the event
@@ -571,8 +504,8 @@ API group used to handle products.
 ## Product [/products/{id}]
 
 + Attributes
-    + id: 5 (string) - SKU of the product in the product repository
-    + default_scene: kitchen (string) - default scene that can be used to render this product in the 3D viewer
+    + id: 5 (required, string) - SKU of the product in the product repository
+    + default_scene: kitchen (required, string) - default scene that can be used to render this product in the 3D viewer
 
 ## Products collections [/products]
 
@@ -591,8 +524,8 @@ Only one Product is exptected to be returned, but for consistency with other
 collection actions we return an array.
 
 + Parameters
-    + commerceSKU: 1 (required, string) - SKU on the commerce
-    + attributes: {"color": "black", "isolation": "high", "material": "wood"} (required, object) -
+    + commerceSKU: 1 (string) - SKU on the commerce
+    + attributes: {"color": "black", "isolation": "high", "material": "wood"} (object) -
       attribute selection on the commerce SKU product
 
 + Response 200 (application/json)
@@ -629,21 +562,25 @@ with its images.
 ## Product Image [/products/{productId}/images/{type}/{?index}]
 
 + Parameters
-    + productId: 1 (required, string) - SKU on the product repository
-    + index: 1 (number) - for image lists (e.g. carousels) the index of the image
-    + type: main (required, enum[string]) - type of the image being required
+    + type: main (required, enum[string]) - type of the image being required.
         + Members
-            + `main`
-            + `banner`
-            + `carousel`
-            + `details`
+            + main
+            + banner
+            + carousel
+            + details
+    + productId: 1 (required, string) - SKU on the product repository.
+    + index: 1 (number) - for image lists (e.g. carousels) the index of the image.
 
 + Attributes
-    + type: main (required, string) - type of the image
-    + index: 1 (number) - for image lists (e.g. carousels) the index of the image
-    + productId: 1 (number) - SKU on the product repository
-    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (string) - serialized stream representing the image. Either this or `filePath` are required in order to create an image.
-    + filePath: `/srv/images/image1.png` (string) - path (must be accessible by the API server) that stores the image. Either this or `filePath` are required in order to create an image.
+    + type: main (required, enum) - type of the image.
+        + Members
+            + main
+            + banner
+            + carousel
+            + details
+    + productId: 1 (required, number) - SKU on the product repository.
+    + index: 1 (number) - for image lists (e.g. carousels) the index of the image.
+    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
 
 ### Read Product Image [GET]
 Retrieve the image (file stream).
@@ -690,7 +627,7 @@ something similar to Object table in Scenes repository.**
     + s (number) - default scale of the rendering
 
 + Parameters
-    + productId: 1 (required, string) - SKU on the product repository
+    + productId: 1 (string) - SKU on the product repository
 
 ### Create Product Rendering [POST]
 
@@ -725,13 +662,13 @@ something similar to Object table in Scenes repository.**
 We assume a material to be an image.**
 
 + Parameters
-    + productId: 1 (required, string) - SKU on the product repository
-    + index: 2 (required, number) - nth material
+    + productId: 1 (string) - SKU on the product repository
+    + index: 2 (number) - nth material
 
 + Attributes
     + productId: 1 (required, string) - SKU on the product repository
     + index: 2 (required, number) - nth material
-    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (string) - serialized stream representing the image.
+    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
 
 ### Create Product Rendering Material [POST]
 
@@ -766,13 +703,13 @@ Retrieve the image (file stream).
 We assume a part to be an image.**
 
 + Parameters
-    + productId: 1 (required, string) - SKU on the product repository
-    + index: 2 (required, number) - interact with the nth part
+    + productId: 1 (string) - SKU on the product repository
+    + index: 2 (number) - interact with the nth part
 
 + Attributes
     + productId: 1 (required, string) - SKU on the product repository
     + index: 2 (required, number) - nth material
-    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (string) - serialized stream representing the image
+    + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image
 
 ### Create Product Rendering Part [POST]
 
@@ -823,8 +760,8 @@ The main resources managed are:
 ### List Scenes [GET]
 
 + Parameters
-    + userId: 1 (number) - filter scenes for the specified user
-    + page: 1 (number) - slice scenes
+    + userId: 1 (optional, number) - filter scenes for the specified user
+    + page: 1 (optional, number) - slice scenes
 
 + Response 200 (application/json)
 
@@ -833,7 +770,7 @@ The main resources managed are:
 ### Create Scene [POST]
 
 + Request (application/json)
-    + Attributes (Scene)
+    + Attributes (Scene Base)
 
 + Response 201
 
@@ -843,25 +780,11 @@ The main resources managed are:
 
 ## Scene [/ar/scenes/{id}]
 
-+ Attributes
-    + id: 1 (string) - ID of the scene.
-    + description: `Scene description` (required, string)
-    + userId: 1 (number) - ID of the user owning the scene. May be null for default scenes.
-    + height: 10.57 (number)
-    + width: 60.24 (number)
-    + length: 14.2 (number)
-    + sceneType (enum) - Type of the scene. **TBD: enum values**
-        + Members
-            + `kitchen`
-            + `livingroom`
-    + set (string)
-    + time (string)
-    + weather (string)
-    + season (string)
-    + sound (string) - **TBD: URL to a sound file?**
++ Attributes (Scene Base)
+    + id: 1 (required, string) - ID of the scene.
 
 + Parameters
-    + id: 1 (required, string) - ID of the scene.
+    + id: 1 (string) - ID of the scene.
 
 ### Read Scene [GET]
 
@@ -881,7 +804,7 @@ The main resources managed are:
 
 + Response 204
 
-## Objects collections [/ar/objects{?page}{?sceneID}]
+## Objects collections [/ar/objects{?page}{?sceneId}]
 
 **TBD: on the DB schema there is no mention of components
 (static files or references to them). How do we manage those?**
@@ -893,7 +816,7 @@ The main resources managed are:
 
 + Parameters
     + page: 1 (optional, number) - slice scene objects
-    + sceneID: 1 (optional, string) - Filter only object "belonging" to the specified scene
+    + sceneId: 1 (optional, string) - Filter only object "belonging" to the specified scene
 
 + Response 200 (application/json)
     + Attributes (Objects collections)
@@ -903,7 +826,7 @@ Create a new Object. If `sceneId` is specified, it is implied that the object
 will also be "added" to the scene.
 
 + Request (application/json)
-    + Attributes (Object)
+    + Attributes (Object Base)
 
 + Response 201
 
@@ -914,20 +837,8 @@ will also be "added" to the scene.
 
 ## Object [/ar/objects/{id}]
 
-+ Attributes
-    + id: 1 (string)
-    + sceneId (string) - ID of the associated scene, if present
-    + objectId: 6 (string) - **TBD: required?**
-    + productId: 5 (string)
-    + category (string)
-    + type (string)
-    + x: 10.6 (number) - position of the object on X axis
-    + y: 1.6 (number) - position of the object on Y axis
-    + z: 5.6 (number) - position of the object on Z axis
-    + rx: 100.6 (number) - rotation of the object on X axis
-    + ry: 10.6 (number) - rotation of the object on Y axis
-    + rz: 50.6 (number) - rotation of the object on Z axis
-    + s: 3 (number) - object scaling
++ Attributes (Object Base)
+    + id: 1 (required, string)
 
 + Parameters
     + id: 1 (required, string) - ID of the object
@@ -960,7 +871,7 @@ will also be "added" to the scene.
 
 + Parameters
     + sceneId: 5 (required, number) - ID scene
-    + page: 1 (number) - The page of events to return
+    + page: 1 (number) - slice surfaces
 
 + Response 200 (application/json)
 
@@ -973,7 +884,7 @@ will also be "added" to the scene.
 ### Create Surface [POST]
 
 + Request (application/json)
-    + Attribute (Surface)
+    + Attribute (Surface Base)
 
 + Response 201
 
@@ -983,11 +894,8 @@ will also be "added" to the scene.
 
 ## Surface [/ar/scenes/{sceneId}/surfaces/{id}]
 
-+ Attributes
++ Attributes (Surface Base)
     + id: 1 (number) - ID of the surface
-    + sceneId: 1 (number) - ID of the scene owning the surface
-    + surfaceId: 5 (string) - ID of the surface in the 3D viewer
-    + materialId: 3 (string)
 
 + Parameters
     + sceneId: 5 (required, number) - ID scene
@@ -1034,7 +942,7 @@ API group used to handle users' contact requests.
 ### Create Contact [POST]
 
 + Request (application/json)
-    + Attributes (Contact)
+    + Attributes (Contact Base)
 
 + Response 201
 
@@ -1047,15 +955,8 @@ API group used to handle users' contact requests.
 + Parameters
     + id: 1 (required, string) - ID of the contact request with which interact
 
-+ Attributes
-    + id: 1 (number)
-    + userId: 1 (number) - ID of the user associated with the contact request
-    + description: `Hi, please contact me` (string)
-    + reason (enum)
-    + date: `2015-05-01` (string)
-    + timestamp: 123451325 (number)
-    + timeZone (string) - user range availabilty
-    + note: `Hi, please contact me` (string)
++ Attributes (Contact Base)
+    + id: 1 (required, number)
 
 ### Read Contact [GET]
 
@@ -1074,7 +975,12 @@ API group used to handle users' contact requests.
 + Response 204
 
 
+
+
+
+
 # Data Structures
+
 
 ## Collection (object)
 + count: 1 (number) - total number of resources that can be accessed by the user
@@ -1096,3 +1002,118 @@ API group used to handle users' contact requests.
     + client (string) - registered user with email
     + lead (string) - unregistered user with email
     + anonymous (string) - unregistered user without email
+
+## Profile Address Base (object)
++ userId: 1 (required, number) - ID of the user owning this address
++ type: postal (required, enum[string])
+    + postal
+    + billing
+    + postalBilling - **TBD: probably not the best idea**
++ description: `My home address` (string)
++ address: `Piazza Dergano 9` (required, string)
++ zipCode: 20158 (required, number)
++ city: Milano (required, string)
++ country: Italia (required, string)
++ phoneNumber: `0039-3401004285` (string) - A string with the following format: `<4 digits country code>-<phone number>`
++ vatCode (string)
++ fiscalCode (string)
++ companyName (string)
++ firstName (string) - **TBD: why?**
++ lastName (string) - **TBD: why?**
++ email (string) - **TBD: why?**
+
+
+## Document Base (object)
++ userId: 1 (number) - ID of the user owning the document
++ type: order (required, enum) - type of the document
+    + Members
+        + order
+        + quote
++ formats: `["xml", "pdf"]` (array) - list of available file formats
+    + Items
+        + xml
+        + pdf
++ status (enum[string]) - current status of the document
+    + Members
+        + proposal
+        + confirmed
+        + editable - if the document can be still modified or has been frozen
+
++ valid (string) - **TBD: what is this?**
++ documentReference: 3 (string) - reference to another Document (e.g. quote from which an order originated)
++ documentCode: 1 (string) - fpDealerID in case of document of type `quote`
+
+## Document (object)
++ id: 1 (required, number)
++ Include Document Base
+
+## Document Detail (object)
++ Include Document
++ status_hist (required, object) - past statuses of the document
+    + Properties
+       + *20150501*: proposal
+       + *20150508*: confirmed
+
+## Document File Base (object)
++ format: pdf (required, string) - format of the file with which we're interacting
++ file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the file.
+
+
+## Event Base (object)
++ userId: 1 (number) - ID of the user associated with the event
++ contentId: 1 (required, string) - ID of the content for which the event is being recorded
++ type: vote (required, enum) - type of event
+    + view
+    + vote
+    + desire
++ value: -1 (number) - value of the event (only valid for event of type `vote`)
++ title: `Storia 1` (required, string)
++ URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
++ image_URL: `https://www.vlp.com/logo.png` (required, string)
++ timestamp: 546757636535 (number) - date of the event (**TBD: format?**)
+
+
+## Scene Base (object)
++ description: `Scene description` (required, string)
++ userId: 1 (number) - ID of the user owning the scene. May be null for default scenes.
++ height: 10.57 (number)
++ width: 60.24 (number)
++ length: 14.2 (number)
++ sceneType (enum) - Type of the scene. **TBD: enum values**
+    + Members
+        + `kitchen`
+        + `livingroom`
++ set (string)
++ time (string)
++ weather (string)
++ season (string)
++ sound (string) - **TBD: URL to a sound file?**
+
+## Object Base (object)
++ sceneId (string) - ID of the associated scene, if present
++ objectId: 6 (string) - **TBD: required?**
++ productId: 5 (string)
++ category (string)
++ type (string)
++ x: 10.6 (number) - position of the object on X axis
++ y: 1.6 (number) - position of the object on Y axis
++ z: 5.6 (number) - position of the object on Z axis
++ rx: 100.6 (number) - rotation of the object on X axis
++ ry: 10.6 (number) - rotation of the object on Y axis
++ rz: 50.6 (number) - rotation of the object on Z axis
++ s: 3 (number) - object scaling
+
+## Surface Base (object)
++ sceneId: 1 (required, number) - ID of the scene owning the surface
++ surfaceId: 5 (string) - ID of the surface in the 3D viewer. **TBD: required?**
++ materialId: 3 (string)
+
+
+## Contact Base (object)
++ userId: 1 (number) - ID of the user associated with the contact request
++ description: `Hi, please contact me` (string)
++ reason (enum)
++ date: `2015-05-01` (string)
++ timestamp: 123451325 (number)
++ timeZone (string) - user range availabilty
++ note: `Hi, please contact me` (string)

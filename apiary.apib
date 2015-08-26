@@ -360,7 +360,7 @@ details actions.
     + documentCode: 1 (string) - fpDealerID in case of document of type `quote`
 
 
-## Documents collections [/documents{?userName}{?page}{?type}]
+## Documents collections [/documents{?userId}{?page}{?type}]
 
 The following methods allow the user to interact with documents.
 
@@ -374,9 +374,9 @@ This action retrieves the list of documents accessible by the user,
 possibly sliced and filtered only for the specified `userId` and/or `type`.
 
 + Parameters
-    + userId: 1 (number) - Filter documents created by the specified `userId`
-    + page: 1 (number) - The page of documents to return
-    + type: quote (enum[string]) - Filter only specified type of document
+    + userId: 1 (optional, number) - Filter documents created by the specified `userId`.
+    + page: 1 (optional, number) - The page of documents to return.
+    + type: quote (optional, enum[string]) - Filter only specified type of document.
         + Members
             + `quote`
             + `order`
@@ -500,7 +500,7 @@ Retrieve the document (file stream).
 # Group IS12 - Events
 #####################
 
-## Events collections [/events{?userName}{?page}{?type}]
+## Events collections [/events{?userId}{?page}{?type}]
 
 + Attributes
     + Include Collection
@@ -512,13 +512,13 @@ Retrive content (e.g. stories, products) events, possibly filtered by `userId`
 and/or `type` and sliced.
 
 + Parameters
-    + userId: 1 (number) - Filter events created by the specified user
+    + userId: 1 (optional, number) - Filter events created by the specified user
     + type: vote (enum[string]) - Filter only specified type of event
         + Members
             + view - content visualization
             + vote - content up or down vote
             + desire - content desired
-    + page: 1 (number) - The page of events to return
+    + page: 1 (optional, number) - The page of events to return
 
 + Response 200 (application/json)
 
@@ -543,15 +543,15 @@ and/or `type` and sliced.
 
 + Attributes
     + id: 1 (string) - ID of the event
-    + contentId: 1 (string) - ID of the content for which the event is being recorded
-    + type: vote (enum) - type of event
+    + contentId: 1 (required, string) - ID of the content for which the event is being recorded
+    + type: vote (required, enum) - type of event
         + view
         + vote
         + desire
     + value: -1 (number) - value of the event (only valid for event of type `vote`)
-    + title: `Storia 1` (string)
-    + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (string)
-    + image_URL: `https://www.vlp.com/logo.png` (string)
+    + title: `Storia 1` (required, string)
+    + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
+    + image_URL: `https://www.vlp.com/logo.png` (required, string)
     + timestamp: 546757636535 (number) - date of the event (**TBD: format?**)
 
 + Parameters

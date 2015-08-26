@@ -40,12 +40,6 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
             "contacts_url": "/contacts"
         }
 
-## Collection [/collection]
-"Abstract" resource used to represent a generic collection. Other resources
-include this one in their collection endpoints.
-
-+ Attributes
-  + count: 1 (number) - total number of resources that can be accessed by the user
 
 
 
@@ -57,8 +51,7 @@ Resources related to user's profile in the API.
 
 ## Profiles collections [/profiles{?consultantId}{?page}]
 
-+ Attributes
-  + Include Collection
++ Attributes (Collection)
   + profiles (array[Profile]) - array of user accessible profiles
 
 ### List Profiles [GET]
@@ -78,10 +71,11 @@ profiles associated with a given `consultantId`.
     + Attributes (Profiles collections)
 
 ### Create Profile [POST]
-Create a user profile. `id`, if provided, is ignored.
+Create a user profile.
+
 
 + Request (application/json)
-    + Attribute (Profile)
+    + Attributes (Profile Base)
 
 + Response 201
 
@@ -94,23 +88,8 @@ Create a user profile. `id`, if provided, is ignored.
 + Parameters
     + id: 1 (required, number) - ID of the user
 
-+ Attributes
++ Attributes (Profile Base)
     + id: 1 (required, number) - ID of the user profile
-    + consultantId: 1 (number) - ID of the consultant associated with this user
-    + email: `v.ponte@wintech.it` (string)
-    + firstName: Valerio (string)
-    + lastName: Ponte (string)
-    + phoneNumber: `0039-3401004285` (string) - A string with the following format: `<4 digits country code>-<phone number>`
-    + imageUrl: `https://www.vlp.com/logo.png` (string) - user profile image
-    + description (string)
-    + area: Milano (string) - position shared by the user
-    + address (string) - **TBD: what is this?**
-    + city (string) - **TBD: what is this?**
-    + addresses (array[Profile Address]) - array of user addresses
-    + type: client (enum[string]) - profile type **TBD: needed?**
-        + client (string) - registered user with email
-        + lead (string) - unregistered user with email
-        + anonymous (string) - unregistered user without email
 
 ### Read Profile [GET]
 
@@ -368,8 +347,7 @@ details actions.
 
 The following methods allow the user to interact with documents.
 
-+ Attributes
-    + Include Collection
++ Attributes (Collection)
     + documents: (array[Basic Document]) - array of documents accessible by the user
 
 ### List Documents [GET]
@@ -506,8 +484,7 @@ Retrieve the document (file stream).
 
 ## Events collections [/events{?userId}{?page}{?type}]
 
-+ Attributes
-    + Include Collection
++ Attributes (Collection)
     + events (array[Event]) - array of returned events
 
 ### List Events [GET]
@@ -599,8 +576,7 @@ API group used to handle products.
 
 ## Products collections [/products]
 
-+ Attributes
-    + Include Collection
++ Attributes (Collection)
     + products (array[Product]) - array of products accessible by the user
 
 ### Find products [GET /find{?commerceSKU}{?attributes}]
@@ -841,8 +817,7 @@ The main resources managed are:
 
 ## Scenes collections [/ar/scenes{?userId}{?page}]
 
-+ Attributes
-    + Include Collection
++ Attributes (Collection)
     + scenes (array[Scene]) - array of scenes accessible by the user
 
 ### List Scenes [GET]
@@ -911,8 +886,7 @@ The main resources managed are:
 **TBD: on the DB schema there is no mention of components
 (static files or references to them). How do we manage those?**
 
-+ Attributes
-    + Include Collection
++ Attributes (Collection)
     + objects (array[Object]) - array of objects accessible by the user
 
 ### List Objects [GET]
@@ -979,8 +953,7 @@ will also be "added" to the scene.
 
 ## Surfaces collections [/ar/scenes/{sceneId}/surfaces{?page}]
 
-+ Attributes
-    + Include Collection
++ Attributes (Collection)
     + surfaces (array[Surface]) - array of surfaces accessible by the user
 
 ### List Surfaces [GET]
@@ -1046,8 +1019,7 @@ API group used to handle users' contact requests.
 
 ## Contacts collections [/contacts{?userId}{?page}]
 
-+ Attributes
-  + Include Collection
++ Attributes (Collection)
   + contacts (array[Contact]) - array of contact requests accessible by the user
 
 ### List Contacts [GET]
@@ -1100,3 +1072,27 @@ API group used to handle users' contact requests.
 ### Delete Contact [DELETE]
 
 + Response 204
+
+
+# Data Structures
+
+## Collection (object)
++ count: 1 (number) - total number of resources that can be accessed by the user
+
+
+## Profile Base (object)
++ consultantId: 1 (number) - ID of the consultant associated with this user
++ email: `v.ponte@wintech.it` (required, string)
++ firstName: Valerio (string)
++ lastName: Ponte (string)
++ phoneNumber: `0039-3401004285` (string) - A string with the following format: `<4 digits country code>-<phone number>`
++ imageUrl: `https://www.vlp.com/logo.png` (string) - user profile image
++ description (string)
++ area: Milano (string) - position shared by the user
++ address (string) - **TBD: what is this?**
++ city (string) - **TBD: what is this?**
++ addresses (array[Profile Address]) - array of user addresses
++ type: client (enum[string]) - profile type **TBD: needed?**
+    + client (string) - registered user with email
+    + lead (string) - unregistered user with email
+    + anonymous (string) - unregistered user without email

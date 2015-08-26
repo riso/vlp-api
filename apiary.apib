@@ -55,16 +55,19 @@ include this one in their collection endpoints.
 
 Resources related to user's profile in the API.
 
-## Profiles collections [/profiles{?page}]
+## Profiles collections [/profiles{?consultantId}{?page}]
 
 + Attributes
   + Include Collection
-  + profiles (array[Profile]) - array of returned profiles
+  + profiles (array[Profile]) - array of user accessible profiles
 
 ### List Profiles [GET]
+List user profiles. This can be sliced and filtered in order to return only
+profiles associated with a given `consultantId`.
 
 + Parameters
     + page: 1 (optional, number) - The page of profiles to return
+    + consultantId: 1 (optional, number) - ID of the consultant associated with this user
 
 + Response 200 (application/json)
 
@@ -93,6 +96,7 @@ Create a user profile. `id`, if provided, is ignored.
 
 + Attributes
     + id: 1 (required, number) - ID of the user profile
+    + consultantId: 1 (number) - ID of the consultant associated with this user
     + email: `v.ponte@wintech.it` (string)
     + firstName: Valerio (string)
     + lastName: Ponte (string)

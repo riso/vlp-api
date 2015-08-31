@@ -29,6 +29,11 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
             "contacts_url": "/contacts"
         }
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 
 
 
@@ -59,6 +64,11 @@ profiles associated with a given `consultantId`.
 
     + Attributes (Profiles collections)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Create Profile [POST]
 Create a user profile.
 
@@ -71,6 +81,11 @@ Create a user profile.
     + Headers
 
             Location: /profiles/1
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Profile [/profiles/{id}]
 
@@ -86,6 +101,11 @@ Create a user profile.
 
     + Attributes (Profile)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Update Profile [PUT]
 
 + Request (application/json)
@@ -94,9 +114,19 @@ Create a user profile.
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Profile [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## User personal profile [/profiles/my]
 
@@ -107,6 +137,10 @@ Used to retrieve user personal details.
 + Response 200 (application/json)
   + Attributes (Profile)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Profile Addresses collections [/profiles/{userId}/addresses{?page}]
 
@@ -128,16 +162,26 @@ Used to retrieve user personal details.
 
       + Attributes (Profile Addresses collections)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Create Profile Address [POST]
 
-  + Request (application/json)
-      + Attribute (Profile Address Create)
++ Request (application/json)
+    + Attribute (Profile Address Create)
 
-  + Response 201
++ Response 201
 
-      + Headers
+    + Headers
 
-              Location: /profiles/1/addresses/1
+            Location: /profiles/1/addresses/1
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Profile Address [/profiles/{userId}/addresses/{id}]
 
@@ -154,17 +198,32 @@ Used to retrieve user personal details.
 
     + Attributes (Profile Address)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Update Profile Address [PUT]
 
-+ Request (application/json) 
++ Request (application/json)
 
     + Attributes (Profile Address Update)
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Profile Address [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 
 
@@ -198,6 +257,11 @@ This action retrieves the list of selected products.
 
     + Attributes (Selections collections)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Create Selection [POST]
 
 This action is used to create a new selection in the user's selection object.
@@ -214,6 +278,11 @@ It will replace his current selection if he already has one in the same category
     + Headers
 
             Location: /selections/{userId}/serramenti
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Selection [/selections/{userId}/{type}]
 
@@ -234,6 +303,11 @@ These actions operate on the selection of the required `type`.
 
     + Attributes (Selection)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Update Selection [PUT]
 
 + Request (application/json)
@@ -242,10 +316,19 @@ These actions operate on the selection of the required `type`.
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Selection [DELETE]
 
 + Response 204
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 
 ########################
@@ -286,6 +369,11 @@ possibly sliced and filtered only for the specified `userId` and/or `type`.
 
     + Attributes (Documents collections)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Create Document [POST]
 
 This method allows the user to create a new document.
@@ -304,6 +392,11 @@ not the given FP Dealer ID.
 
             Location: /documents/2
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ## Document [/documents/{id}]
 
 + Parameters
@@ -321,6 +414,11 @@ istances with its historic statuses.
 
     + Attributes (Document Read)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Update Document [PUT]
 
 This action allows the user to change an existing document.
@@ -334,9 +432,19 @@ supported.
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Document [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Document Files collections [/documtents/{id}/files]
 
@@ -352,6 +460,11 @@ This actions allow adding a new file to an existing document.
     + Headers
 
             Location: /documents/2/files/pdf
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Document File [/documents/{id}/files/{format}]
 
@@ -374,6 +487,11 @@ Retrieve the document (file stream).
 
 + Response 200 (application/stream)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Update Document File [PUT]
 
 + Request (application/json)
@@ -381,9 +499,19 @@ Retrieve the document (file stream).
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Document File [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 
 
@@ -418,6 +546,11 @@ and/or `type` and sliced.
 
     + Attributes (Events collections)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Create Event [POST]
 
 + Request (application/json)
@@ -428,6 +561,11 @@ and/or `type` and sliced.
     + Headers
 
             Location: /events/1
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Event [/events/{id}]
 
@@ -442,6 +580,11 @@ and/or `type` and sliced.
 + Response 200 (application/json)
     + Attributes (Event)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Update Event [PUT]
 
 Updating an "event" is a weird idea. Yet it makes sense when an event is
@@ -454,9 +597,19 @@ updating his previous event.
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Event [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 
 
@@ -496,6 +649,11 @@ collection actions we return an array.
 + Response 200 (application/json)
     + Attributes (Products collections)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 
 
 #############################
@@ -523,6 +681,11 @@ with its images.
 
             Location: /products/{productId}/images/main
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 
 ## Product Image [/products/{productId}/images/{type}/{?index}]
 
@@ -541,6 +704,12 @@ Retrieve the image (file stream).
 
 + Response 200 (image/png)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+
 ### Update Product Image [PUT]
 
 + Request (application/json)
@@ -548,9 +717,19 @@ Retrieve the image (file stream).
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Product Image [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 
 
@@ -582,10 +761,20 @@ something similar to Object table in Scenes repository.**
 
             Location: /products/1/rendering
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Read Product Rendering [GET]
 
 + Response 200 (application/json)
     + Attributes (Product Rendering)
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ### Update Product Rendering [PUT]
 
@@ -594,9 +783,19 @@ something similar to Object table in Scenes repository.**
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Product Rendering [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Product Rendering Material [/products/{productId}/rendering/materials/{index}]
 
@@ -620,10 +819,20 @@ We assume a material to be an image.**
 
             Location: /products/1/rendering/materials/1
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Read Product Rendering Material [GET]
 Retrieve the image (file stream).
 
 + Response 200 (application/png)
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ### Update Product Rendering Material [PUT]
 
@@ -632,9 +841,19 @@ Retrieve the image (file stream).
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Product Rendering Material [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Product Rendering Part [/products/{productId}/rendering/parts/{index}]
 
@@ -658,10 +877,20 @@ We assume a part to be an image.**
 
             Location: /products/1/rendering/parts/1
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Read Product Rendering Part [GET]
 Retrieve the image (file stream).
 
 + Response 200 (application/png)
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ### Update Product Rendering Part [PUT]
 
@@ -670,9 +899,19 @@ Retrieve the image (file stream).
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Product Rendering Part [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 
 
@@ -703,6 +942,11 @@ The main resources managed are:
 
     + Attributes (Scenes collections)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Create Scene [POST]
 
 + Request (application/json)
@@ -713,6 +957,11 @@ The main resources managed are:
     + Headers
 
             Location: /ar/scenes/1
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Scene [/ar/scenes/{id}]
 
@@ -728,6 +977,11 @@ The main resources managed are:
 
     + Attributes (Scene)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Update Scene [PUT]
 
 + Request (application/json)
@@ -736,9 +990,19 @@ The main resources managed are:
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Scene [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Objects collections [/ar/objects{?page}{?sceneId}]
 
@@ -757,6 +1021,11 @@ The main resources managed are:
 + Response 200 (application/json)
     + Attributes (Objects collections)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Create Object [POST]
 Create a new Object. If `sceneId` is specified, it is implied that the object
 will also be "added" to the scene.
@@ -770,6 +1039,10 @@ will also be "added" to the scene.
 
             Location: /ar/objects/3
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Object [/ar/objects/{id}]
 
@@ -785,6 +1058,11 @@ will also be "added" to the scene.
 
     + Attributes (Object)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Update Object [PUT]
 
 + Request (application/json)
@@ -793,9 +1071,19 @@ will also be "added" to the scene.
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Object [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 
 ## Surfaces collections [/ar/scenes/{sceneId}/surfaces{?page}]
@@ -817,6 +1105,11 @@ will also be "added" to the scene.
 
     + Attributes (Surfaces collections)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Create Surface [POST]
 
 + Request (application/json)
@@ -827,6 +1120,11 @@ will also be "added" to the scene.
     + Headers
 
             Location: /ar/scenes/1/surfaces/1
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Surface [/ar/scenes/{sceneId}/surfaces/{id}]
 
@@ -842,6 +1140,11 @@ will also be "added" to the scene.
 + Response 200 (application/json)
     + Attribute (Surface)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Update Surface [PUT]
 
 + Request (application/json)
@@ -849,9 +1152,19 @@ will also be "added" to the scene.
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Surface [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 
 
@@ -875,6 +1188,11 @@ API group used to handle users' contact requests.
 + Response 200 (application/json)
     + Attributes (Contacts collections)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Create Contact [POST]
 
 + Request (application/json)
@@ -885,6 +1203,11 @@ API group used to handle users' contact requests.
     + Headers
 
             Location: /contacts/1
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 ## Contact [/contacts/{id}]
 
@@ -899,6 +1222,11 @@ API group used to handle users' contact requests.
 + Response 200 (application/json)
     + Attributes (Contact)
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Update Contact [PUT]
 
 + Request (application/json)
@@ -906,9 +1234,19 @@ API group used to handle users' contact requests.
 
 + Response 200
 
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Delete Contact [DELETE]
 
 + Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 
 

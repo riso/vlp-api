@@ -624,6 +624,7 @@ API group used to handle products.
 + Attributes
     + id: 5 (required, string) - SKU of the product in the product repository
     + default_scene: kitchen (required, string) - default scene that can be used to render this product in the 3D viewer
+    + availability: true (required, boolean)
 
 ## Products collections [/products]
 
@@ -1382,6 +1383,7 @@ API group used to handle users' contact requests.
 ## Document File Base (object)
 + format: pdf (required, string) - format of the file with which we're interacting
 + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the file.
++ url: `https://www.vlp.it/document/id` (required, string) - url of the file
 
 ## Document File Create (Document File Base)
 + Include Write Base
@@ -1505,12 +1507,14 @@ API group used to handle users' contact requests.
 
 ## Contact Base (object)
 + userId: 1 (number) - ID of the user associated with the contact request
++ addressId: 1 (number) - ID of the address associated with the contact request
 + description: `Hi, please contact me` (string)
 + reason (enum)
 + date: `2015-05-01` (string)
 + timestamp: 123451325 (number)
 + timeZone (string) - user range availabilty
 + note: `Hi, please contact me` (string)
+- status (enum) - status of contact request (completed, pending)
 
 ## Contact Create (Contact Base)
 + Include Write Base

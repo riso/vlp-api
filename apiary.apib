@@ -1337,10 +1337,9 @@ API group used to handle users' contact requests.
 ## Profile Update (Profile)
 + Include Write Base
 
-
 ## Profile Address Base (object)
 + userId: 1 (required, number) - ID of the user owning this address
-+ type: postal (required, enum[string])
++ type: billing (required, enum[string]) **TBD: define complex type (postal+Billing)**
     + postal
     + billing
     + postalBilling - **TBD: probably not the best idea**
@@ -1570,6 +1569,8 @@ API group used to handle users' contact requests.
 + timeZone (string) - user range availabilty
 + note: `Hi, please contact me` (string)
 - status (enum) - status of contact request (completed, pending)
+    + `completed`
+    + `pending`
 
 ## Contact Create (Contact Base)
 + Include Write Base

@@ -619,13 +619,6 @@ updating his previous event.
 
 API group used to handle products.
 
-## Product [/products/{id}]
-
-+ Attributes
-    + id: 5 (required, string) - SKU of the product in the product repository
-    + default_scene: kitchen (required, string) - default scene that can be used to render this product in the 3D viewer
-    + availability: true (required, boolean)
-
 ## Products collections [/products]
 
 + Attributes (Collection)
@@ -655,7 +648,60 @@ collection actions we return an array.
 
     + Body
 
+### Create Product [POST]
 
++ Request (application/json)
+    + Attribute (Product Create)
+
++ Response 201
+
+    + Headers
+
+            Location: /products/1
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+    
+## Product [/products/{id}]
+
++ Attributes (Product Base)
+    + id: 5 (required, string) - SKU of the product in the product repository
+    
++ Parameters
+    + id: 5 (required, string) - SKU of the product 
+    
+### Read Product [GET]
+
++ Response 200 (application/json)
+    + Attributes (Product)
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+### Update Product [PUT]
+
++ Request (application/json)
+    + Attributes (Product Update)
+
++ Response 200
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+### Delete Product [DELETE]
+
++ Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 #############################
 # Group IS02 - Product Images
@@ -1411,6 +1457,15 @@ API group used to handle users' contact requests.
 ## Event Update (Event)
 + Include Write Base
 
+## Product Base (object)
++ default_scene: kitchen (required, string) - default scene that can be used to render this product in the 3D viewer
++ availability: true (required, boolean)
+
+## Product Create (Product Base)
++ Include Write Base
+
+## Product Update (Product)
++ Include Write Base
 
 ## Product Image (object)
 + type: main (required, enum) - type of the image.

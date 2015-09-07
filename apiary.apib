@@ -544,6 +544,46 @@ and/or `type` and sliced.
 
     + Body
 
+### Find Event [GET /findEvent{?contentId}]
+
+Action that can be used to find the events in the repository starting
+from a contentId.
+
+Action return an array that contains all events linked at contentId.
+
++ Parameters
+    + contentId: 1 (string) - ID of the content
+
++ Response 200 (application/json)
+    + Attributes (Events collections)
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+    
+### Upsert Event [POST /upsert{?contentId}]
+
+Action that can be used to insert and/or update the events in the repository associated
+at a contentId.
+
+If the event not exists it'll create, else it'll be updated
+
++ Request (application/json)
+    + contentId: 1 (string) - ID of the content
+    + Attribute (Event Create)
+
++ Response 201
+
+    + Headers
+
+            Location: /events/1
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 ### Create Event [POST]
 
 + Request (application/json)
@@ -1299,6 +1339,7 @@ API group used to handle users' contact requests.
 ## Profile Base (object)
 + consultantId: 1 (number) - ID of the consultant associated with this user
 + email: `v.ponte@wintech.it` (required, string)
++ username: `v.ponte@wintech.it` (string) - the field isn't null when user is registered and validated
 + firstName: Valerio (string)
 + lastName: Ponte (string)
 + phoneNumber: `0039-3401004285` (string) - A string with the following format: `<4 digits country code>-<phone number>`
@@ -1426,6 +1467,7 @@ API group used to handle users' contact requests.
 + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
 + image_URL: `https://www.vlp.com/logo.png` (required, string)
 + timestamp: 546757636535 (number) - date of the event (**TODO: format?**)
++ zone: Milano (string) - position shared by the user
 
 ## Event Create (Event Base)
 + Include Write Base
@@ -1459,7 +1501,7 @@ API group used to handle users' contact requests.
 
 
 ## Product Rendering (object)
-+ model (string) - 3D model
++ model (string) - static file of 3D model
 + materials: 2 (number) - number of materials composing the rendering
 + parts: 2 (number) - number of parts composing the rendering
 + x (number) - default X axis position for the rendering
@@ -1496,7 +1538,7 @@ API group used to handle users' contact requests.
 + time (string)
 + weather (string)
 + season (string)
-+ sound (string) - **TODO: move to its own resource**
++ sound (string) - url of sound file **TODO: move to its own resource**
 
 ## Scene Create (Scene Base)
 + Include Write Base

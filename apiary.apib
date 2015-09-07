@@ -13,7 +13,7 @@ API affordances in the form of the links in the JSON body.
 Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according to
 [Java SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html).
 
-**TBD: time zone?**
+**TODO: time zone?**
 
 ## Retrieve the Entry Point [GET]
 
@@ -267,8 +267,6 @@ This action retrieves the list of selected products.
 This action is used to create a new selection in the user's selection object.
 It will replace his current selection if he already has one in the same category.
 
-**TBD: emit a warning when replacing a selection?**
-
 + Request (application/json)
 
   + Attributes (Selection Write)
@@ -290,12 +288,7 @@ These actions operate on the selection of the required `type`.
 
 + Parameters
     + userId: 1 (number) - ID of the user owning the selections
-    + type: serramenti (enum[string]) - type of selection to operate on
-
-        + Members
-            + `serramenti`
-            + `pavimenti`
-            + `**TBD**`
+    + type: serramenti (string) - type of selection to operate on. Each selection is a category (e.g. "serramenti", "pavimenti").
 
 ### Read Selection [GET]
 
@@ -518,9 +511,6 @@ Retrieve the document (file stream).
 #####################
 # Group IS12 - Events
 #####################
-
-**TBD: a user could have multiple wishlist. This does not seem to be the case
-with the current DB diagram**
 
 ## Events collections [/events{?userId}{?page}{?type}]
 
@@ -794,9 +784,6 @@ of images for the rendering materials and parts.
 
 ## Product Rendering [/products/{productId}/rendering]
 
-**TBD: the entire model for a rendering is currently unknown. We assume
-something similar to Object table in Scenes repository.**
-
 + Parameters
     + productId: 1 (string) - SKU on the product repository
 
@@ -848,9 +835,6 @@ something similar to Object table in Scenes repository.**
     + Body
 
 ## Product Rendering Material [/products/{productId}/rendering/materials/{index}]
-
-**TBD: the entire model for a rendering material is currently unknown.
-We assume a material to be an image.**
 
 + Parameters
     + productId: 1 (string) - SKU on the product repository
@@ -906,9 +890,6 @@ Retrieve the image (file stream).
     + Body
 
 ## Product Rendering Part [/products/{productId}/rendering/parts/{index}]
-
-**TBD: the entire model for a rendering part is currently unknown.
-We assume a part to be an image.**
 
 + Parameters
     + productId: 1 (string) - SKU on the product repository
@@ -1055,9 +1036,6 @@ The main resources managed are:
     + Body
 
 ## Objects collections [/ar/objects{?page}{?sceneId}]
-
-**TBD: on the DB schema there is no mention of components
-(static files or references to them). How do we manage those?**
 
 + Attributes (Collection)
     + objects (array[Object]) - array of objects accessible by the user
@@ -1327,12 +1305,11 @@ API group used to handle users' contact requests.
 + imageUrl: `https://www.vlp.com/logo.png` (string) - user profile image
 + description (string)
 + area: Milano (string) - position shared by the user
-+ address (string) - **TBD: what is this?**
-+ city (string) - **TBD: what is this?**
-+ type: client (enum[string]) - profile type **TBD: needed?**
-    + client (string) - registered user with email
-    + lead (string) - unregistered user with email
-    + anonymous (string) - unregistered user without email
++ address (string) - Main user address
++ city (string) - Main user addresss
++ status (enum) - Whether the user activated the account or not
+    + active
+    + inactive
 
 ## Profile Create (Profile Base)
 + Include Write Base
@@ -1345,7 +1322,7 @@ API group used to handle users' contact requests.
 + type: billing (required, enum[string]) **TBD: define complex type (postal+Billing)**
     + postal
     + billing
-    + postalBilling - **TBD: probably not the best idea**
+    + postalBilling
 + description: `My home address` (string)
 + address: `Piazza Dergano 9` (required, string)
 + zipCode: 20158 (required, number)
@@ -1355,9 +1332,9 @@ API group used to handle users' contact requests.
 + vatCode (string)
 + fiscalCode (string)
 + companyName (string)
-+ firstName (string) - **TBD: why?**
-+ lastName (string) - **TBD: why?**
-+ email (string) - **TBD: why?**
++ firstName (string) - If address is postal, this is the recipient name
++ lastName (string) - If address is postal, this is the recipient surname
++ email (string) - If address is postal, this is the recipient email
 
 ## Profile Address Create (Profile Address Base)
 + Include Write Base
@@ -1367,10 +1344,7 @@ API group used to handle users' contact requests.
 
 
 ## Selection (object)
-+ type: serramenti (required, enum) - type of the selection
-    + serramenti
-    + pavimenti
-    + TBD
++ type: serramenti (required, string) - type of the selection
 + sku: 1 (required, string) - the product commerce SKU for which the quote is being prepared
 + attributes: `{"color": "black", "isolation": "high"}` (object) - an object of attributes selected on the product. An attribute is represented as a key/value pair.
 
@@ -1386,7 +1360,7 @@ API group used to handle users' contact requests.
         + 2
         + 3
 
-+ alternate_selections: `["3", "4"]` (array) - an array of alternative products selected by the user to be seen in the augmented reality. **TBD: still neded?**
++ alternate_selections: `["3", "4"]` (array) - an array of alternative products selected by the user to be seen in the augmented reality.
 
     + Items
         + 3
@@ -1412,7 +1386,7 @@ API group used to handle users' contact requests.
         + confirmed
         + editable - if the document can be still modified or has been frozen
 
-+ valid (string) - **TBD: what is this?**
++ expiry (string) - Date representing validity of the document
 + documentReference: 3 (string) - reference to another Document (e.g. quote from which an order originated)
 + documentCode: 1 (string) - fpDealerID in case of document of type `quote`
 
@@ -1451,7 +1425,7 @@ API group used to handle users' contact requests.
 + title: `Storia 1` (required, string)
 + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
 + image_URL: `https://www.vlp.com/logo.png` (required, string)
-+ timestamp: 546757636535 (number) - date of the event (**TBD: format?**)
++ timestamp: 546757636535 (number) - date of the event (**TODO: format?**)
 
 ## Event Create (Event Base)
 + Include Write Base
@@ -1514,7 +1488,7 @@ API group used to handle users' contact requests.
 + height: 10.57 (number)
 + width: 60.24 (number)
 + length: 14.2 (number)
-+ sceneType (enum) - Type of the scene. **TBD: enum values**
++ sceneType (enum) - User specified type of the scene.
     + Members
         + `kitchen`
         + `livingroom`
@@ -1522,7 +1496,7 @@ API group used to handle users' contact requests.
 + time (string)
 + weather (string)
 + season (string)
-+ sound (string) - **TBD: URL to a sound file?**
++ sound (string) - **TODO: move to its own resource**
 
 ## Scene Create (Scene Base)
 + Include Write Base
@@ -1532,17 +1506,17 @@ API group used to handle users' contact requests.
 
 ## Object Base (object)
 + sceneId (string) - ID of the associated scene, if present
-+ objectId: 6 (string) - **TBD: required?**
++ objectId: 6 (string) - Identifier of the object in 3D Viewer
 + productId: 5 (string)
 + category (string)
 + type (string)
 + x: 10.6 (number) - position of the object on X axis
 + y: 1.6 (number) - position of the object on Y axis
-+ z: 5.6 (number) - position of the object on Z axis
-+ rx: 100.6 (number) - rotation of the object on X axis
-+ ry: 10.6 (number) - rotation of the object on Y axis
-+ rz: 50.6 (number) - rotation of the object on Z axis
-+ s: 3 (number) - object scaling
++ z: 5.6 (number) - position of the object on Z axis.
++ rx: 100.6 (number) - rotation of the object on X axis.
++ ry: 10.6 (number) - rotation of the object on Y axis.
++ rz: 50.6 (number) - rotation of the object on Z axis.
++ s: 3 (number) - object scaling.
 
 ## Object Create (Object Base)
 + Include Write Base
@@ -1551,8 +1525,8 @@ API group used to handle users' contact requests.
 + Include Write Base
 
 ## Surface Base (object)
-+ sceneId: 1 (required, number) - ID of the scene owning the surface
-+ surfaceId: 5 (string) - ID of the surface in the 3D viewer. **TBD: required?**
++ sceneId: 1 (required, number) - ID of the scene owning the surface.
++ surfaceId: 5 (string) - ID of the surface in the 3D viewer.
 + materialId: 3 (string)
 
 ## Surface Create (Surface Base)

@@ -561,7 +561,7 @@ Action return an array that contains all events linked at contentId.
     Returned when a generic error occours.
 
     + Body
-    
+
 ### Upsert Event [POST /upsert{?contentId}]
 
 Action that can be used to insert and/or update the events in the repository associated
@@ -873,31 +873,42 @@ of images for the rendering materials and parts.
 
     + Body
 
-## Product Rendering Material [/products/{productId}/rendering/materials/{index}]
+## Product Rendering Asset Collections [/products/{productId}/rendering/assets]
 
 + Parameters
     + productId: 1 (string) - SKU on the product repository
-    + index: 2 (number) - nth material
 
-+ Attributes (Product Rendering Detail)
-
-### Create Product Rendering Material [POST]
+### Create Product Rendering Asset [POST]
 
 + Request (application/json)
-    + Attributes (Product Rendering Detail Write)
+    + Attributes (Product Rendering Asset Write)
 
 + Response 201
 
     + Headers
 
-            Location: /products/1/rendering/materials/1
+            Location: /products/1/rendering/assets/model/name
 
 + Response 500
     Returned when a generic error occours.
 
     + Body
 
-### Read Product Rendering Material [GET]
+## Product Rendering Asset [/products/{productId}/rendering/assets/{type}/{name}{?index}]
+
++ Parameters
+    + productId: 1 (string) - SKU on the product repository
+    + type: model (enum) - type of the asset bundle
+        + Members
+            + model
+            + finishing
+            + part
+    + name (string) - name of the asset bundle
+    + index: 2 (optional, number) - nth asset bundle
+
++ Attributes (Product Rendering Asset Base)
+
+### Read Product Rendering Asset [GET]
 Retrieve the image (file stream).
 
 + Response 200 (application/png)
@@ -907,10 +918,10 @@ Retrieve the image (file stream).
 
     + Body
 
-### Update Product Rendering Material [PUT]
+### Update Product Rendering Asset [PUT]
 
 + Request (application/json)
-    + Attributes (Product Rendering Detail Write)
+    + Attributes (Product Rendering Asset Write)
 
 + Response 200
 
@@ -919,7 +930,7 @@ Retrieve the image (file stream).
 
     + Body
 
-### Delete Product Rendering Material [DELETE]
+### Delete Product Rendering Asset [DELETE]
 
 + Response 204
 
@@ -927,62 +938,6 @@ Retrieve the image (file stream).
     Returned when a generic error occours.
 
     + Body
-
-## Product Rendering Part [/products/{productId}/rendering/parts/{index}]
-
-+ Parameters
-    + productId: 1 (string) - SKU on the product repository
-    + index: 2 (number) - interact with the nth part
-
-+ Attributes (Product Rendering Detail)
-
-### Create Product Rendering Part [POST]
-
-+ Request (application/json)
-    + Attributes (Product Rendering Detail Write)
-
-+ Response 201
-
-    + Headers
-
-            Location: /products/1/rendering/parts/1
-
-+ Response 500
-    Returned when a generic error occours.
-
-    + Body
-
-### Read Product Rendering Part [GET]
-Retrieve the image (file stream).
-
-+ Response 200 (application/png)
-
-+ Response 500
-    Returned when a generic error occours.
-
-    + Body
-
-### Update Product Rendering Part [PUT]
-
-+ Request (application/json)
-    + Attributes (Product Rendering Detail Write)
-
-+ Response 200
-
-+ Response 500
-    Returned when a generic error occours.
-
-    + Body
-
-### Delete Product Rendering Part [DELETE]
-
-+ Response 204
-
-+ Response 500
-    Returned when a generic error occours.
-
-    + Body
-
 
 
 #################
@@ -1500,9 +1455,7 @@ API group used to handle users' contact requests.
 
 
 ## Product Rendering (object)
-+ model (string) - static file of 3D model
-+ materials: 2 (number) - number of materials composing the rendering
-+ parts: 2 (number) - number of parts composing the rendering
++ assets (array[Product Rendering Asset Base]) - array of asset bundles
 + x (number) - default X axis position for the rendering
 + y (number) - default Y axis position for the rendering
 + z (number) - default Z axis position for the rendering
@@ -1514,13 +1467,18 @@ API group used to handle users' contact requests.
 ## Product Rendering Write (Product Rendering)
 + Include Write Base
 
-## Product Rendering Detail (object)
-+ productId: 1 (required, string) - SKU on the product repository.
-+ index: 2 (required, number) - nth detail (material or part).
-+ file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
+## Product Rendering Asset Base (object)
++ name: name (string) - name of the asset bundle.
++ type: model (enum) - type of the asset bundle
+    + Members
+        + model
+        + finishing
+        + part
++ layer (string)
 
-## Product Rendering Detail Write (Product Rendering Detail)
+## Product Rendering Asset Write (Product Rendering Asset Base)
 + Include Write Base
++ file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
 
 
 ## Scene Base (object)

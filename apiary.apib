@@ -1272,6 +1272,90 @@ API group used to handle users' contact requests.
 
 
 
+##############################
+# Group IS18 - Wishlist Groups
+##############################
+
+API group used to handle groups of wishlists.
+
+## Wishlist Groups collections [/wishlists]
+
++ Attributes (Collection)
+    + products (array[Wishlist Group]) - array of wishlist groups accessible by the user
+
+### List Wishlist Groups [GET /wishlists{?userId}{?page}]
+
+This action retrieves the list of wishlists groups accessible by the user,
+possibly sliced and filtered only for the specified `userId`.
+
++ Parameters
+    + userId: 1 (optional, number) - Filter wishlist groups created by the specified `userId`.
+    + page: 1 (optional, number) - The page of wishlist groups to return.
+
++ Response 200 (application/json)
+    + Attributes (Wishlist Groups collections)
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+### Create Wishlist Group [POST]
+
++ Request (application/json)
+    + Attribute (Wishlist Group Create)
+
++ Response 201
+
+    + Headers
+
+            Location: /wishlists/1
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+## Wishlist Group [/wishlists/{id}]
+
++ Attributes (Wishlist Group Base)
+    + id: 5 (required, string) - id of the wishlist group
+
++ Parameters
+    + id: 5 (required, string) - id of the wishlist group
+
+### Read Wishlist Group [GET]
+
++ Response 200 (application/json)
+    + Attributes (Wishlist Group)
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+### Update Wishlist Group [PUT]
+
++ Request (application/json)
+    + Attributes (Wishlist Group Update)
+
++ Response 200
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+### Delete Wishlist Group [DELETE]
+
++ Response 204
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+
 
 
 
@@ -1552,4 +1636,14 @@ API group used to handle users' contact requests.
 + Include Write Base
 
 ## Contact Update (Contact)
++ Include Write Base
+
+## Wishlist Group Base (object)
++ userId: 1 (required, number) - ID of the user associated with the wishlist group.
++ groupName: `Per le vacanze` (string) - Name of the wishlist group.
+
+## Wishlist Group Create (Contact Base)
++ Include Write Base
+
+## Wishlist Group Update (Contact)
 + Include Write Base

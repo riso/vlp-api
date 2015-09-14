@@ -82,6 +82,11 @@ Create a user profile.
 
             Location: /profiles/1
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -118,6 +123,11 @@ Create a user profile.
     + Attributes (Profile Update)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -199,6 +209,11 @@ Used to retrieve user personal details.
 
             Location: /profiles/1/addresses/1
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -236,6 +251,11 @@ Used to retrieve user personal details.
     + Attributes (Profile Address Update)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
 Returned when the required resource cannot be found.
@@ -313,6 +333,11 @@ It will replace his current selection if he already has one in the same category
 
             Location: /selections/{userId}/serramenti
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -349,6 +374,11 @@ These actions operate on the selection of the required `type`.
     + Attributes (Selection Write)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -436,6 +466,11 @@ not the given FP Dealer ID.
 
             Location: /documents/2
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -481,6 +516,11 @@ supported.
 
 + Response 200
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 404
     Returned when the required resource cannot be found.
 
@@ -519,6 +559,11 @@ This actions allow adding a new file to an existing document.
     + Headers
 
             Location: /documents/2/files/pdf
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -562,6 +607,11 @@ Retrieve the document (file stream).
     + Attributes (Document File Update)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -664,6 +714,11 @@ If the event not exists it'll created, else it'll be updated
 
             Location: /events/1
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -679,6 +734,11 @@ If the event not exists it'll created, else it'll be updated
     + Headers
 
             Location: /events/1
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -719,6 +779,11 @@ updating his previous event.
     + Attributes (Event Update)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -792,6 +857,11 @@ collection actions we return an array.
 
             Location: /products/1
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -826,6 +896,11 @@ collection actions we return an array.
     + Attributes (Product Update)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -876,6 +951,11 @@ with its images.
 
             Location: /products/{productId}/images/main
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -916,6 +996,11 @@ Retrieve the image (file stream).
     + Attributes(Product Image Write)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -968,6 +1053,11 @@ of images for the rendering materials and parts.
 
             Location: /products/1/rendering
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -994,6 +1084,11 @@ of images for the rendering materials and parts.
     + Attributes (Product Rendering Write)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -1035,6 +1130,11 @@ of images for the rendering materials and parts.
 
             Location: /products/1/rendering/assets/model/name
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1075,6 +1175,11 @@ Retrieve the image (file stream).
     + Attributes (Product Rendering Asset Write)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -1144,6 +1249,11 @@ The main resources managed are:
 
             Location: /ar/scenes/1
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1180,6 +1290,11 @@ The main resources managed are:
     + Attributes (Scene Update)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -1237,6 +1352,11 @@ will also be "added" to the scene.
 
             Location: /ar/objects/3
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1273,6 +1393,11 @@ will also be "added" to the scene.
     + Attributes (Object Update)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -1334,6 +1459,11 @@ will also be "added" to the scene.
 
             Location: /ar/scenes/1/surfaces/1
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1369,6 +1499,11 @@ will also be "added" to the scene.
     + Attribute (Surface Update)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -1432,6 +1567,11 @@ API group used to handle users' contact requests.
 
             Location: /contacts/1
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1466,6 +1606,11 @@ API group used to handle users' contact requests.
     + Attributes (Contact Update)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -1532,6 +1677,11 @@ possibly sliced and filtered only for the specified `userId`.
 
             Location: /wishlists/1
 
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1566,6 +1716,11 @@ possibly sliced and filtered only for the specified `userId`.
     + Attributes (Wishlist Group Update)
 
 + Response 200
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
 
 + Response 404
     Returned when the required resource cannot be found.

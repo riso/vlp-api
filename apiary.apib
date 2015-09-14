@@ -43,7 +43,7 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
 
 Resources related to user's profile in the API.
 
-## Profiles collections [/profiles{?consultantId}{?page}]
+## Profiles collections [/profiles{?consultantId}{?page}{?backends}]
 
 + Attributes (Collection)
   + profiles (array[Profile]) - array of user accessible profiles
@@ -55,6 +55,13 @@ profiles associated with a given `consultantId`.
 + Parameters
     + page: 1 (optional, number) - The page of profiles to return
     + consultantId: 1 (optional, number) - ID of the consultant associated with this user
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
 
@@ -92,7 +99,7 @@ Create a user profile.
 
     + Body
 
-## Profile [/profiles/{id}]
+## Profile [/profiles/{id}{?backends}]
 
 + Parameters
     + id: 1 (required, number) - ID of the user
@@ -101,6 +108,15 @@ Create a user profile.
     + id: 1 (required, number) - ID of the user profile
 
 ### Read Profile [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
 
@@ -154,11 +170,20 @@ Create a user profile.
 
     + Body
 
-## User personal profile [/profiles/my]
+## User personal profile [/profiles/my{?backends}]
 
 Used to retrieve user personal details.
 
 ### Read Profile [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
   + Attributes (Profile)
@@ -173,7 +198,7 @@ Used to retrieve user personal details.
 
     + Body
 
-## Profile Addresses collections [/profiles/{userId}/addresses{?page}]
+## Profile Addresses collections [/profiles/{userId}/addresses{?page}{?backends}]
 
 + Attributes
   + count: 1 (number) - total number of addresses
@@ -184,6 +209,13 @@ Used to retrieve user personal details.
 + Parameters
   + userId: 1 (required, number) - ID of the user
   + page: 1 (optional, number) - The page of addresses to return
+  + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+      + Members
+          + cache
+          + db
+          + ldap
+          + connections
+          + commerce
 
 + Response 200 (application/json)
 
@@ -219,7 +251,7 @@ Used to retrieve user personal details.
 
     + Body
 
-## Profile Address [/profiles/{userId}/addresses/{id}]
+## Profile Address [/profiles/{userId}/addresses/{id}{?backends}]
 
 + Parameters
     + userId: 1 (number) - ID of the user
@@ -229,6 +261,15 @@ Used to retrieve user personal details.
     + id: 1 (required, number) - ID of the address
 
 ### Read Profile Address [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
 
@@ -414,7 +455,7 @@ An user can list its previous documents, create a document and then edit it.
 
 Document acts as a "super-class" for quotes and orders.
 
-## Documents collections [/documents{?userId}{?page}{?type}]
+## Documents collections [/documents{?userId}{?page}{?type}{?backends}]
 
 The following methods allow the user to interact with documents.
 
@@ -433,7 +474,13 @@ possibly sliced and filtered only for the specified `userId` and/or `type`.
         + Members
             + quote
             + order
-
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
 
@@ -476,7 +523,7 @@ not the given FP Dealer ID.
 
     + Body
 
-## Document [/documents/{id}]
+## Document [/documents/{id}{?backends}]
 
 + Parameters
     + id: 1 (required, string) - ID of the document
@@ -488,6 +535,15 @@ not the given FP Dealer ID.
 
 See the details of a given document. This returns the single document
 istances with its historic statuses.
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
 
@@ -570,7 +626,7 @@ This actions allow adding a new file to an existing document.
 
     + Body
 
-## Document File [/documents/{id}/files/{format}]
+## Document File [/documents/{id}/files/{format}{?backends}]
 
 API route for interacting with documents' files.
 
@@ -588,6 +644,15 @@ Create and update actions expect the file stream as input.
 
 ### Read Document File [GET]
 Retrieve the document (file stream).
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/stream)
 
@@ -643,7 +708,7 @@ Retrieve the document (file stream).
 # Group IS12 - Events
 #####################
 
-## Events collections [/events{?userId}{?page}{?type}]
+## Events collections [/events{?userId}{?page}{?type}{?backends}]
 
 + Attributes (Collection)
     + events (array[Event]) - array of returned events
@@ -661,6 +726,13 @@ and/or `type` and sliced.
             + vote - content up or down vote
             + desire - content desired
     + page: 1 (optional, number) - The page of events to return
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
 
@@ -675,7 +747,7 @@ and/or `type` and sliced.
 
     + Body
 
-### Find Event [GET /events/find{?contentId}]
+### Find Event [GET /events/find{?contentId}{?backends}]
 
 Action that can be used to find the events in the repository starting
 from a contentId.
@@ -684,6 +756,13 @@ Action return an array that contains all events linked at contentId.
 
 + Parameters
     + contentId: 1 (string) - ID of the content
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
     + Attributes (Events collections)
@@ -745,7 +824,7 @@ If the event not exists it'll created, else it'll be updated
 
     + Body
 
-## Event [/events/{id}]
+## Event [/events/{id}{?backends}]
 
 + Attribute (Event Base)
     + id: 1 (required, number) - ID of the event
@@ -754,6 +833,15 @@ If the event not exists it'll created, else it'll be updated
     + id: 1 (required, string) - ID of the event
 
 ### Read Event [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
     + Attributes (Event)
@@ -822,7 +910,7 @@ API group used to handle products.
 + Attributes (Collection)
     + products (array[Product]) - array of products accessible by the user
 
-### Find products [GET /find{?commerceSKU}{?attributes}]
+### Find products [GET /find{?commerceSKU}{?attributes}{?backends}]
 
 Action that can be used to find a product in the repository starting
 from the commerce SKU and the selections (map of attributes).
@@ -837,6 +925,13 @@ collection actions we return an array.
     + commerceSKU: 1 (string) - SKU on the commerce
     + attributes: {"color": "black", "isolation": "high", "material": "wood"} (object) -
       attribute selection on the commerce SKU product
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
     + Attributes (Products collections)
@@ -867,7 +962,7 @@ collection actions we return an array.
 
     + Body
 
-## Product [/products/{id}]
+## Product [/products/{id}{?backends}]
 
 + Attributes (Product Base)
     + id: 5 (required, string) - SKU of the product in the product repository
@@ -876,6 +971,15 @@ collection actions we return an array.
     + id: 5 (required, string) - SKU of the product
 
 ### Read Product [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
     + Attributes (Product)
@@ -962,7 +1066,7 @@ with its images.
     + Body
 
 
-## Product Image [/products/{productId}/images/{type}/{?index}]
+## Product Image [/products/{productId}/images/{type}/{?index}{?backends}]
 
 + Parameters
     + type: main (required, enum[string]) - type of the image being required.
@@ -976,6 +1080,15 @@ with its images.
 
 ### Read Product Image [GET]
 Retrieve the image (file stream).
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (image/png)
 
@@ -1037,7 +1150,7 @@ with its rendering. For each product a single rendering is assumed. A rendering
 consists of default positioning, rotation and scale of a product and two series
 of images for the rendering materials and parts.
 
-## Product Rendering [/products/{productId}/rendering]
+## Product Rendering [/products/{productId}/rendering{?backends}]
 
 + Parameters
     + productId: 1 (string) - SKU on the product repository
@@ -1064,6 +1177,15 @@ of images for the rendering materials and parts.
     + Body
 
 ### Read Product Rendering [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
     + Attributes (Product Rendering)
@@ -1140,7 +1262,7 @@ of images for the rendering materials and parts.
 
     + Body
 
-## Product Rendering Asset [/products/{productId}/rendering/assets/{type}/{name}{?index}]
+## Product Rendering Asset [/products/{productId}/rendering/assets/{type}/{name}{?index}{?backends}]
 
 + Parameters
     + productId: 1 (string) - SKU on the product repository
@@ -1156,6 +1278,15 @@ of images for the rendering materials and parts.
 
 ### Read Product Rendering Asset [GET]
 Retrieve the image (file stream).
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/png)
 
@@ -1218,7 +1349,7 @@ The main resources managed are:
 + `Scene`, a 3D environment consisting of multiple objects
 + `Surface`
 
-## Scenes collections [/ar/scenes{?userId}{?page}]
+## Scenes collections [/ar/scenes{?userId}{?page}{?backends}]
 
 + Attributes (Collection)
     + scenes (array[Scene]) - array of scenes accessible by the user
@@ -1228,6 +1359,13 @@ The main resources managed are:
 + Parameters
     + userId: 1 (optional, number) - filter scenes for the specified user
     + page: 1 (optional, number) - slice scenes
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
 
@@ -1259,7 +1397,7 @@ The main resources managed are:
 
     + Body
 
-## Scene [/ar/scenes/{id}]
+## Scene [/ar/scenes/{id}{?backends}]
 
 + Attributes (Scene Base)
     + id: 1 (required, string) - ID of the scene.
@@ -1268,6 +1406,15 @@ The main resources managed are:
     + id: 1 (string) - ID of the scene.
 
 ### Read Scene [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
 
@@ -1320,7 +1467,7 @@ The main resources managed are:
 
     + Body
 
-## Objects collections [/ar/objects{?page}{?sceneId}]
+## Objects collections [/ar/objects{?page}{?sceneId}{?backends}]
 
 + Attributes (Collection)
     + objects (array[Object]) - array of objects accessible by the user
@@ -1330,6 +1477,13 @@ The main resources managed are:
 + Parameters
     + page: 1 (optional, number) - slice scene objects
     + sceneId: 1 (optional, string) - Filter only object "belonging" to the specified scene
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
     + Attributes (Objects collections)
@@ -1362,7 +1516,7 @@ will also be "added" to the scene.
 
     + Body
 
-## Object [/ar/objects/{id}]
+## Object [/ar/objects/{id}{?backends}]
 
 + Attributes (Object Base)
     + id: 1 (required, string)
@@ -1371,6 +1525,15 @@ will also be "added" to the scene.
     + id: 1 (required, string) - ID of the object
 
 ### Read Object [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
 
@@ -1424,7 +1587,7 @@ will also be "added" to the scene.
     + Body
 
 
-## Surfaces collections [/ar/scenes/{sceneId}/surfaces{?page}]
+## Surfaces collections [/ar/scenes/{sceneId}/surfaces{?page}{?backends}]
 
 + Attributes (Collection)
     + surfaces (array[Surface]) - array of surfaces accessible by the user
@@ -1434,6 +1597,14 @@ will also be "added" to the scene.
 + Parameters
     + sceneId: 5 (required, number) - ID scene
     + page: 1 (number) - slice surfaces
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
+
 
 + Response 200 (application/json)
 
@@ -1469,7 +1640,7 @@ will also be "added" to the scene.
 
     + Body
 
-## Surface [/ar/scenes/{sceneId}/surfaces/{id}]
+## Surface [/ar/scenes/{sceneId}/surfaces/{id}{?backends}]
 
 + Attributes (Surface Base)
     + id: 1 (number) - ID of the surface
@@ -1479,6 +1650,15 @@ will also be "added" to the scene.
     + id: 1 (required, string) - ID of the surface
 
 ### Read Surface [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
     + Attribute (Surface)
@@ -1537,7 +1717,7 @@ will also be "added" to the scene.
 
 API group used to handle users' contact requests.
 
-## Contacts collections [/contacts{?userId}{?page}]
+## Contacts collections [/contacts{?userId}{?page}{?backends}]
 
 + Attributes (Collection)
   + contacts (array[Contact]) - array of contact requests accessible by the user
@@ -1547,6 +1727,14 @@ API group used to handle users' contact requests.
 + Parameters
     + userId: 1 (optional, string) - filter contact requests for the specified user
     + page: 1 (optional, number) - slice contact requests
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
+
 
 + Response 200 (application/json)
     + Attributes (Contacts collections)
@@ -1577,7 +1765,7 @@ API group used to handle users' contact requests.
 
     + Body
 
-## Contact [/contacts/{id}]
+## Contact [/contacts/{id}{?backends}]
 
 + Parameters
     + id: 1 (required, string) - ID of the contact request with which interact
@@ -1586,6 +1774,15 @@ API group used to handle users' contact requests.
     + id: 1 (required, number)
 
 ### Read Contact [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
     + Attributes (Contact)
@@ -1649,7 +1846,7 @@ API group used to handle groups of wishlists.
 + Attributes (Collection)
     + wishlists (array[Wishlist Group]) - array of wishlist groups accessible by the user
 
-### List Wishlist Groups [GET /wishlists{?userId}{?page}]
+### List Wishlist Groups [GET /wishlists{?userId}{?page}{?backends}]
 
 This action retrieves the list of wishlists groups accessible by the user,
 possibly sliced and filtered only for the specified `userId`.
@@ -1657,6 +1854,13 @@ possibly sliced and filtered only for the specified `userId`.
 + Parameters
     + userId: 1 (optional, number) - Filter wishlist groups created by the specified `userId`.
     + page: 1 (optional, number) - The page of wishlist groups to return.
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
     + Attributes (Wishlist Groups collections)
@@ -1687,7 +1891,7 @@ possibly sliced and filtered only for the specified `userId`.
 
     + Body
 
-## Wishlist Group [/wishlists/{id}]
+## Wishlist Group [/wishlists/{id}{?backends}]
 
 + Attributes (Wishlist Group Base)
     + id: 5 (required, string) - id of the wishlist group
@@ -1696,6 +1900,15 @@ possibly sliced and filtered only for the specified `userId`.
     + id: 5 (required, string) - id of the wishlist group
 
 ### Read Wishlist Group [GET]
+
++ Parameters
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
 
 + Response 200 (application/json)
     + Attributes (Wishlist Group)
@@ -1746,7 +1959,7 @@ possibly sliced and filtered only for the specified `userId`.
 
     + Body
 
-## Wishlist Group Events [/wishlists/{id}/events]
+## Wishlist Group Events [/wishlists/{id}/events{?backends}]
 
 + Attributes (Collection)
     + events (array[Event]) - array of `desire` events associated with the given wishlist
@@ -1758,6 +1971,14 @@ wishlist group id.
 
 + Parameters
     + id: 5 (required, string) - id of the wishlist group
+    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
+        + Members
+            + cache
+            + db
+            + ldap
+            + connections
+            + commerce
+
 
 + Response 200 (application/json)
 

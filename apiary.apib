@@ -544,7 +544,7 @@ and/or `type` and sliced.
 
     + Body
 
-### Find Event [GET /findEvent{?contentId}]
+### Find Event [GET /events/find{?contentId}]
 
 Action that can be used to find the events in the repository starting
 from a contentId.
@@ -562,7 +562,7 @@ Action return an array that contains all events linked at contentId.
 
     + Body
 
-### Upsert Event [POST /upsert{?contentId}]
+### Upsert Event [POST /events/upsert]
 
 Action that can be used to insert and/or update the events in the repository associated
 at a contentId.
@@ -1281,7 +1281,7 @@ API group used to handle groups of wishlists.
 ## Wishlist Groups collections [/wishlists]
 
 + Attributes (Collection)
-    + products (array[Wishlist Group]) - array of wishlist groups accessible by the user
+    + wishlists (array[Wishlist Group]) - array of wishlist groups accessible by the user
 
 ### List Wishlist Groups [GET /wishlists{?userId}{?page}]
 
@@ -1355,8 +1355,23 @@ possibly sliced and filtered only for the specified `userId`.
 
     + Body
 
+## Wishlist Group Events [/wishlists/{id}/events]
 
++ Attributes (Collection)
+    + events (array[Event]) - array of `desire` events associated with the given wishlist
 
+### List Wishlist Group Events [GET]
+
+This action retrieves the events of type `desire` associated with the given
+wishlist group id.
+
++ Parameters
+    + id: 5 (required, string) - id of the wishlist group
+
++ Response 200 (application/json)
+
+    + Attributes (Wishlist Group Events)
+        + type: desire
 
 
 # Data Structures

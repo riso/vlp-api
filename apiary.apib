@@ -101,6 +101,11 @@ Create a user profile.
 
     + Attributes (Profile)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -114,6 +119,11 @@ Create a user profile.
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -122,6 +132,12 @@ Create a user profile.
 ### Delete Profile [DELETE]
 
 + Response 204
+
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -136,6 +152,11 @@ Used to retrieve user personal details.
 
 + Response 200 (application/json)
   + Attributes (Profile)
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -198,6 +219,11 @@ Used to retrieve user personal details.
 
     + Attributes (Profile Address)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -211,6 +237,11 @@ Used to retrieve user personal details.
 
 + Response 200
 
++ Response 404
+Returned when the required resource cannot be found.
+
++ Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -219,6 +250,11 @@ Used to retrieve user personal details.
 ### Delete Profile Address [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -296,6 +332,11 @@ These actions operate on the selection of the required `type`.
 
     + Attributes (Selection)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -309,6 +350,11 @@ These actions operate on the selection of the required `type`.
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -317,6 +363,11 @@ These actions operate on the selection of the required `type`.
 ### Delete Selection [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -407,6 +458,11 @@ istances with its historic statuses.
 
     + Attributes (Document Read)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -425,6 +481,11 @@ supported.
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -433,6 +494,11 @@ supported.
 ### Delete Document [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -480,6 +546,11 @@ Retrieve the document (file stream).
 
 + Response 200 (application/stream)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -492,6 +563,11 @@ Retrieve the document (file stream).
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -500,6 +576,11 @@ Retrieve the document (file stream).
 ### Delete Document File [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -557,6 +638,11 @@ Action return an array that contains all events linked at contentId.
 + Response 200 (application/json)
     + Attributes (Events collections)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -612,6 +698,11 @@ If the event not exists it'll created, else it'll be updated
 + Response 200 (application/json)
     + Attributes (Event)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -629,6 +720,11 @@ updating his previous event.
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -637,6 +733,11 @@ updating his previous event.
 ### Delete Event [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -709,6 +810,11 @@ collection actions we return an array.
 + Response 200 (application/json)
     + Attributes (Product)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -721,6 +827,11 @@ collection actions we return an array.
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -729,6 +840,11 @@ collection actions we return an array.
 ### Delete Product [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -783,6 +899,11 @@ Retrieve the image (file stream).
 
 + Response 200 (image/png)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -796,6 +917,11 @@ Retrieve the image (file stream).
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -804,6 +930,11 @@ Retrieve the image (file stream).
 ### Delete Product Image [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -847,6 +978,11 @@ of images for the rendering materials and parts.
 + Response 200 (application/json)
     + Attributes (Product Rendering)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -859,6 +995,11 @@ of images for the rendering materials and parts.
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -867,6 +1008,11 @@ of images for the rendering materials and parts.
 ### Delete Product Rendering [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -913,6 +1059,11 @@ Retrieve the image (file stream).
 
 + Response 200 (application/png)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -925,6 +1076,11 @@ Retrieve the image (file stream).
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -933,6 +1089,11 @@ Retrieve the image (file stream).
 ### Delete Product Rendering Asset [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -1002,6 +1163,11 @@ The main resources managed are:
 
     + Attributes (Scene)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1015,6 +1181,11 @@ The main resources managed are:
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1023,6 +1194,11 @@ The main resources managed are:
 ### Delete Scene [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -1080,6 +1256,11 @@ will also be "added" to the scene.
 
     + Attributes (Object)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1093,6 +1274,11 @@ will also be "added" to the scene.
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1101,6 +1287,11 @@ will also be "added" to the scene.
 ### Delete Object [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -1162,6 +1353,11 @@ will also be "added" to the scene.
 + Response 200 (application/json)
     + Attribute (Surface)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1174,6 +1370,11 @@ will also be "added" to the scene.
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1182,6 +1383,11 @@ will also be "added" to the scene.
 ### Delete Surface [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -1244,6 +1450,11 @@ API group used to handle users' contact requests.
 + Response 200 (application/json)
     + Attributes (Contact)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1256,6 +1467,11 @@ API group used to handle users' contact requests.
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1264,6 +1480,11 @@ API group used to handle users' contact requests.
 ### Delete Contact [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -1329,6 +1550,11 @@ possibly sliced and filtered only for the specified `userId`.
 + Response 200 (application/json)
     + Attributes (Wishlist Group)
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1341,6 +1567,11 @@ possibly sliced and filtered only for the specified `userId`.
 
 + Response 200
 
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
 + Response 500
     Returned when a generic error occours.
 
@@ -1349,6 +1580,11 @@ possibly sliced and filtered only for the specified `userId`.
 ### Delete Wishlist Group [DELETE]
 
 + Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
 
 + Response 500
     Returned when a generic error occours.

@@ -1141,30 +1141,27 @@ Retrieve the image (file stream).
 
 
 
-#################################
-# Group IS08 - Product Renderings
-#################################
+############################
+# Group IS08 - Asset Bundles
+############################
 
-Sub-resource of a product resource. First find the product SKU, then interact
-with its rendering. For each product a single rendering is assumed. A rendering
-consists of default positioning, rotation and scale of a product and two series
-of images for the rendering materials and parts.
+Assets used in the 3D viewer application. An asset is ultimately a file,
+identified by the pair (`type`, `name`). Assets are used to represent static
+resources in the 3D Viewer, such as models, finishings and parts of products,
+surfaces and scenes.
 
-## Product Rendering [/products/{productId}/rendering{?backends}]
+## Asset Collections [/assets]
 
-+ Parameters
-    + productId: 1 (string) - SKU on the product repository
-
-### Create Product Rendering [POST]
+### Create Asset [POST]
 
 + Request (application/json)
-    + Attributes (Product Rendering Write)
+    + Attributes (Asset Write)
 
 + Response 201
 
     + Headers
 
-            Location: /products/1/rendering
+            Location: /assets/model/name
 
 + Response 400
     Returned when input does not pass validation.
@@ -1176,107 +1173,19 @@ of images for the rendering materials and parts.
 
     + Body
 
-### Read Product Rendering [GET]
+## Asset [/assets/{type}/{name}{?backends}]
 
 + Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
-
-+ Response 200 (application/json)
-    + Attributes (Product Rendering)
-
-+ Response 404
-    Returned when the required resource cannot be found.
-
-    + Body
-
-+ Response 500
-    Returned when a generic error occours.
-
-    + Body
-
-### Update Product Rendering [PUT]
-
-+ Request (application/json)
-    + Attributes (Product Rendering Write)
-
-+ Response 200
-
-+ Response 400
-    Returned when input does not pass validation.
-
-    + Body
-
-+ Response 404
-    Returned when the required resource cannot be found.
-
-    + Body
-
-+ Response 500
-    Returned when a generic error occours.
-
-    + Body
-
-### Delete Product Rendering [DELETE]
-
-+ Response 204
-
-+ Response 404
-    Returned when the required resource cannot be found.
-
-    + Body
-
-+ Response 500
-    Returned when a generic error occours.
-
-    + Body
-
-## Product Rendering Asset Collections [/products/{productId}/rendering/assets]
-
-+ Parameters
-    + productId: 1 (string) - SKU on the product repository
-
-### Create Product Rendering Asset [POST]
-
-+ Request (application/json)
-    + Attributes (Product Rendering Asset Write)
-
-+ Response 201
-
-    + Headers
-
-            Location: /products/1/rendering/assets/model/name
-
-+ Response 400
-    Returned when input does not pass validation.
-
-    + Body
-
-+ Response 500
-    Returned when a generic error occours.
-
-    + Body
-
-## Product Rendering Asset [/products/{productId}/rendering/assets/{type}/{name}{?index}{?backends}]
-
-+ Parameters
-    + productId: 1 (string) - SKU on the product repository
     + type: model (enum) - type of the asset bundle
         + Members
             + model
             + finishing
             + part
     + name (string) - name of the asset bundle
-    + index: 2 (optional, number) - nth asset bundle
 
-+ Attributes (Product Rendering Asset Base)
++ Attributes (Asset Base)
 
-### Read Product Rendering Asset [GET]
+### Read Asset [GET]
 Retrieve the image (file stream).
 
 + Parameters
@@ -1300,10 +1209,10 @@ Retrieve the image (file stream).
 
     + Body
 
-### Update Product Rendering Asset [PUT]
+### Update Asset [PUT]
 
 + Request (application/json)
-    + Attributes (Product Rendering Asset Write)
+    + Attributes (Asset Write)
 
 + Response 200
 
@@ -1322,7 +1231,7 @@ Retrieve the image (file stream).
 
     + Body
 
-### Delete Product Rendering Asset [DELETE]
+### Delete Asset [DELETE]
 
 + Response 204
 
@@ -1375,6 +1284,23 @@ The main resources managed are:
     Returned when a generic error occours.
 
     + Body
+
+### Copy Scene from set [POST /ar/scenes/copy]
+
+This action creates a new scene copying an existing set (scene template). In then
+proceeds to create a new Scene Object for the specified productId and associates
+it with the newly created scene.
+
++ Request (application/json)
+    + Attributes
+        + productId
+        + default_set
+
++ Response 201
+
+    + Headers
+
+            Location: /ar/scenes/1
 
 ### Create Scene [POST]
 
@@ -1467,7 +1393,7 @@ The main resources managed are:
 
     + Body
 
-## Objects collections [/ar/objects{?page}{?sceneId}{?backends}]
+## Objects collections [/ar/scenes/{sceneId}/objects{?page}{?backends}]
 
 + Attributes (Collection)
     + objects (array[Object]) - array of objects accessible by the user
@@ -2141,8 +2067,9 @@ wishlist group id.
 + Include Write Base
 
 ## Product Base (object)
-+ default_scene: kitchen (required, string) - default scene that can be used to render this product in the 3D viewer
++ default_set: kitchen (required, string) - default set that will be copied in order to create a new scene for the specified object
 + availability: true (required, boolean)
++ assets (array[Asset Base]) - array of asset bundles
 
 ## Product Create (Product Base)
 + Include Write Base
@@ -2165,20 +2092,7 @@ wishlist group id.
 + Include Write Base
 
 
-## Product Rendering (object)
-+ assets (array[Product Rendering Asset Base]) - array of asset bundles
-+ x (number) - default X axis position for the rendering
-+ y (number) - default Y axis position for the rendering
-+ z (number) - default Z axis position for the rendering
-+ rx (number) - default rotation on X axis for the rendering
-+ ry (number) - default rotation on Y axis for the rendering
-+ rz (number) - default rotation on Z axis for the rendering
-+ s (number) - default scale of the rendering
-
-## Product Rendering Write (Product Rendering)
-+ Include Write Base
-
-## Product Rendering Asset Base (object)
+## Asset Base (object)
 + name: name (string) - name of the asset bundle.
 + type: model (enum) - type of the asset bundle
     + Members
@@ -2187,7 +2101,7 @@ wishlist group id.
         + part
 + layer (string)
 
-## Product Rendering Asset Write (Product Rendering Asset Base)
+## Asset Write (Asset Base)
 + Include Write Base
 + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
 

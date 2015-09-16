@@ -1398,11 +1398,13 @@ it with the newly created scene.
 + Attributes (Collection)
     + objects (array[Object]) - array of objects accessible by the user
 
++ Parameters
+    + sceneId: 1 (string) - scene owning the objects
+
 ### List Objects [GET]
 
 + Parameters
     + page: 1 (optional, number) - slice scene objects
-    + sceneId: 1 (optional, string) - Filter only object "belonging" to the specified scene
     + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
         + Members
             + cache

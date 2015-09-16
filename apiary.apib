@@ -13,8 +13,6 @@ API affordances in the form of the links in the JSON body.
 Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according to
 [Java SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html).
 
-**TODO: time zone?**
-
 ## Retrieve the Entry Point [GET]
 
 + Response 200 (application/json)
@@ -156,6 +154,9 @@ Create a user profile.
     + Body
 
 ### Delete Profile [DELETE]
+
++ Request (application/json)
+    + Attributes (Delete Base)
 
 + Response 204
 
@@ -310,6 +311,9 @@ Returned when the required resource cannot be found.
 
 ### Delete Profile Address [DELETE]
 
++ Request (application/json)
+    + Attributes (Delete Base)
+
 + Response 204
 
 + Response 404
@@ -432,6 +436,9 @@ These actions operate on the selection of the required `type`.
     + Body
 
 ### Delete Selection [DELETE]
+
++ Request (application/json)
+    + Attributes (Delete Base)
 
 + Response 204
 
@@ -589,6 +596,9 @@ supported.
 
 ### Delete Document [DELETE]
 
++ Request (application/json)
+    + Attributes (Delete Base)
+
 + Response 204
 
 + Response 404
@@ -689,6 +699,9 @@ Retrieve the document (file stream).
     + Body
 
 ### Delete Document File [DELETE]
+
++ Request (application/json)
+    + Attributes (Delete Base)
 
 + Response 204
 
@@ -885,6 +898,9 @@ updating his previous event.
 
 ### Delete Event [DELETE]
 
++ Request (application/json)
+    + Attributes (Delete Base)
+
 + Response 204
 
 + Response 404
@@ -1018,6 +1034,9 @@ collection actions we return an array.
 
 ### Delete Product [DELETE]
 
++ Request (application/json)
+    + Attributes (Delete Base)
+
 + Response 204
 
 + Response 404
@@ -1127,6 +1146,9 @@ Retrieve the image (file stream).
 
 ### Delete Product Image [DELETE]
 
++ Request (application/json)
+    + Attributes (Delete Base)
+
 + Response 204
 
 + Response 404
@@ -1233,6 +1255,9 @@ Retrieve the image (file stream).
 
 ### Delete Asset [DELETE]
 
++ Request (application/json)
+    + Attributes (Delete Base)
+
 + Response 204
 
 + Response 404
@@ -1293,8 +1318,8 @@ it with the newly created scene.
 
 + Request (application/json)
     + Attributes
-        + productId
-        + default_set
+        + productId (required, number) - SKU of the product in the repository
+        + default_set (required, string)
 
 + Response 201
 
@@ -1381,6 +1406,9 @@ it with the newly created scene.
 
 ### Delete Scene [DELETE]
 
++ Request (application/json)
+    + Attributes (Delete Base)
+
 + Response 204
 
 + Response 404
@@ -1444,13 +1472,14 @@ will also be "added" to the scene.
 
     + Body
 
-## Object [/ar/objects/{id}{?backends}]
+## Object [/ar/scenes/{sceneId}/{id}{?backends}]
 
 + Attributes (Object Base)
     + id: 1 (required, string)
 
 + Parameters
-    + id: 1 (required, string) - ID of the object
+    + id: 1 (string) - ID of the object
+    + sceneId: 1 (string) - scene owning the objects
 
 ### Read Object [GET]
 
@@ -1501,6 +1530,9 @@ will also be "added" to the scene.
     + Body
 
 ### Delete Object [DELETE]
+
++ Request (application/json)
+    + Attributes (Delete Base)
 
 + Response 204
 
@@ -1625,6 +1657,9 @@ will also be "added" to the scene.
 
 ### Delete Surface [DELETE]
 
++ Request (application/json)
+    + Attributes (Delete Base)
+
 + Response 204
 
 + Response 404
@@ -1748,6 +1783,9 @@ API group used to handle users' contact requests.
     + Body
 
 ### Delete Contact [DELETE]
+
++ Request (application/json)
+    + Attributes (Delete Base)
 
 + Response 204
 
@@ -1875,6 +1913,9 @@ possibly sliced and filtered only for the specified `userId`.
 
 ### Delete Wishlist Group [DELETE]
 
++ Request (application/json)
+    + Attributes (Delete Base)
+
 + Response 204
 
 + Response 404
@@ -1916,9 +1957,17 @@ wishlist group id.
 
 # Data Structures
 
-
 ## Write Base (object)
 + backends: `{"cache": true, "db": true}` (required, object) - to which backends the resource is being saved to.
+    + Properties
+        + cache: true (boolean)
+        + db: true (boolean)
+        + ldap (boolean)
+        + connections (boolean)
+        + commerce (boolean)
+
+## Delete Base (object)
++ backends: `{"cache": true, "db": true}` (required, object) - to which backends the resource is being deleted from.
     + Properties
         + cache: true (boolean)
         + db: true (boolean)
@@ -2059,7 +2108,7 @@ wishlist group id.
 + title: `Storia 1` (required, string)
 + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
 + image_URL: `https://www.vlp.com/logo.png` (required, string)
-+ timestamp: 546757636535 (number) - date of the event (**TODO: format?**)
++ timestamp: 546757636535 (number) - date of the event expressed as number of seconds since the Epoch.
 + zone: Milano (string) - position shared by the user
 
 ## Event Create (Event Base)
@@ -2168,7 +2217,7 @@ wishlist group id.
 + description: `Hi, please contact me` (string)
 + reason (enum)
 + date: `2015-05-01` (string)
-+ timestamp: 123451325 (number)
++ timestamp: 123451325 (number) - date of the event expressed as number of seconds since the Epoch.
 + timeZone (string) - user range availabilty
 + note: `Hi, please contact me` (string)
 - status (enum) - status of contact request (completed, pending)

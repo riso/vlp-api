@@ -748,6 +748,10 @@ and/or `type` and sliced.
             + commerce
 
 + Request Single like event (application/json)
+    
+    + Headers
+
+            X-multi-response: 1
 
 + Response 200 (application/json)
 
@@ -759,10 +763,10 @@ and/or `type` and sliced.
 
 
 + Request Multiple Like events (application/json)
-
+        
     + Headers
 
-            Multi: true
+            X-multi-response: 2
 
 + Response 200 (application/json)
 

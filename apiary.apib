@@ -302,7 +302,7 @@ Used to retrieve user personal details.
 + Response 404
 Returned when the required resource cannot be found.
 
-+ Body
+    + Body
 
 + Response 500
     Returned when a generic error occours.
@@ -747,6 +747,8 @@ and/or `type` and sliced.
             + connections
             + commerce
 
++ Request Single like event (application/json)
+
 + Response 200 (application/json)
 
     + Headers
@@ -754,6 +756,24 @@ and/or `type` and sliced.
             Link: </events?page=2>; rel="next"
 
     + Attributes (Events collections)
+
+
++ Request Multiple Like events (application/json)
+
+    + Headers
+
+            Multi: true
+
++ Response 200 (application/json)
+
+    Response with multiple like events.
+
+    + Headers
+
+            Link: </events?page=2>; rel="next"
+
+    + Attributes (Collection)
+        + events (array[Like1, Like2])
 
 + Response 500
     Returned when a generic error occours.
@@ -2096,6 +2116,11 @@ wishlist group id.
 ## Document File Update (Document File)
 + Include Write Base
 
+## Like1 (Event Base)
++ id: 1
+
+## Like2 (Event Base)
++ id: 2
 
 ## Event Base (object)
 + userId: 1 (number) - ID of the user associated with the event

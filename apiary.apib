@@ -756,7 +756,7 @@ and/or `type` and sliced.
             Link: </events?page=2>; rel="next"
 
     + Attributes (Collection)
-        + events (array[Like1, Like2])
+        + events (array[Event1, Event2, Event3])
 
 + Response 500
     Returned when a generic error occours.
@@ -2099,11 +2099,29 @@ wishlist group id.
 ## Document File Update (Document File)
 + Include Write Base
 
-## Like1 (Event Base)
-+ id: 1
+## Event Partial Base (object)
++ userId: 1 (number) - ID of the user associated with the event
++ value: `-1` (number) - value of the event (only valid for event of type `vote`)
++ title: `Storia 1` (required, string)
++ URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
++ image_URL: `https://www.vlp.com/logo.png` (required, string)
++ timestamp: 546757636535 (number) - date of the event expressed as number of seconds since the Epoch.
++ zone: Milano (string) - position shared by the user
 
-## Like2 (Event Base)
-+ id: 2
+## Event1 (Event Partial Base)
++ id: 1 (number)
++ contentId: 1
++ type: vote
+
+## Event2 (Event Partial Base)
++ id: 2 (number)
++ contentId: 2
++ type: desire
+
+## Event3 (Event Partial Base)
++ id: 3 (number)
++ contentId: 3
++ type: view
 
 ## Event Base (object)
 + userId: 1 (number) - ID of the user associated with the event

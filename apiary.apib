@@ -2103,10 +2103,14 @@ wishlist group id.
 + userId: 1 (number) - ID of the user associated with the event
 + value: `-1` (number) - value of the event (only valid for event of type `vote`)
 + title: `Storia 1` (required, string)
++ descrition: `Descrizione storia` (required, string)
 + URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
 + image_URL: `https://www.vlp.com/logo.png` (required, string)
 + timestamp: 546757636535 (number) - date of the event expressed as number of seconds since the Epoch.
 + zone: Milano (string) - position shared by the user
++ contentType: story (enum) - type of the content connected to this event.
+    + story
+    + product
 
 ## Event1 (Event Partial Base)
 + id: 1 (number)
@@ -2123,19 +2127,12 @@ wishlist group id.
 + contentId: 3
 + type: view
 
-## Event Base (object)
-+ userId: 1 (number) - ID of the user associated with the event
+## Event Base (Event Partial Base)
 + contentId: 1 (required, string) - ID of the content for which the event is being recorded
 + type: vote (required, enum) - type of event
     + view
     + vote
     + desire
-+ value: `-1` (number) - value of the event (only valid for event of type `vote`)
-+ title: `Storia 1` (required, string)
-+ URL: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
-+ image_URL: `https://www.vlp.com/logo.png` (required, string)
-+ timestamp: 546757636535 (number) - date of the event expressed as number of seconds since the Epoch.
-+ zone: Milano (string) - position shared by the user
 
 ## Event Create (Event Base)
 + Include Write Base

@@ -339,15 +339,11 @@ An user can list its selected products, create a selection for his session and t
 at a given time. If another product of the same category is selected, it will replace
 the currently selected product.
 
-## Selections collections [/selections/{userId}]
+## Selections collections [/selections/]
 
 The following methods allow the user to interact with selected products.
 
-+ Parameters
-    + userId: 1 (number) - ID of the user owning the selections
-
 + Attributes
-    + userId: 1 (number) - ID of the user owning the selections
     + selections (array[Selection]) - selections perfomed by the user
 
 ### List Selections [GET]
@@ -376,7 +372,7 @@ It will replace his current selection if he already has one in the same category
 
     + Headers
 
-            Location: /selections/{userId}/serramenti
+            Location: /selections/serramenti
 
 + Response 400
     Returned when input does not pass validation.
@@ -388,13 +384,12 @@ It will replace his current selection if he already has one in the same category
 
     + Body
 
-## Selection [/selections/{userId}/{type}]
+## Selection [/selections/{type}]
 
 These actions operate on the selection of the required `type`.
 
 + Parameters
-    + userId: 1 (number) - ID of the user owning the selections
-    + type: serramenti (string) - type of selection to operate on. Each selection is a category (e.g. "serramenti", "pavimenti").
+    + type: serramenti (string) - type of selection to operate on. Each selection is a category (e.g. `serramenti`, `pavimenti`).
 
 ### Read Selection [GET]
 

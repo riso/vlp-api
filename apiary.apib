@@ -1961,22 +1961,21 @@ wishlist group id.
 # Data Structures
 
 ## Write Base (object)
-+ backends: `{"cache": true, "db": true}` (required, object) - to which backends the resource is being saved to.
-    + Properties
-        + cache: true (boolean)
-        + db: true (boolean)
-        + ldap (boolean)
-        + connections (boolean)
-        + commerce (boolean)
++ backends: `cache, db` (required, array) - to which backends the resource is being saved to. Valid options are `cache`, `db`, `ldap`, `connections`, `commerce`.
+    + cache
+    + db
+    + ldap
+    + connections
+    + commerce 
 
 ## Delete Base (object)
-+ backends: `{"cache": true, "db": true}` (required, object) - to which backends the resource is being deleted from.
-    + Properties
-        + cache: true (boolean)
-        + db: true (boolean)
-        + ldap (boolean)
-        + connections (boolean)
-        + commerce (boolean)
++ backends: `cache, db` (required, array) - to which backends the resource is being deleted from. Valid options are `cache`, `db`, `ldap`, `connections`, `commerce`.
+    + cache
+    + db
+    + ldap
+    + connections
+    + commerce 
+
 
 ## Collection (object)
 + count: 1 (number) - total number of resources that can be accessed by the user

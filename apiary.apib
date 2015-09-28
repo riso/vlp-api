@@ -1813,7 +1813,7 @@ API group used to handle groups of wishlists.
 ## Wishlist Groups collections [/wishlists]
 
 + Attributes (Collection)
-    + wishlists (array[Wishlist Group]) - array of wishlist groups accessible by the user
+    + wishlists (array[Wishlist1, Wishlist2, Wishlist3]) - array of wishlist groups accessible by the user
 
 ### List Wishlist Groups [GET /wishlists{?userId}{?page}{?backends}]
 
@@ -2252,9 +2252,23 @@ wishlist group id.
 ## Contact Update (Contact)
 + Include Write Base
 
-## Wishlist Group Base (object)
+## Wishlist Group Partial (object)
 + userId: 1 (required, number) - ID of the user associated with the wishlist group.
+
+## Wishlist Group Base (Wishlist Group Partial)
 + groupName: `Per le vacanze` (string) - Name of the wishlist group.
+
+## Wishlist1 (Wishlist Group Partial)
++ id: 1
++ groupName: `Per le vacanze` (string) - Name of the wishlist group.
+
+## Wishlist2 (Wishlist Group Partial)
++ id: 2
++ groupName: `Da comprare` (string) - Name of the wishlist group.
+
+## Wishlist3 (Wishlist Group Partial)
++ id: 3
++ groupName: `Divertente` (string) - Name of the wishlist group.
 
 ## Wishlist Group Create (Contact Base)
 + Include Write Base

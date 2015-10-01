@@ -1931,10 +1931,13 @@ possibly sliced and filtered only for the specified `userId`.
 
     + Body
 
-## Wishlist Group Events [/wishlists/{id}/events{?backends}]
+## Wishlist Group Events Collections [/wishlists/{id}/events{?backends}]
+
++ Parameters
+    + id: 5 (required, string) - id of the wishlist group
 
 + Attributes (Collection)
-    + events (array[Event]) - array of `desire` events associated with the given wishlist
+    + events (array[Wishlist Group Event]) - array of `desire` events associated with the given wishlist
 
 ### List Wishlist Group Events [GET]
 
@@ -1942,7 +1945,6 @@ This action retrieves the events of type `desire` associated with the given
 wishlist group id.
 
 + Parameters
-    + id: 5 (required, string) - id of the wishlist group
     + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
         + Members
             + cache
@@ -1954,9 +1956,56 @@ wishlist group id.
 
 + Response 200 (application/json)
 
-    + Attributes (Wishlist Group Events)
+    + Attributes (Wishlist Group Events Collections)
         + type: desire
 
+### Add Event to Wishlist Group [POST]
+
++ Request (application/json)
+    + Attribute (Wishlist Group Event Create)
+
++ Response 201
+
+    + Headers
+
+            Location: /wishlists/1/events/5
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+## Wishlist Group Event [/wishlists/{groupId}/events/{id}{?backends}]
+
++ Attributes (Wishlist Group Event Base)
+    + groupId: 5 (required, string) - id of the wishlist group
+
++ Parameters
+    + groupId: 2 (required, number) - id of the wishlist group
+    + id: 5 (required, string) - id of the wishlist group event
+
+### Delete Event from Wishlist Group [DELETE]
+This removes an event from a wishlist group. It does not delete the event.
+
++ Request (application/json)
+    + Attributes (Delete Base)
+
++ Response 204
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
 
 # Data Structures
 
@@ -2274,4 +2323,13 @@ wishlist group id.
 + Include Write Base
 
 ## Wishlist Group Update (Wishlist Group)
++ Include Write Base
+
+## Wishlist Group Event Base (object)
++ id: 124 (required, number) - ID of the event associated with the current group.
+
+## Wishlist Group Event Create (Wishlist Group Event Base)
++ Include Write Base
+
+## Wishlist Group Event Update (Wishlist Group Event)
 + Include Write Base

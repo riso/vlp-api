@@ -2150,7 +2150,6 @@ This removes an event from a wishlist group. It does not delete the event.
 ## Event Partial Base (object)
 + userId: 1 (number) - ID of the user associated with the event
 + value: `-1` (number) - value of the event (only valid for event of type `vote`)
-+ title: `Storia 1` (required, string)
 + description: `Descrizione storia` (required, string)
 + url: `https://www.vlp.com/wps/portal/stories/storia/1` (required, string)
 + imageUrl: `https://www.vlp.com/logo.png` (required, string)
@@ -2164,16 +2163,19 @@ This removes an event from a wishlist group. It does not delete the event.
 + id: 1 (number)
 + contentId: 1
 + type: vote
++ title: `Storia 1` (required, string)
 
 ## Event2 (Event Partial Base)
 + id: 2 (number)
 + contentId: 2
 + type: desire
++ title: `Storia 2` (required, string)
 
 ## Event3 (Event Partial Base)
 + id: 3 (number)
 + contentId: 3
 + type: view
++ title: `Storia 3` (required, string)
 
 ## Event Base (Event Partial Base)
 + contentId: 1 (required, string) - ID of the content for which the event is being recorded
@@ -2181,6 +2183,7 @@ This removes an event from a wishlist group. It does not delete the event.
     + view
     + vote
     + desire
++ title: `Storia 1` (required, string)
 
 ## Event Create (Event Base)
 + Include Write Base

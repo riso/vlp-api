@@ -119,6 +119,8 @@ Create a user profile.
 + Response 200 (application/json)
 
     + Attributes (Profile)
+      + id: 1 (required, number) - ID of the user profile
+      + password: null (string) - password of the user profile. This field will be null
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -188,6 +190,8 @@ Used to retrieve user personal details.
 
 + Response 200 (application/json)
   + Attributes (Profile)
+      + id: 1 (required, number) - ID of the user profile
+      + password: null (string) - password of the user profile. This field will be null
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -2023,7 +2027,7 @@ This removes an event from a wishlist group. It does not delete the event.
     + db
     + ldap
     + connections
-    + commerce 
+    + commerce
 
 
 ## Collection (object)
@@ -2033,6 +2037,24 @@ This removes an event from a wishlist group. It does not delete the event.
 + consultantId: 1 (number) - ID of the consultant associated with this user
 + email: `v.ponte@wintech.it` (required, string)
 + username: `v.ponte@wintech.it` (string) - the field isn't null when user is registered and validated
++ password: `password` (string) - the field isn't null when user is registered
++ firstName: Valerio (string)
++ lastName: Ponte (string)
++ phoneNumber: `0039-3401004285` (string) - A string with the following format: `<4 digits country code>-<phone number>`
++ imageUrl: `http://lnx.flushyourlife.com/voilap/dist/images/autore.png` (string) - user profile image
++ description (string)
++ area: Milano (string) - position shared by the user
++ address (string) - Main user address
++ city (string) - Main user addresss
++ status (enum) - Whether the user activated the account or not
+    + active
+    + inactive
+  
+## Profile Base Partial (object)
++ consultantId: 1 (number) - ID of the consultant associated with this user
++ email: `v.ponte@wintech.it` (required, string)
++ username: `v.ponte@wintech.it` (string) - the field isn't null when user is registered and validated
++ password: `password` (string) - the field isn't null when user is registered
 + firstName: Valerio (string)
 + lastName: Ponte (string)
 + phoneNumber: `0039-3401004285` (string) - A string with the following format: `<4 digits country code>-<phone number>`

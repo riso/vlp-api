@@ -2057,8 +2057,6 @@ This removes an event from a wishlist group. It does not delete the event.
     + postal
     + billing
     + postalBilling
-+ description: `My home address` (string)
-+ address: `Piazza Dergano 9` (required, string)
 + zipCode: 20158 (required, number)
 + city: Milano (required, string)
 + country: Italia (required, string)
@@ -2069,6 +2067,18 @@ This removes an event from a wishlist group. It does not delete the event.
 + firstName (string) - If address is postal, this is the recipient name
 + lastName (string) - If address is postal, this is the recipient surname
 + email (string) - If address is postal, this is the recipient email
+
+## Profile Address1(Profile Address Base)
++ address: `Piazza Dergano 9` (required, string)
++ description: `My home address1` (string)
+
+## Profile Address2(Profile Address Base)
++ address: `Piazza Duca d'Aosta` (required, string)
++ description: `My home address2` (string)
+
+## Profile Address3(Profile Address Base)
++ address: `Piazza Vittorio Veneto` (required, string)
++ description: `My home address3` (string)
 
 ## Profile Address Create (Profile Address Base)
 + Include Write Base

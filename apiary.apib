@@ -2053,6 +2053,8 @@ This removes an event from a wishlist group. It does not delete the event.
 
 ## Profile Address Base (object)
 + userId: 1 (required, number) - ID of the user owning this address
++ address: `Piazza Dergano 9` (required, string)
++ description: `My home address1` (string)
 + type: billing (required, enum[string])
     + postal
     + billing
@@ -2067,18 +2069,6 @@ This removes an event from a wishlist group. It does not delete the event.
 + firstName (string) - If address is postal, this is the recipient name
 + lastName (string) - If address is postal, this is the recipient surname
 + email (string) - If address is postal, this is the recipient email
-
-## Profile Address1(Profile Address Base)
-+ address: `Piazza Dergano 9` (required, string)
-+ description: `My home address1` (string)
-
-## Profile Address2(Profile Address Base)
-+ address: `Piazza Duca d'Aosta` (required, string)
-+ description: `My home address2` (string)
-
-## Profile Address3(Profile Address Base)
-+ address: `Piazza Vittorio Veneto` (required, string)
-+ description: `My home address3` (string)
 
 ## Profile Address Create (Profile Address Base)
 + Include Write Base

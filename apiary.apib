@@ -2074,7 +2074,7 @@ This removes an event from a wishlist group. It does not delete the event.
 ## Profile Update (Profile)
 + Include Write Base
 
-## Profile Address Base (object)
+## Profile Address Partial Base (object)
 + userId: 1 (required, number) - ID of the user owning this address
 + type: billing (required, enum[string])
     + postal
@@ -2091,17 +2091,21 @@ This removes an event from a wishlist group. It does not delete the event.
 + lastName (string) - If address is postal, this is the recipient surname
 + email (string) - If address is postal, this is the recipient email
 
-## Address1 (Profile Address Base)
+## Profile Address Base (Profile Address Partial Base)
++ address: `Piazza Dergano 3` (required, string)
++ description: `Address 1` (string)
+
+## Address1 (Profile Address Partial Base)
 + id: 1 (required, number) - ID of the address
 + address: `Piazza Dergano 3` (required, string)
 + description: `Address 1` (string)
 
-## Address2 (Profile Address Base)
+## Address2 (Profile Address Partial Base)
 + id: 2 (required, number) - ID of the address
 + address: `Viale Torino 10` (required, string)
 + description: `Address 2` (string)
 
-## Address3 (Profile Address Base)
+## Address3 (Profile Address Partial Base)
 + id: 3 (required, number) - ID of the address
 + address: `Piazza Italia 2` (required, string)
 + description: `Address 3` (string)

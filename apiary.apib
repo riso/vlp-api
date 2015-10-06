@@ -228,7 +228,8 @@ Used to retrieve user personal details.
 
               Link: </profiles/1/addresses?page=2>; rel="next"
 
-      + Attributes (Profile Addresses collections)
+      + Attributes (Collection)
+        + addresses(array[Address1,Address2,Address3])
 
 + Response 500
     Returned when a generic error occours.
@@ -2075,8 +2076,6 @@ This removes an event from a wishlist group. It does not delete the event.
 
 ## Profile Address Base (object)
 + userId: 1 (required, number) - ID of the user owning this address
-+ address: `Piazza Dergano 9` (required, string)
-+ description: `My home address1` (string)
 + type: billing (required, enum[string])
     + postal
     + billing
@@ -2091,6 +2090,18 @@ This removes an event from a wishlist group. It does not delete the event.
 + firstName (string) - If address is postal, this is the recipient name
 + lastName (string) - If address is postal, this is the recipient surname
 + email (string) - If address is postal, this is the recipient email
+
+## Address1 (Profile Address Base)
++ address: `Piazza Dergano 3` (required, string)
++ description: `Address 1` (string)
+
+## Address2 (Profile Address Base)
++ address: `Viale Torino 10` (required, string)
++ description: `Address 2` (string)
+
+## Address3 (Profile Address Base)
++ address: `Piazza Italia 2` (required, string)
++ description: `Address 3` (string)
 
 ## Profile Address Create (Profile Address Base)
 + Include Write Base

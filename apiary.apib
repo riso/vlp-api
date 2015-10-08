@@ -721,7 +721,7 @@ Retrieve the document (file stream).
 # Group IS12 - Events
 #####################
 
-## Events collections [/events{?userId}{?page}{?type}{?backends}]
+## Events collections [/events{?userId}{?page}{?type}{?backends}{?contentType}]
 
 + Attributes (Collection)
     + events (array[Event]) - array of returned events
@@ -738,6 +738,7 @@ and/or `type` and sliced.
             + view - content visualization
             + vote - content up or down vote
             + desire - content desired
+    + contentType: story (enum) - Filter only events with the specified content type
     + page: 1 (optional, number) - The page of events to return
     + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
         + Members
@@ -1815,12 +1816,12 @@ API group used to handle users' contact requests.
 
 API group used to handle groups of wishlists.
 
-## Wishlist Groups collections [/wishlists]
+## Wishlist Groups collections [/wishlists{?userId}{?page}{?backends}]
 
 + Attributes (Collection)
     + wishlists (array[Wishlist1, Wishlist2, Wishlist3]) - array of wishlist groups accessible by the user
 
-### List Wishlist Groups [GET /wishlists{?userId}{?page}{?backends}]
+### List Wishlist Groups [GET]
 
 This action retrieves the list of wishlists groups accessible by the user,
 possibly sliced and filtered only for the specified `userId`.
@@ -1936,7 +1937,7 @@ possibly sliced and filtered only for the specified `userId`.
 
     + Body
 
-## Wishlist Group Events Collections [/wishlists/{id}/events{?backends}]
+## Wishlist Group Events Collections [/wishlists/{id}/events{?userId}{?page}{?backends}{?contentType}]
 
 + Parameters
     + id: 5 (required, string) - id of the wishlist group
@@ -1950,6 +1951,9 @@ This action retrieves the events of type `desire` associated with the given
 wishlist group id.
 
 + Parameters
+    + userId: 1 (optional, number) - Filter wishlist groups created by the specified `userId`.
+    + page: 1 (optional, number) - The page of wishlist group events to return.
+    + contentType: story (enum) - Filter only events with the specified content type
     + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
         + Members
             + cache

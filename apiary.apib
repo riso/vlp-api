@@ -738,7 +738,7 @@ and/or `type` and sliced.
             + view - content visualization
             + vote - content up or down vote
             + desire - content desired
-    + contentType: story (enum) - Filter only events with the specified content type
+    + contentType: story (optional, enum) - Filter only events with the specified content type
     + page: 1 (optional, number) - The page of events to return
     + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
         + Members
@@ -1953,7 +1953,7 @@ wishlist group id.
 + Parameters
     + userId: 1 (optional, number) - Filter wishlist groups created by the specified `userId`.
     + page: 1 (optional, number) - The page of wishlist group events to return.
-    + contentType: story (enum) - Filter only events with the specified content type
+    + contentType: story (optional, enum) - Filter only events with the specified content type
     + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
         + Members
             + cache

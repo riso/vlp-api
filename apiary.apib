@@ -33,6 +33,50 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
     + Body
 
 
+######################
+# Group IS00 - Session
+######################
+
+This group allows the user to interact with its current session objects.
+
+## Session [/session]
+
++ Attributes (Session Base)
+
+### Read Session [GET]
+
++ Response 200 (application/json)
+
+    + Attributes (Session)
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+### Upsert Session [PUT]
+
+Create or update objects in current user session.
+
++ Request (application/json)
+    + Attribute (Session)
+
++ Response 200
+
+    + Headers
+
+            Location: /events/1
+
++ Response 400
+    Returned when input does not pass validation.
+
+    + Body
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
 
 
 #######################
@@ -714,7 +758,7 @@ If the event not exists it'll created, else it'll be updated
 + Request (application/json)
     + Attribute (Event Create)
 
-+ Response 201
++ Response 200
 
     + Headers
 
@@ -1764,6 +1808,10 @@ This removes an event from a wishlist group. It does not delete the event.
 
 ## Collection (object)
 + count: 1 (number) - total number of resources that can be accessed by the user
+
+## Session Base (object)
++ area: Milano (string) - current user selected area
++ domain: Moda (string) - current user selected domain
 
 ## Profile Base (object)
 + consultantId: 1 (number) - ID of the consultant associated with this user

@@ -41,7 +41,7 @@ Dates are always specified as `yyyy-mm-dd`, times as `HH:mm:ss:SSS`, according t
 
 Resources related to user's profile in the API.
 
-## Profiles collections [/profiles{?consultantId}{?page}{?backends}]
+## Profiles collections [/profiles{?consultantId}{?page}]
 
 + Attributes (Collection)
   + profiles (array[Profile]) - array of user accessible profiles
@@ -53,13 +53,6 @@ profiles associated with a given `consultantId`.
 + Parameters
     + page: 1 (optional, number) - The page of profiles to return
     + consultantId: 1 (optional, number) - ID of the consultant associated with this user
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
 
@@ -97,7 +90,7 @@ Create a user profile.
 
     + Body
 
-## Profile [/profiles/{id}{?backends}]
+## Profile [/profiles/{id}]
 
 + Parameters
     + id: 1 (required, number) - ID of the user
@@ -106,15 +99,6 @@ Create a user profile.
     + id: 1 (required, number) - ID of the user profile
 
 ### Read Profile [GET]
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
 
@@ -157,9 +141,6 @@ Create a user profile.
 
 ### Delete Profile [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 
@@ -173,20 +154,11 @@ Create a user profile.
 
     + Body
 
-## User personal profile [/profiles/my{?backends}]
+## User personal profile [/profiles/my]
 
 Used to retrieve user personal details.
 
 ### Read Profile [GET]
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
   + Attributes (Profile)
@@ -203,7 +175,7 @@ Used to retrieve user personal details.
 
     + Body
 
-## Profile Addresses collections [/profiles/{userId}/addresses{?page}{?backends}]
+## Profile Addresses collections [/profiles/{userId}/addresses{?page}]
 
 + Attributes
   + count: 1 (number) - total number of addresses
@@ -214,13 +186,6 @@ Used to retrieve user personal details.
 + Parameters
   + userId: 1 (required, number) - ID of the user
   + page: 1 (optional, number) - The page of addresses to return
-  + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-      + Members
-          + cache
-          + db
-          + ldap
-          + connections
-          + commerce
 
 + Response 200 (application/json)
 
@@ -257,7 +222,7 @@ Used to retrieve user personal details.
 
     + Body
 
-## Profile Address [/profiles/{userId}/addresses/{id}{?backends}]
+## Profile Address [/profiles/{userId}/addresses/{id}]
 
 + Parameters
     + userId: 1 (number) - ID of the user
@@ -267,15 +232,6 @@ Used to retrieve user personal details.
     + id: 1 (required, number) - ID of the address
 
 ### Read Profile Address [GET]
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
 
@@ -315,9 +271,6 @@ Returned when the required resource cannot be found.
     + Body
 
 ### Delete Profile Address [DELETE]
-
-+ Request (application/json)
-    + Attributes (Delete Base)
 
 + Response 204
 
@@ -437,9 +390,6 @@ These actions operate on the selection of the required `type`.
 
 ### Delete Selection [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 + Response 404
@@ -462,7 +412,7 @@ An user can list its previous documents, create a document and then edit it.
 
 Document acts as a "super-class" for quotes and orders.
 
-## Documents collections [/documents{?userId}{?page}{?type}{?backends}]
+## Documents collections [/documents{?userId}{?page}{?type}]
 
 The following methods allow the user to interact with documents.
 
@@ -481,13 +431,6 @@ possibly sliced and filtered only for the specified `userId` and/or `type`.
         + Members
             + quote
             + order
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
 
@@ -530,7 +473,7 @@ not the given FP Dealer ID.
 
     + Body
 
-## Document [/documents/{id}{?backends}]
+## Document [/documents/{id}]
 
 + Parameters
     + id: 1 (required, string) - ID of the document
@@ -542,15 +485,6 @@ not the given FP Dealer ID.
 
 See the details of a given document. This returns the single document
 istances with its historic statuses.
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
 
@@ -596,9 +530,6 @@ supported.
 
 ### Delete Document [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 + Response 404
@@ -636,7 +567,7 @@ This actions allow adding a new file to an existing document.
 
     + Body
 
-## Document File [/documents/{id}/files/{format}{?backends}]
+## Document File [/documents/{id}/files/{format}]
 
 API route for interacting with documents' files.
 
@@ -654,15 +585,6 @@ Create and update actions expect the file stream as input.
 
 ### Read Document File [GET]
 Retrieve the document (file stream).
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/stream)
 
@@ -700,9 +622,6 @@ Retrieve the document (file stream).
 
 ### Delete Document File [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 + Response 404
@@ -721,7 +640,7 @@ Retrieve the document (file stream).
 # Group IS12 - Events
 #####################
 
-## Events collections [/events{?userId}{?page}{?type}{?backends}{?contentType}]
+## Events collections [/events{?userId}{?page}{?type}{?contentType}]
 
 + Attributes (Collection)
     + events (array[Event]) - array of returned events
@@ -740,13 +659,6 @@ and/or `type` and sliced.
             + desire - content desired
     + contentType: story (optional, enum) - Filter only events with the specified content type
     + page: 1 (optional, number) - The page of events to return
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
 
@@ -764,7 +676,7 @@ and/or `type` and sliced.
 
     + Body
 
-### Find Events [GET /events/find{?contentId}{?type}{?backends}]
+### Find Events [GET /events/find{?contentId}{?type}]
 
 Action that can be used to find the events in the repository starting
 from a contentId.
@@ -778,13 +690,6 @@ Action return an array that contains all events linked at contentId.
             + view - content visualization
             + vote - content up or down vote
             + desire - content desired
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
     + Attributes (Events collections)
@@ -846,7 +751,7 @@ If the event not exists it'll created, else it'll be updated
 
     + Body
 
-## Event [/events/{id}{?backends}]
+## Event [/events/{id}]
 
 + Attribute (Event Base)
     + id: 1 (required, number) - ID of the event
@@ -855,15 +760,6 @@ If the event not exists it'll created, else it'll be updated
     + id: 1 (required, string) - ID of the event
 
 ### Read Event [GET]
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
     + Attributes (Event)
@@ -907,9 +803,6 @@ updating his previous event.
 
 ### Delete Event [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 + Response 404
@@ -935,7 +828,7 @@ API group used to handle products.
 + Attributes (Collection)
     + products (array[Product]) - array of products accessible by the user
 
-### Find products [GET /find{?commerceSKU}{?attributes}{?backends}]
+### Find products [GET /find{?commerceSKU}{?attributes}]
 
 Action that can be used to find a product in the repository starting
 from the commerce SKU and the selections (map of attributes).
@@ -950,13 +843,6 @@ collection actions we return an array.
     + commerceSKU: 1 (string) - SKU on the commerce
     + attributes: {"color": "black", "isolation": "high", "material": "wood"} (object) -
       attribute selection on the commerce SKU product
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
     + Attributes (Products collections)
@@ -987,7 +873,7 @@ collection actions we return an array.
 
     + Body
 
-## Product [/products/{id}{?backends}]
+## Product [/products/{id}]
 
 + Attributes (Product Base)
     + id: 5 (required, string) - SKU of the product in the product repository
@@ -996,15 +882,6 @@ collection actions we return an array.
     + id: 5 (required, string) - SKU of the product
 
 ### Read Product [GET]
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
     + Attributes (Product)
@@ -1042,9 +919,6 @@ collection actions we return an array.
     + Body
 
 ### Delete Product [DELETE]
-
-+ Request (application/json)
-    + Attributes (Delete Base)
 
 + Response 204
 
@@ -1094,7 +968,7 @@ with its images.
     + Body
 
 
-## Product Image [/products/{productId}/images/{type}/{?index}{?backends}]
+## Product Image [/products/{productId}/images/{type}/{?index}]
 
 + Parameters
     + type: main (required, enum[string]) - type of the image being required.
@@ -1108,15 +982,6 @@ with its images.
 
 ### Read Product Image [GET]
 Retrieve the image (file stream).
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (image/png)
 
@@ -1154,9 +1019,6 @@ Retrieve the image (file stream).
     + Body
 
 ### Delete Product Image [DELETE]
-
-+ Request (application/json)
-    + Attributes (Delete Base)
 
 + Response 204
 
@@ -1204,7 +1066,7 @@ surfaces and scenes.
 
     + Body
 
-## Asset [/assets/{type}/{name}{?backends}]
+## Asset [/assets/{type}/{name}]
 
 + Parameters
     + type: model (enum) - type of the asset bundle
@@ -1218,15 +1080,6 @@ surfaces and scenes.
 
 ### Read Asset [GET]
 Retrieve the image (file stream).
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/png)
 
@@ -1264,9 +1117,6 @@ Retrieve the image (file stream).
 
 ### Delete Asset [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 + Response 404
@@ -1292,7 +1142,7 @@ The main resources managed are:
 + `Scene`, a 3D environment consisting of multiple objects
 + `Surface`
 
-## Scenes collections [/ar/scenes{?userId}{?page}{?backends}]
+## Scenes collections [/ar/scenes{?userId}{?page}]
 
 + Attributes (Collection)
     + scenes (array[Scene]) - array of scenes accessible by the user
@@ -1302,13 +1152,6 @@ The main resources managed are:
 + Parameters
     + userId: 1 (optional, number) - filter scenes for the specified user
     + page: 1 (optional, number) - slice scenes
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
 
@@ -1357,7 +1200,7 @@ it with the newly created scene.
 
     + Body
 
-## Scene [/ar/scenes/{id}{?backends}]
+## Scene [/ar/scenes/{id}]
 
 + Attributes (Scene Base)
     + id: 1 (required, string) - ID of the scene.
@@ -1366,15 +1209,6 @@ it with the newly created scene.
     + id: 1 (string) - ID of the scene.
 
 ### Read Scene [GET]
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
 
@@ -1415,9 +1249,6 @@ it with the newly created scene.
 
 ### Delete Scene [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 + Response 404
@@ -1430,7 +1261,7 @@ it with the newly created scene.
 
     + Body
 
-## Objects collections [/ar/scenes/{sceneId}/objects{?page}{?backends}]
+## Objects collections [/ar/scenes/{sceneId}/objects{?page}]
 
 + Attributes (Collection)
     + objects (array[Object]) - array of objects accessible by the user
@@ -1442,13 +1273,6 @@ it with the newly created scene.
 
 + Parameters
     + page: 1 (optional, number) - slice scene objects
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
     + Attributes (Objects collections)
@@ -1481,7 +1305,7 @@ will also be "added" to the scene.
 
     + Body
 
-## Object [/ar/scenes/{sceneId}/{id}{?backends}]
+## Object [/ar/scenes/{sceneId}/{id}]
 
 + Attributes (Object Base)
     + id: 1 (required, string)
@@ -1491,15 +1315,6 @@ will also be "added" to the scene.
     + sceneId: 1 (string) - scene owning the objects
 
 ### Read Object [GET]
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
 
@@ -1540,9 +1355,6 @@ will also be "added" to the scene.
 
 ### Delete Object [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 + Response 404
@@ -1556,7 +1368,7 @@ will also be "added" to the scene.
     + Body
 
 
-## Surfaces collections [/ar/scenes/{sceneId}/surfaces{?page}{?backends}]
+## Surfaces collections [/ar/scenes/{sceneId}/surfaces{?page}]
 
 + Attributes (Collection)
     + surfaces (array[Surface]) - array of surfaces accessible by the user
@@ -1566,13 +1378,6 @@ will also be "added" to the scene.
 + Parameters
     + sceneId: 5 (required, number) - ID scene
     + page: 1 (number) - slice surfaces
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 
 + Response 200 (application/json)
@@ -1609,7 +1414,7 @@ will also be "added" to the scene.
 
     + Body
 
-## Surface [/ar/scenes/{sceneId}/surfaces/{id}{?backends}]
+## Surface [/ar/scenes/{sceneId}/surfaces/{id}]
 
 + Attributes (Surface Base)
     + id: 1 (number) - ID of the surface
@@ -1619,15 +1424,6 @@ will also be "added" to the scene.
     + id: 1 (required, string) - ID of the surface
 
 ### Read Surface [GET]
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
     + Attribute (Surface)
@@ -1666,9 +1462,6 @@ will also be "added" to the scene.
 
 ### Delete Surface [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 + Response 404
@@ -1689,7 +1482,7 @@ will also be "added" to the scene.
 
 API group used to handle users' contact requests.
 
-## Contacts collections [/contacts{?userId}{?page}{?backends}]
+## Contacts collections [/contacts{?userId}{?page}]
 
 + Attributes (Collection)
   + contacts (array[Contact]) - array of contact requests accessible by the user
@@ -1699,13 +1492,6 @@ API group used to handle users' contact requests.
 + Parameters
     + userId: 1 (optional, string) - filter contact requests for the specified user
     + page: 1 (optional, number) - slice contact requests
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 
 + Response 200 (application/json)
@@ -1737,7 +1523,7 @@ API group used to handle users' contact requests.
 
     + Body
 
-## Contact [/contacts/{id}{?backends}]
+## Contact [/contacts/{id}]
 
 + Parameters
     + id: 1 (required, string) - ID of the contact request with which interact
@@ -1746,15 +1532,6 @@ API group used to handle users' contact requests.
     + id: 1 (required, number)
 
 ### Read Contact [GET]
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
     + Attributes (Contact)
@@ -1793,9 +1570,6 @@ API group used to handle users' contact requests.
 
 ### Delete Contact [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 + Response 404
@@ -1816,7 +1590,7 @@ API group used to handle users' contact requests.
 
 API group used to handle groups of wishlists.
 
-## Wishlist Groups collections [/wishlists{?userId}{?page}{?backends}]
+## Wishlist Groups collections [/wishlists{?userId}{?page}]
 
 + Attributes (Collection)
     + wishlists (array[Wishlist1, Wishlist2, Wishlist3]) - array of wishlist groups accessible by the user
@@ -1829,13 +1603,6 @@ possibly sliced and filtered only for the specified `userId`.
 + Parameters
     + userId: 1 (optional, number) - Filter wishlist groups created by the specified `userId`.
     + page: 1 (optional, number) - The page of wishlist groups to return.
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
     + Attributes (Wishlist Groups collections)
@@ -1866,7 +1633,7 @@ possibly sliced and filtered only for the specified `userId`.
 
     + Body
 
-## Wishlist Group [/wishlists/{id}{?backends}]
+## Wishlist Group [/wishlists/{id}]
 
 + Attributes (Wishlist Group Base)
     + id: 5 (required, string) - id of the wishlist group
@@ -1875,15 +1642,6 @@ possibly sliced and filtered only for the specified `userId`.
     + id: 5 (required, string) - id of the wishlist group
 
 ### Read Wishlist Group [GET]
-
-+ Parameters
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
 
 + Response 200 (application/json)
     + Attributes (Wishlist Group)
@@ -1922,9 +1680,6 @@ possibly sliced and filtered only for the specified `userId`.
 
 ### Delete Wishlist Group [DELETE]
 
-+ Request (application/json)
-    + Attributes (Delete Base)
-
 + Response 204
 
 + Response 404
@@ -1937,7 +1692,7 @@ possibly sliced and filtered only for the specified `userId`.
 
     + Body
 
-## Wishlist Group Events Collections [/wishlists/{id}/events{?userId}{?page}{?backends}{?contentType}]
+## Wishlist Group Events Collections [/wishlists/{id}/events{?userId}{?page}{?contentType}]
 
 + Parameters
     + id: 5 (required, string) - id of the wishlist group
@@ -1954,14 +1709,6 @@ wishlist group id.
     + userId: 1 (optional, number) - Filter wishlist groups created by the specified `userId`.
     + page: 1 (optional, number) - The page of wishlist group events to return.
     + contentType: story (optional, enum) - Filter only events with the specified content type
-    + backends: cache (optional, enum) - From which backends the resource should be read from. This parameter can be repeated with different values.
-        + Members
-            + cache
-            + db
-            + ldap
-            + connections
-            + commerce
-
 
 + Response 200 (application/json)
 
@@ -1989,7 +1736,7 @@ wishlist group id.
 
     + Body
 
-## Wishlist Group Event [/wishlists/{groupId}/events/{id}{?backends}]
+## Wishlist Group Event [/wishlists/{groupId}/events/{id}]
 
 + Attributes (Wishlist Group Event Base)
     + groupId: 5 (required, string) - id of the wishlist group
@@ -2000,9 +1747,6 @@ wishlist group id.
 
 ### Delete Event from Wishlist Group [DELETE]
 This removes an event from a wishlist group. It does not delete the event.
-
-+ Request (application/json)
-    + Attributes (Delete Base)
 
 + Response 204
 
@@ -2017,23 +1761,6 @@ This removes an event from a wishlist group. It does not delete the event.
     + Body
 
 # Data Structures
-
-## Write Base (object)
-+ backends: `cache, db` (required, array) - to which backends the resource is being saved to. Valid options are `cache`, `db`, `ldap`, `connections`, `commerce`.
-    + cache
-    + db
-    + ldap
-    + connections
-    + commerce 
-
-## Delete Base (object)
-+ backends: `cache, db` (required, array) - to which backends the resource is being deleted from. Valid options are `cache`, `db`, `ldap`, `connections`, `commerce`.
-    + cache
-    + db
-    + ldap
-    + connections
-    + commerce
-
 
 ## Collection (object)
 + count: 1 (number) - total number of resources that can be accessed by the user
@@ -2054,7 +1781,7 @@ This removes an event from a wishlist group. It does not delete the event.
 + status (enum) - Whether the user activated the account or not
     + active
     + inactive
-  
+
 ## Profile Base Partial (object)
 + consultantId: 1 (number) - ID of the consultant associated with this user
 + email: `v.ponte@wintech.it` (required, string)
@@ -2073,10 +1800,8 @@ This removes an event from a wishlist group. It does not delete the event.
     + inactive
 
 ## Profile Create (Profile Base)
-+ Include Write Base
 
 ## Profile Update (Profile)
-+ Include Write Base
 
 ## Profile Address Partial Base (object)
 + userId: 1 (required, number) - ID of the user owning this address
@@ -2115,10 +1840,8 @@ This removes an event from a wishlist group. It does not delete the event.
 + description: `Address 3` (string)
 
 ## Profile Address Create (Profile Address Base)
-+ Include Write Base
 
 ## Profile Address Update (Profile Address)
-+ Include Write Base
 
 
 ## Selection (object)
@@ -2145,7 +1868,6 @@ This removes an event from a wishlist group. It does not delete the event.
         + 4
 
 ## Selection Write (Selection)
-+ Include Write Base
 
 
 ## Document Base (object)
@@ -2169,7 +1891,6 @@ This removes an event from a wishlist group. It does not delete the event.
 + documentCode: 1 (string) - fpDealerID in case of document of type `quote`
 
 ## Document Create (Document Base)
-+ Include Write Base
 
 ## Document Read (Document)
 + status_hist (required, object) - past statuses of the document
@@ -2178,7 +1899,6 @@ This removes an event from a wishlist group. It does not delete the event.
        + *20150508*: confirmed
 
 ## Document Update (Document)
-+ Include Write Base
 
 ## Document File Base (object)
 + format: pdf (required, string) - format of the file with which we're interacting
@@ -2186,10 +1906,8 @@ This removes an event from a wishlist group. It does not delete the event.
 + url: `https://www.vlp.it/document/id` (required, string) - url of the file
 
 ## Document File Create (Document File Base)
-+ Include Write Base
 
 ## Document File Update (Document File)
-+ Include Write Base
 
 ## Event Partial Base (object)
 + userId: 1 (number) - ID of the user associated with the event
@@ -2236,10 +1954,8 @@ This removes an event from a wishlist group. It does not delete the event.
 
 
 ## Event Create (Event Base)
-+ Include Write Base
 
 ## Event Update (Event)
-+ Include Write Base
 
 ## Product Base (object)
 + default_set: kitchen (required, string) - default set that will be copied in order to create a new scene for the specified object
@@ -2247,10 +1963,8 @@ This removes an event from a wishlist group. It does not delete the event.
 + assets (array[Asset Base]) - array of asset bundles
 
 ## Product Create (Product Base)
-+ Include Write Base
 
 ## Product Update (Product)
-+ Include Write Base
 
 ## Product Image (object)
 + type: main (required, enum) - type of the image.
@@ -2264,7 +1978,6 @@ This removes an event from a wishlist group. It does not delete the event.
 + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
 
 ## Product Image Write (Product Image)
-+ Include Write Base
 
 
 ## Asset Base (object)
@@ -2277,7 +1990,6 @@ This removes an event from a wishlist group. It does not delete the event.
 + layer (string)
 
 ## Asset Write (Asset Base)
-+ Include Write Base
 + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the image.
 
 
@@ -2298,10 +2010,8 @@ This removes an event from a wishlist group. It does not delete the event.
 + sound (string) - url of sound file **TODO: move to its own resource**
 
 ## Scene Create (Scene Base)
-+ Include Write Base
 
 ## Scene Update (Scene)
-+ Include Write Base
 
 ## Object Base (object)
 + sceneId (string) - ID of the associated scene, if present
@@ -2318,10 +2028,8 @@ This removes an event from a wishlist group. It does not delete the event.
 + s: 3 (number) - object scaling.
 
 ## Object Create (Object Base)
-+ Include Write Base
 
 ## Object Update (Object)
-+ Include Write Base
 
 ## Surface Base (object)
 + sceneId: 1 (required, number) - ID of the scene owning the surface.
@@ -2329,10 +2037,8 @@ This removes an event from a wishlist group. It does not delete the event.
 + materialId: 3 (string)
 
 ## Surface Create (Surface Base)
-+ Include Write Base
 
 ## Surface Update (Surface)
-+ Include Write Base
 
 
 ## Contact Base (object)
@@ -2349,10 +2055,8 @@ This removes an event from a wishlist group. It does not delete the event.
     + `pending`
 
 ## Contact Create (Contact Base)
-+ Include Write Base
 
 ## Contact Update (Contact)
-+ Include Write Base
 
 ## Wishlist Group Partial (object)
 + userId: 1 (required, number) - ID of the user associated with the wishlist group.
@@ -2373,16 +2077,12 @@ This removes an event from a wishlist group. It does not delete the event.
 + groupName: `Divertente` (string) - Name of the wishlist group.
 
 ## Wishlist Group Create (Wishlist Group Base)
-+ Include Write Base
 
 ## Wishlist Group Update (Wishlist Group)
-+ Include Write Base
 
 ## Wishlist Group Event Base (object)
 + id: 124 (required, number) - ID of the event associated with the current group.
 
 ## Wishlist Group Event Create (Wishlist Group Event Base)
-+ Include Write Base
 
 ## Wishlist Group Event Update (Wishlist Group Event)
-+ Include Write Base

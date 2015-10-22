@@ -1028,6 +1028,7 @@ with its images.
 Retrieve the image (file stream).
 
 + Response 200 (image/png)
+    + Attributes (Product Image)
 
 + Response 404
     Returned when the required resource cannot be found.
@@ -1848,10 +1849,10 @@ This removes an event from a wishlist group. It does not delete the event.
     + inactive
 
 ## Profile Create (Profile Base)
-+ image: 'R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAAL' (string) - base64 encoded image.
++ image: `R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAAL` (string) - serialized stream (base64) representing the image.
 
 ## Profile Update (Profile)
-+ image: 'R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAAL' (string) - base64 encoded image.
++ image: `R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAAL` (string) - serialized stream (base64) representing the image.
 
 ## Profile Address Partial Base (object)
 + userId: 1 (required, number) - ID of the user owning this address
@@ -1895,10 +1896,9 @@ This removes an event from a wishlist group. It does not delete the event.
 + lastName: `Rossi3`  - If address is postal, this is the recipient surname
 + email: `testEmail3@test.com` - If address is postal, this is the recipient email
 
-## Profile Address Create (Profile Address Base)
+## Profile Address Create (Address1)
 
-## Profile Address Update (Profile Address)
-
+## Profile Address Update (Address1)
 
 ## Selection (object)
 + type: serramenti (required, string) - type of the selection
@@ -2006,10 +2006,11 @@ This removes an event from a wishlist group. It does not delete the event.
 + title: `Storia 1` (required, string)
 + imageUrl: `http://lnx.flushyourlife.com/voilap/dist/images/like-dislike/storia-like-01.jpg` (required, string)
 
-
 ## Event Create (Event Base)
++ image: `R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAAL` (string) - serialized stream (base64) representing the image.
 
 ## Event Update (Event)
++ image: `R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAAL` (string) - serialized stream (base64) representing the image.
 
 ## Product Base (object)
 + default_set: kitchen (required, string) - default set that will be copied in order to create a new scene for the specified object

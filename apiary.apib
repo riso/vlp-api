@@ -1868,10 +1868,11 @@ This removes an event from a wishlist group. It does not delete the event.
 ## Profile Address Base (Profile Address Partial Base)
 + address: `Piazza Dergano 3` (required, string)
 + description: `Address 1` (string)
++ type: billing (enum)
 
 ## Address1 (Profile Address Partial Base)
 + id: 1 (required, number) - ID of the address
-+ type: postal
++ type: postal (enum)
 + address: `Piazza Dergano 3` (required, string)
 + description: `Address 1` (string)
 + firstName:  `Mario1` - If address is postal, this is the recipient name
@@ -1880,7 +1881,7 @@ This removes an event from a wishlist group. It does not delete the event.
 
 ## Address2 (Profile Address Partial Base)
 + id: 2 (required, number) - ID of the address
-+ type: billing
++ type: billing  (enum)
 + address: `Viale Torino 10` (required, string)
 + description: `Address 2` (string)
 + firstName:  `Mario2` - If address is postal, this is the recipient name

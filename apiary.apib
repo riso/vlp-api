@@ -1976,6 +1976,7 @@ This removes an event from a wishlist group. It does not delete the event.
 + contentType: story (enum) - type of the content connected to this event.
     + story
     + product
++ sku: `012sku` (string) - sku of product
 
 ## Event1 (Event Partial Base)
 + id: 1 (number)
@@ -2008,10 +2009,8 @@ This removes an event from a wishlist group. It does not delete the event.
 + imageUrl: `http://lnx.flushyourlife.com/voilap/dist/images/like-dislike/storia-like-01.jpg` (required, string)
 
 ## Event Create (Event Base)
-+ image: `R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAAL` (string) - serialized stream (base64) representing the image.
 
 ## Event Update (Event)
-+ image: `R0lGODlhEAAOALMAAOazToeHh0tLS/7LZv/0jvb29t/f3//Ub//ge8WSLf/rhf/3kdbW1mxsbP//mf///yH5BAAAAAAAL` (string) - serialized stream (base64) representing the image.
 
 ## Product Base (object)
 + default_set: kitchen (required, string) - default set that will be copied in order to create a new scene for the specified object

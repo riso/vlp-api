@@ -720,7 +720,7 @@ and/or `type` and sliced.
 
     + Body
 
-### Find Events [GET /events/find{?contentId}{?type}]
+### Find Events [GET /events/find{?contentId}{?type}{?sku}]
 
 Action that can be used to find the events in the repository starting
 from a contentId.
@@ -734,6 +734,7 @@ Action return an array that contains all events linked at contentId.
             + view - content visualization
             + vote - content up or down vote
             + desire - content desired
+    + sku: 0001 (string) - ID of the sku
 
 + Response 200 (application/json)
     + Attributes (Events collections)
@@ -750,8 +751,8 @@ Action return an array that contains all events linked at contentId.
 
 ### Upsert Event [POST /events/upsert]
 
-Action that can be used to insert and/or update the events in the repository associated
-at a contentId.
+Action that can be used to insert and/or update the events of type view in the repository associated
+at a contentId and a date.
 
 If the event not exists it'll created, else it'll be updated
 

@@ -585,7 +585,32 @@ supported.
     Returned when a generic error occours.
 
     + Body
+    
+## Document Parents collections [/documents/{id}/parents{?code}]
 
++ Parameters
+    + id: 1 (required, string) - ID of the document
+
++ Attributes (Document Base)
+    + code: 1 (required, string) - Code of the the document
+
+### List Document Parents[GET]
+
+This action retrieves the list of documents, accessible by the user,
+"parents" of the document (with referenceCode = code of the document)
+
++ Parameters
+    + code: xxx (required, string) - Code of the document.
+   
++ Response 200 (application/json)
+
+    + Attributes (Documents collections)
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+    
 ## Document Files collections [/documtents/{id}/files]
 
 ### Create Document File [POST]
@@ -625,7 +650,7 @@ Create and update actions expect the file stream as input.
     + format: pdf (required, string) - format of the file with which we're interacting
 
 + Attributes (Document File Base)
-    + id: 1 (required, number) - ID of the document
+    + id: 1 (required, number) - ID of the document file
 
 ### Read Document File [GET]
 Retrieve the document (file stream).
@@ -1933,8 +1958,12 @@ This removes an event from a wishlist group. It does not delete the event.
 + userId: 1 (number) - ID of the user owning the document
 + type: order (required, enum) - type of the document
     + Members
-        + order
-        + quote
+        + client_order
+        + quotation
+        + supplier_order
+        + invoice
+        + contract
+        + attachment
 + description: quote for beach house (string) - description of the document
 + formats: `["xml", "pdf"]` (array) - list of available file formats
     + Items
@@ -1942,15 +1971,32 @@ This removes an event from a wishlist group. It does not delete the event.
         + pdf
 + status (enum[string]) - current status of the document
     + Members
-        + proposal
+        + draft
+        + final
+        + upon_acceptance
+        + accepted
+        + expired
+        + created
+        + client_confirmed
+        + suspended
+        + ready
+        + delivered
+        + in_installation
+        +  installed
+        + contested
+        + invoiced
+        + paid
         + confirmed
-        + editable - if the document can be still modified or has been frozen
+        + deleted
 
 + expiry (string) - Date representing validity of the document
 + documentReference: 3 (string) - reference to another Document (e.g. quote from which an order originated)
-+ documentCode: 1 (string) - fpDealerID in case of document of type `quote`
-
-## Document Create (Document Base)
++ documentCode: 1 (string) - fpDealerID in case of document of type `quotation`
++ attributes: `["carrier=TNT", "tracking_code=12345", "total=750"]` (array) - list of optional attributes
+    + Items
+        + carrier=TNT
+        + tracking_code=12345
+        + total=750
 
 ## Document Read (Document)
 + status_hist (required, object) - past statuses of the document
@@ -1963,7 +2009,7 @@ This removes an event from a wishlist group. It does not delete the event.
 ## Document File Base (object)
 + format: pdf (required, string) - format of the file with which we're interacting
 + file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the file.
-+ url: `https://www.vlp.it/document/id` (required, string) - url of the file
++ url: `https://www.vlp.it/document/id` (string) - url of the file
 
 ## Document File Create (Document File Base)
 

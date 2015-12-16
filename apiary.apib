@@ -1991,7 +1991,7 @@ This removes an event from a wishlist group. It does not delete the event.
 
 + expiry (string) - Date representing validity of the document
 + documentReference: 3 (string) - reference to another Document (e.g. quote from which an order originated)
-+ documentCode: 1 (string) - fpDealerID in case of document of type `quotation`
++ documentCode: 1 (required, string) - fpDealerID in case of document of type `quotation`
 + attributes: `["carrier=TNT", "tracking_code=12345", "total=750"]` (array) - list of optional attributes
     + Items
         + carrier=TNT

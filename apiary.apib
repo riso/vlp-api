@@ -499,7 +499,7 @@ If no `userId` is given, it is assumed that the document is created for the curr
 not the given FP Dealer ID.
 
 + Request (application/json)
-    + Attributes (Document Create)
+    + Attributes (Document)
 
 + Response 201
 
@@ -1554,7 +1554,7 @@ will also be "added" to the scene.
 
 API group used to handle users' contact requests.
 
-## Contacts collections [/contacts{?userId}{?page}]
+## Contacts collections [/contacts{?userId}{?status}{?page}]
 
 + Attributes (Collection)
   + contacts (array[Contact]) - array of contact requests accessible by the user
@@ -1563,6 +1563,7 @@ API group used to handle users' contact requests.
 
 + Parameters
     + userId: 1 (optional, string) - filter contact requests for the specified user
+    + status: completed (optional, string) - filter contact of the specified status
     + page: 1 (optional, number) - slice contact requests
 
 
@@ -1832,6 +1833,53 @@ This removes an event from a wishlist group. It does not delete the event.
 
     + Body
 
+###############################
+# Group IS19 - Zones
+###############################
+
+API group used to handle users' zones.
+
+## Zones collections [/zones]
+
++ Attributes (Collection)
+  + zones (array[Zone]) - array of zones
+
+### List Zones [GET]
+
++ Response 200 (application/json)
+    + Attributes (Zones collections)
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+
+## Zone [/zones/{name}]
+
++ Parameters
+    + name: 1 (required, string) - name of the zone with which interact
+
++ Attributes (Zone Base)
+    + name: 1 (required, number)
+
+### Read Zone [GET]
+
++ Response 200 (application/json)
+    + Attributes (Zone)
+
++ Response 404
+    Returned when the required resource cannot be found.
+
+    + Body
+
++ Response 500
+    Returned when a generic error occours.
+
+    + Body
+
+
+
 # Data Structures
 
 ## Collection (object)
@@ -1931,9 +1979,9 @@ This removes an event from a wishlist group. It does not delete the event.
 ## Selection (object)
 + type: serramenti (required, string) - type of the selection
 + sku: 1 (required, string) - the product commerce SKU for which the quote is being prepared
-+ attributes: `{"color": "black", "isolation": "high"}` (object) - an object of attributes selected on the product. An attribute is represented as a key/value pair.
++ attributes: `["attribute1=value1", "attribute2=value2"]` (array) - an array of attributes selected on the product. An attribute is represented as a key/value pair.
 
-    + Properties
+    + Items
         + color: black
         + isolation: high
         + material: wood
@@ -2161,6 +2209,13 @@ This removes an event from a wishlist group. It does not delete the event.
 ## Contact Create (Contact Base)
 
 ## Contact Update (Contact)
+
+## Zone Base (object)
++ name: Carpi, Modena (required, string) - name of the zone.
++ areas: `["area1", "area2"]` (array) - list of areas in which the zone is included 
+    + Items
+        + area1
+        + area2
 
 ## Wishlist Group Partial (object)
 + userId: 1 (required, number) - ID of the user associated with the wishlist group.

@@ -899,7 +899,7 @@ API group used to handle products.
 + Attributes (Collection)
     + products (array[Product]) - array of products accessible by the user
 
-### Find products [GET /find{?commerceSKU}{?attributes}]
+### Find products [GET /find{?commerceSKU}{?attributes}{?zone}]
 
 Action that can be used to find a product in the repository starting
 from the commerce SKU and the selections (map of attributes).
@@ -914,6 +914,7 @@ collection actions we return an array.
     + commerceSKU: 1 (string) - SKU on the commerce
     + attributes: {"color": "black", "isolation": "high", "material": "wood"} (object) -
       attribute selection on the commerce SKU product
+    + zone: Carpi (optional, string) - zone eventually inserted by the user for the product price retriving
 
 + Response 200 (application/json)
     + Attributes (Products collections)
@@ -1855,13 +1856,13 @@ API group used to handle users' zones.
     + Body
 
 
-## Zone [/zones/{name}]
+## Zone [/zones/{id}]
 
 + Parameters
-    + name: 1 (required, string) - name of the zone with which interact
+    + id: 1 (required, number) - ID of the zone with which interact
 
 + Attributes (Zone Base)
-    + name: 1 (required, number)
+    + id: 1 (required, number)
 
 ### Read Zone [GET]
 
@@ -2112,6 +2113,7 @@ API group used to handle users' zones.
 ## Product Base (object)
 + default_set: kitchen (required, string) - default set that will be copied in order to create a new scene for the specified object
 + availability: true (required, boolean)
++ price: 175 EUR (string) - product price
 + assets (array[Asset Base]) - array of asset bundles
 
 ## Product Create (Product Base)
@@ -2211,6 +2213,7 @@ API group used to handle users' zones.
 ## Contact Update (Contact)
 
 ## Zone Base (object)
++ id: 1 (required, number) - ID of the zone
 + name: Carpi, Modena (required, string) - name of the zone.
 + areas: `["area1", "area2"]` (array) - list of areas in which the zone is included 
     + Items

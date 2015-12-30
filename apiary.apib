@@ -1864,29 +1864,35 @@ API group used to handle users' zones.
     + Body
 
 
-## Zone [/zones/{id}]
+## Zone [/zones/{name}]
 
 + Parameters
-    + id: Carpi (required, string) - ID of the zone with which interact
+    + name: Carpi (required, string) - ID of the zone with which interact
 
 + Attributes (Zone Base)
     
-### Read Zone [GET]
+
+## Zone Areas collections [/zones/{name}/areas]
+
++ Attributes (Collection)
+  + areas (array[Area]) - array of areas
+
+### List Areas [GET]
 
 + Response 200 (application/json)
-    + Attributes (Zone)
-
-+ Response 404
-    Returned when the required resource cannot be found.
-
-    + Body
+    + Attributes (Zone Areas collections)
 
 + Response 500
     Returned when a generic error occours.
 
     + Body
 
+## Area [/zones/{name}/areas/{id}]
 
++ Parameters
+    + name: Carpi (required, string) - ID of the zone with which interact
+    + id: 1 (required, string) - ID of the area
++ Attributes (Area Base)
 
 # Data Structures
 
@@ -2120,7 +2126,7 @@ API group used to handle users' zones.
 
 ## Product Base (object)
 + default_set: kitchen (required, string) - default set that will be copied in order to create a new scene for the specified object
-+ availability: true (required, boolean)
++ availability: 10 (required, number)
 + price: 175 (string) - product price
 + currency: EUR (string) - price currency
 + assets (array[Asset Base]) - array of asset bundles
@@ -2222,11 +2228,11 @@ API group used to handle users' zones.
 ## Contact Update (Contact)
 
 ## Zone Base (object)
-+ id: Carpi (required, string) - name of the zone.
-+ areas: `["area1", "area2"]` (array) - list of areas in which the zone is included 
-    + Items
-        + area1
-        + area2
++ name: Carpi (required, string) - name of the zone.
++ description: Carpi MO (required, string) - description of the zone 
+
+## Area Base (object)
++ id: 1 (required, string) - id of the area
 
 ## Wishlist Group Partial (object)
 + userId: 1 (required, number) - ID of the user associated with the wishlist group.

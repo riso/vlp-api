@@ -471,10 +471,14 @@ possibly sliced and filtered only for the specified `userId` and/or `type`.
 + Parameters
     + userId: 1 (optional, number) - Filter documents created by the specified `userId`.
     + page: 1 (optional, number) - The page of documents to return.
-    + type: quote (optional, enum[string]) - Filter only specified type of document.
+    + type: quotation (optional, enum[string]) - Filter only specified type of document.
         + Members
-            + quote
-            + order
+            + client_order
+            + quotation
+            + supplier_order
+            + invoice
+            + contract
+            + attachment
 
 + Response 200 (application/json)
 
@@ -573,6 +577,10 @@ supported.
     + Body
 
 ### Delete Document [DELETE]
+
+**Note**: Delete action is reserved to admin users. 
+Normally, instead of delete the client must call an update with 
+status: deleted.
 
 + Response 204
 
@@ -1859,11 +1867,10 @@ API group used to handle users' zones.
 ## Zone [/zones/{id}]
 
 + Parameters
-    + id: 1 (required, number) - ID of the zone with which interact
+    + id: Carpi (required, string) - ID of the zone with which interact
 
 + Attributes (Zone Base)
-    + id: 1 (required, number)
-
+    
 ### Read Zone [GET]
 
 + Response 200 (application/json)
@@ -1980,12 +1987,12 @@ API group used to handle users' zones.
 ## Selection (object)
 + type: serramenti (required, string) - type of the selection
 + sku: 1 (required, string) - the product commerce SKU for which the quote is being prepared
-+ attributes: `["attribute1=value1", "attribute2=value2"]` (array) - an array of attributes selected on the product. An attribute is represented as a key/value pair.
++ attributes: `{"attribute1": "value1", "attribute2": "value2"}` (object) - attributes selected on the product. An attribute is represented as a key/value pair.
 
-    + Items
-        + color: black
-        + isolation: high
-        + material: wood
+    + Properties
+        + attribute1: value1
+        + attribute2: value2
+        + attribute3: value3
         + attribute4: value4
 
 + alternate_products: `["2", "3"]` (array) - an array of alternative products (recommended by commerce). Each string is a commerce SKU.
@@ -2039,6 +2046,7 @@ API group used to handle users' zones.
         + deleted
 
 + expiry (string) - Date representing validity of the document
++ timestamp: 546757636535 (number) - timestamp of the last document modification
 + documentReference: 3 (string) - reference to another Document (e.g. quote from which an order originated)
 + documentCode: 1 (required, string) - fpDealerID in case of document of type `quotation`
 + attributes: `["carrier=TNT", "tracking_code=12345", "total=750"]` (array) - list of optional attributes
@@ -2113,7 +2121,8 @@ API group used to handle users' zones.
 ## Product Base (object)
 + default_set: kitchen (required, string) - default set that will be copied in order to create a new scene for the specified object
 + availability: true (required, boolean)
-+ price: 175 EUR (string) - product price
++ price: 175 (string) - product price
++ currency: EUR (string) - price currency
 + assets (array[Asset Base]) - array of asset bundles
 
 ## Product Create (Product Base)
@@ -2213,8 +2222,7 @@ API group used to handle users' zones.
 ## Contact Update (Contact)
 
 ## Zone Base (object)
-+ id: 1 (required, number) - ID of the zone
-+ name: Carpi, Modena (required, string) - name of the zone.
++ id: Carpi (required, string) - name of the zone.
 + areas: `["area1", "area2"]` (array) - list of areas in which the zone is included 
     + Items
         + area1

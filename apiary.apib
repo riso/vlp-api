@@ -2071,7 +2071,7 @@ API group used to handle users' zones.
 
 ## Document File Base (object)
 + format: pdf (required, string) - format of the file with which we're interacting
-+ file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream representing the file.
++ file: `a2F3YWlpIGRvY3VtZW50Cg==` (required, string) - serialized stream (base64) representing the file. The string have to a correct prefix, has the follow: "data:file/pdf;base64,"
 + url: `https://www.vlp.it/document/id` (string) - url of the file
 
 ## Document File Create (Document File Base)
@@ -2090,10 +2090,10 @@ API group used to handle users' zones.
     + product
 + sku: `012sku` (string) - sku of product
 
-## Event1 (Event Partial Base)
+## Event1 
++ type: vote(Event Partial Base)
 + id: 1 (number)
 + contentId: 1
-+ type: vote
 + title: `Storia 1` (required, string)
 + imageUrl: `http://lnx.flushyourlife.com/voilap/dist/images/like-dislike/storia-like-01.jpg` (required, string)
 

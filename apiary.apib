@@ -594,22 +594,16 @@ status: deleted.
 
     + Body
     
-## Document Parents collections [/documents/{id}/parents{?code}]
+## Document Parents collections [/documents/{id}/parents]
 
 + Parameters
     + id: 1 (required, string) - ID of the document
-
-+ Attributes (Document Base)
-    + code: 1 (required, string) - Code of the the document
 
 ### List Document Parents[GET]
 
 This action retrieves the list of documents, accessible by the user,
 "parents" of the document (with referenceCode = code of the document)
 
-+ Parameters
-    + code: xxx (required, string) - Code of the document.
-   
 + Response 200 (application/json)
 
     + Attributes (Documents collections)

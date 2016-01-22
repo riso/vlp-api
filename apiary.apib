@@ -1858,15 +1858,15 @@ API group used to handle users' zones.
     + Body
 
 
-## Zone [/zones/{name}]
+## Zone [/zones/{id}]
 
 + Parameters
-    + name: Carpi (required, string) - ID of the zone with which interact
+    + id: 1 (required, number) - ID of the zone with which interact
 
 + Attributes (Zone Base)
     
 
-## Zone Areas collections [/zones/{name}/areas]
+## Zone Areas collections [/zones/{zoneId}/areas]
 
 + Attributes (Collection)
   + areas (array[Area]) - array of areas
@@ -1881,10 +1881,10 @@ API group used to handle users' zones.
 
     + Body
 
-## Area [/zones/{name}/areas/{id}]
+## Area [/zones/{zoneId}/areas/{id}]
 
 + Parameters
-    + name: Carpi (required, string) - ID of the zone with which interact
+    + zoneId: 1 (required, number) - ID of the zone with which interact
     + id: 1 (required, string) - ID of the area
 + Attributes (Area Base)
 
@@ -2222,7 +2222,7 @@ API group used to handle users' zones.
 ## Contact Update (Contact)
 
 ## Zone Base (object)
-+ name: Carpi (required, string) - name of the zone.
++ id: 1 (required, number) - id of the zone.
 + description: Carpi MO (required, string) - description of the zone 
 
 ## Area Base (object)
